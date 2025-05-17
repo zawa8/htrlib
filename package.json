@@ -1,0 +1,17 @@
+{
+  "name": "htrlib",
+  "version": "1.0.0",
+  "main": "./dist/hsciistr_file.js",
+  "types": "./dist/hsciistr_file.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
