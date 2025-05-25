@@ -43,30 +43,30 @@ export class hsciistr {
                 'AO', // 	ओ	913	2323
                 'AO', // 	औ	914	2324
                 'k', // 	क	915	2325
-                'K', // 	ख	916	2326
+                'kh', // 	ख	916	2326
                 'g', // 	ग	917	2327
-                'Gh', // 	घ	918	2328
+                'gh', // 	घ	918	2328
                 'ng', // 	ङ	919	2329
                 'c', // 	चꞆꞇćċ	91A	2330
-                'Ch', // 	छ	91B	2331
+                'ch', // 	छ	91B	2331
                 'z', // 	ज	91C	2332
-                'Z', // 	झ	91D	2333
+                'zh', // 	झ	91D	2333
                 'n', // 	ञ	91E	2334		nya
                 't', // 	ट	91F	2335
-                'T', // 	ठ	920	2336
+                'th', // 	ठ	920	2336
                 'd', // 	ड	921	2337
-                'D', // 	ढ	922	2338
+                'dh', // 	ढ	922	2338
                 'n', // 	ण	923	2339		nna
-                'j', // 	तтτ	924	2340
-                'J', // 	थ	925	2341
-                'q', // 	द ꟈđԃ	926	2342
-                'Q', // 	ध	927	2343 Ԁh dh ԃh
+                't', // 	तтτ	924	2340
+                'th', // 	थ	925	2341
+                'd', // 	द ꟈđԃ	926	2342
+                'dh', // 	ध	927	2343 Ԁh dh ԃh
                 'n', // 	न	928	2344
                 'n', // 	ऩ	929	2345		nnna
                 'p', // 	प	92A	2346
                 'f', // 	फ	92B	2347
                 'b', // 	ब	92C	2348
-                'B', // 	भ	92D	2349
+                'bh', // 	भ	92D	2349
                 'm', // 	म	92E	2350
                 'y', // 	य	92F	2351
                 'r', // 	र	930	2352
@@ -75,7 +75,7 @@ export class hsciistr {
                 'l', // 	ळ	933	2355		lla
                 'l', // 	ऴ	934	2356		llla
                 'w', // 	व	935	2357
-                'S', // 	श	936	2358
+                'sh', // 	श	936	2358
                 's', // 	ष	937	2359
                 's', // 	स	938	2360
                 'H', // 	हɦH	939	2361
@@ -110,11 +110,11 @@ export class hsciistr {
                 'ui', // 	ॖ	956	2390		vowel sign ue
                 'uui', // 	ॗ	957	2391		vowel sign uue
                 'k', // 	क़	958	2392
-                'K', // 	ख़	959	2393
+                'kh', // 	ख़	959	2393
                 'g', // 	ग़	95A	2394
                 'z', // 	ज़	95B	2395
                 'rr', // 	ड़	95C	2396
-                'D', // 	ढ़	95D	2397
+                'dh', // 	ढ़	95D	2397
                 'f', // 	फ़	95E	2398
                 'y', // 	य़	95F	2399
                 'ri', // 	ॠ	960	2400
@@ -189,35 +189,35 @@ export class hsciistr {
                 '', // 	d98 null
                 '', // 	d99 null
                 'k', // 	d9a ka
-                'K', // 	d9b kha
+                'kh', // 	d9b kha
                 'g', // 	d9c ga
-                'G', // 	d9d gha
+                'gh', // 	d9d gha
                 'N', // 	d9e nga
                 'N', // 	d9f nnga
                 'c', // 	da0 ch
-                'Ch', // 	da1 chh
+                'ch', // 	da1 chh
                 'z', // 	da2 za
-                'Z', // 	da3 zha
+                'zh', // 	da3 zha
                 'n', // 	da4= sinhala letter nya
                 'n', // 	da5= sinhala letter jnya
                 'n', // 	da6= sinhala letter nyja
                 't', // 	da7= sinhala letter tta
-                'T', // 	da8= sinhala letter ttha
+                'th', // 	da8= sinhala letter ttha
                 'd', // 	da9= sinhala letter dda
-                'D', // 	daa= sinhala letter ddha
+                'dh', // 	daa= sinhala letter ddha
                 'n', // 	dab= sinhala letter nna
                 'n', // 	dac= sinhala letter nndda
-                'j', // 	dad= sinhala letter тa
-                'J', // 	dae= sinhala letter тha
-                'q', // 	daf= sinhala letter ԃa
-                'Q', // 	db0= sinhala letter ԃha
+                't', // 	dad= sinhala letter тa
+                'th', // 	dae= sinhala letter тha
+                'd', // 	daf= sinhala letter ԃa
+                'dh', // 	db0= sinhala letter ԃha
                 'n', // 	db1= sinhala letter na
                 '', // 	db2=null
                 'nq', // 	db3= sinhala letter nԃa
                 'p', // 	db4= sinhala letter pa
                 'f', // 	db5= sinhala letter pha
                 'b', // 	db6= sinhala letter ba
-                'B', // 	db7= sinhala letter bha
+                'bh', // 	db7= sinhala letter bha
                 'm', // 	db8= sinhala letter ma
                 'mb', // 	db9= sinhala letter mba
                 'y', // 	dba= sinhala letter ya
@@ -227,7 +227,7 @@ export class hsciistr {
                 '', // 	dbe=null
                 '', // dbf=null
                 'w', // 	dc0= sinhala letter va
-                'S', // 	dc1= sinhala letter sha
+                'sh', // 	dc1= sinhala letter sha
                 's', // 	dc2= sinhala letter ssa
                 's', // 	dc3= sinhala letter sa (dental)
                 'H', // 	dc4= sinhala letter ha
