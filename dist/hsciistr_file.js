@@ -3,7 +3,8 @@ export class hsciistr {
         this.ostrdict = {
             inglish: '', korean: '', russian: '', hindi: '', bangla: '', gurmukhi: '', guzrati: '', oriya: '', tamil: '', kannada: '', telugu: '', malayalam: '', sinhala: ''
         };
-        this.hinchars = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
+        // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
+        this.hinchars = 'kKzZtTdDjJqQnpfbBmyrlSsHA';
         this.i2l_dikt = {
             hindi: 'कखजझटठडढतथदधनपफबभमयरलशसहअव',
             bangla: 'কখজঝটঠডঢতথদধনপফবভমযরলশসহঅw',
@@ -15,11 +16,11 @@ export class hsciistr {
             malayalam: 'കഖജഝടഠഡഢതഥദധനപഫബഭമയരലശസഹഅവ',
             sinhala: 'කඛජඣටඨඩඪතථදධනපඵබභමයරලශසහඅව',
             tamil: 'கKஜZடTdDதJqQநபfbBமயரலஶஸஹஅவ',
-            korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐',
-            russian: 'kKzZtTдДтТдДнпфбБмйрлщшɦa'
+            korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐w',
+            russian: 'kKzZtTдДтТдДнпфбБмйрлщшHAw'
         };
         this.usinhl2idict = {
-            /////[ɦꟈđꞇćṅᴀ]ɦćԃďńàᴀ	//kKzZtTdDjJqQnpfbBmyrlwSsɦ
+            ///////kKzZtTdDjJqQnpfbBmyrlwSsɦ
             all_phoniks_list: [
                 '', // 	d80
                 'N', // d81 CANDRABINDU
@@ -27,9 +28,9 @@ export class hsciistr {
                 ':', // d83 visarga
                 'e', // d84
                 'A', // d85 letter a
-                'Aα', // d86 letter aa
+                'Aa', // d86 letter aa
                 'Ae', // d87  letter ae
-                'αe', // d88  letter aae
+                'ae', // d88  letter aae
                 'AI', // d89  letter i
                 'AI', // d8a letter ii
                 'AU', // d8b= sinhala letter u
@@ -89,7 +90,7 @@ export class hsciistr {
                 'S', // 	dc1= sinhala letter sha
                 's', // 	dc2= sinhala letter ssa
                 's', // 	dc3= sinhala letter sa (dental)
-                'ɦ', // 	dc4= sinhala letter ha
+                'H', // 	dc4= sinhala letter ha
                 'l', // 	dc5= sinhala letter lla
                 'f', // 	dc6= sinhala letter fa
                 '', // 	dc7=null
@@ -100,7 +101,7 @@ export class hsciistr {
                 '', // 	dcc=null
                 '', // 	dcd=null
                 '', // 	dce=null
-                'α', // dcf= sinhala vowel sign aa
+                'a', // dcf= sinhala vowel sign aa
                 'e', // dd0= sinhala vowel sign ae
                 'Ae', // 	dd1= sinhala vowel sign aae
                 'i', // 	dd2= sinhala vowel sign i
@@ -167,7 +168,7 @@ export class hsciistr {
                 ':', // 	ः	903	2307		visarga
                 'AE', // 	ऄ à	904	2308		short a ,  e in awadh
                 'A', // 	अ	905	2309	vovls
-                'Aα', // 	आ  àα α	906	2310	vovls
+                'Aa', // 	आ  àα	906	2310	vovls
                 'AI', // 	इ	907	2311	vovls
                 'AI', // 	ई	908	2312	vovls
                 'AU', // 	उ	909	2313	vovls
@@ -218,12 +219,12 @@ export class hsciistr {
                 'S', // 	श	936	2358
                 's', // 	ष	937	2359
                 's', // 	स	938	2360
-                'ɦ', // 	हɦɦHɦĥ	939	2361
+                'H', // 	हɦH	939	2361
                 'oe', // 	ऺ	93A	2362		oe
                 'ui', // 	ऻ	93B	2363		ooe
                 '', // 	़	93C	2364		nukta for extending the alphabet to new letters
                 '!', // 	ऽ	93D	2365		Avagraha
-                'α', // 	ा α	93E	2366	vvs
+                'a', // 	ा α	93E	2366	vvs
                 'i', // 	ि	93F	2367	vvs
                 'i', // 	ी	940	2368	vvs
                 'u', // 	ु	941	2369	vvs
@@ -459,9 +460,6 @@ export class hsciistr {
             //Nn2phonetic_N(ioft);
             //Ww_to_vv(ioft);
             //Aa2phonetic_Aa(ioft);
-            //this.istr.value = this.istr.value.replace(/c/ig,'ć'); ///ꞇ
-            // ɦHɦĥ
-            //this.istr = this.istr.replace(/H/g,'ɦ').replace(/N/g,'ń').replace(/à/g,'a'); //α/g,'A').replace();
             this.istr = this.istr.toLowerCase();
             this.istr = this.istr
                 .replace(/j/g, 'z')
@@ -487,13 +485,13 @@ export class hsciistr {
         // wowel_chr at boundary/in_between //nई ई कई uई eई oई iई  αई Aई  aई Nई
         this.ostrdict['inglish'] = this.ostrdict['inglish']
             .replace(/^A([IUEO])/g, '$1')
-            .replace(/([^kgcztdjqpbshɦyrlwmnf])A([IUEO])/g, '$1$2')
+            .replace(/([^kgcztdjqpbsKGCZTDJQBShvyrlwmnf])A([IUEO])/g, '$1$2')
             .replace(/([IUEO])/g, function (v) { return v.toLowerCase(); });
         this.ostrdict['inglish'] = this.ostrdict['inglish']
-            .replace(/([a-zԃɦńᴛ])Aa/g, '$1a')
-            .replace(/([iueo])A([αIUEO])/g, '$1$2')
+            .replace(/([a-zv])Aa/g, '$1a')
+            .replace(/([iueo])A([aIUEO])/g, '$1$2')
             .replace(/wN\b/g, 'wm')
-            .replace(/([Aaαiueo])N\b/g, '$1')
+            .replace(/([Aaiueo])N\b/g, '$1')
             .replace(/N([w])/g, '$1')
             .replace(/(^r)N$/g, '$1')
             .replace(/N([),\'\s\.!\?naeiuhwv\b])/g, '$1')
