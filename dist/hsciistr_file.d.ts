@@ -21,9 +21,6 @@ export declare class hsciistr {
     Ww2vv(): void;
     Aa2phonetic_Aa(): void;
     e2i(): void;
-    u2i_pre(): void;
-    u2i_post(): void;
-    u2i(): void;
     i2l(): void;
     transliterate_tekst_nodes(node: Node): void;
     transliterate_dom_node(node_arg: Node): void;
@@ -34,12 +31,15 @@ export declare class hsciistr {
     };
     xvjqK2hindi(): hsciistr;
     kh2hindiK(): this;
-    usinhl2idict: {
+    u2i_pre(): void;
+    u2i(): void;
+    u2i_post(): void;
+    u2idict: {
         all_phoniks_list: string[];
         hard_consonants_modulo_list: number[];
         vovli_modulo_list: number[];
     };
-    u2idict: {
+    usinhl2idict: {
         all_phoniks_list: string[];
         hard_consonants_modulo_list: number[];
         vovli_modulo_list: number[];
