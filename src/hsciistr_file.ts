@@ -216,6 +216,7 @@ export class hsciistr {
   }
 
   u2i(): void { 
+    this.u2i_pre();
     if (this.istr) {
       const inputLength: number = this.istr.length;
       //console.log(` start of u2i , this.istr=${this.istr} and inputLength is ${inputLength}`);

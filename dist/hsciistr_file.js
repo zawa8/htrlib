@@ -502,6 +502,7 @@ export class hsciistr {
             .replace(/N/g, 'n');
     }
     u2i() {
+        this.u2i_pre();
         if (this.istr) {
             const inputLength = this.istr.length;
             //console.log(` start of u2i , this.istr=${this.istr} and inputLength is ${inputLength}`);
