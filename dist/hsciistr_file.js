@@ -47,8 +47,8 @@ export class hsciistr {
                 'g', // 	ग	917	2327
                 'gh', // 	घ	918	2328
                 'ng', // 	ङ	919	2329
-                'c', // 	चꞆꞇćċ	91A	2330
-                'ch', // 	छ	91B	2331
+                'ch', // 	चꞆꞇćċ	91A	2330
+                'Ch', // 	छ	91B	2331
                 'z', // 	ज	91C	2332
                 'Z', // 	झ	91D	2333
                 'n', // 	ञ	91E	2334		nya
@@ -194,8 +194,8 @@ export class hsciistr {
                 'gh', // 	d9d gha
                 'N', // 	d9e nga
                 'N', // 	d9f nnga
-                'c', // 	da0 ch
-                'ch', // 	da1 chh
+                'ch', // 	da0 ch
+                'Ch', // 	da1 chh
                 'z', // 	da2 za
                 'Z', // 	da3 zha
                 'n', // 	da4= sinhala letter nya
