@@ -1,7 +1,6 @@
 export class hsciistr {
     constructor(from = hsciistr.from_dikt.ascii_and_indik, tu = hsciistr.tu_dikt.inglish) {
         this.ostrdict = {
-            // english: '',
             inglish: '', korean: '', russian: '', hindi: '', bangla: '', gurmukhi: '', guzrati: '', oriya: '', tamil: '', kannada: '', telugu: '', malayalam: '', sinhala: ''
         };
         // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
@@ -475,17 +474,11 @@ export class hsciistr {
         let indeks = 0;
         let curr_chr = '';
         let curr_chr_indeks_in_hinchars = -1;
-        this.ostrdict.inglish = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(/j/g, 'T').replace(/J/g, 'Th').replace(/q/g, 'D').replace(/Q/, 'Dh');
+        this.ostrdict.inglish = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(/j/g, 'T').replace(/J/g, 'Th').replace(/q/g, 'D').replace(/Q/g, 'Dh');
         if ('inglish' === this.tu) {
             console.log('this.tostr is inglish , so returning from i2l()');
             return;
         }
-        // if('english' === this.tu) {
-        //   this.ostrdict.english = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(
-        //     /j/g, 'T').replace(/J/g, 'Th').replace(
-        //     /q/g, 'D').replace(/Q/,'Dh') ;
-        //   return ;
-        // }    
         while (indeks < inputLength) {
             curr_chr = this.istr[indeks];
             curr_chr_indeks_in_hinchars = this.hinchars.indexOf(curr_chr);
