@@ -347,8 +347,8 @@ export class hsciistr {
 
   xvjqK2hindi(): hsciistr {
     this.setistr(
-      this.istr.replace(/q/, 'द').replace(/j/, 'त').replace(/Q/, 'ध').replace(/J/, 'थ').replace(/K/, 'ख')
-      .replace(/Z/, 'झ').replace(/T/, 'ठ').replace(/D/, 'ढ').replace(/B/, 'भ').replace(/S/, 'श').replace(/x/, 'अ').replace(/v/, 'ह')
+      this.istr.replace(/q/g, 'द').replace(/j/g, 'त').replace(/Q/g, 'ध').replace(/J/g, 'थ').replace(/K/g, 'ख')
+      .replace(/Z/g, 'झ').replace(/T/g, 'ठ').replace(/D/g, 'ढ').replace(/B/g, 'भ').replace(/S/g, 'श').replace(/x/g, 'अ').replace(/v/g, 'ह')
     );
     return this;
   }
@@ -356,14 +356,14 @@ export class hsciistr {
   kh2hindiK() {
     this.setistr(
       this.istr.replace(/([kztdjqbs])h/g, '$1___')
-        .replace(/q___/, 'ध')
-        .replace(/j___/, 'थ')
-        .replace(/k___/, 'ख')
-        .replace(/z___/, 'झ')
-        .replace(/t___/, 'ठ')
-        .replace(/d___/, 'ढ')
-        .replace(/b___/, 'भ')
-        .replace(/s___/, 'श'));
+        .replace(/q___/g, 'ध')
+        .replace(/j___/g, 'थ')
+        .replace(/k___/g, 'ख')
+        .replace(/z___/g, 'झ')
+        .replace(/t___/g, 'ठ')
+        .replace(/d___/g, 'ढ')
+        .replace(/b___/g, 'भ')
+        .replace(/s___/g, 'श'));
     return this;
   }
 
