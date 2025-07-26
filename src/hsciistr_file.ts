@@ -171,8 +171,8 @@ export class hsciistr {
         .replace(/\bxi/g, 'zi')
         .replace(/\bxy/g, 'zai')
         .replace(/\bxmas/g, 'christmAs')
-        .replace(/\bxr/g, 'Aksr')
-        .replace(/\bx/g, 'Aks'); //α/g,'A').replace();
+        .replace(/\bxr/g, 'xksr')
+        .replace(/\bx/g, 'xks'); //α/g,'x').replace();
       // this.ostrdict["inglish"] = this.istr ; // wiml
       // console.log("e2i::e2i this.ostrdict[inglish] is: \n" + this.ostrdict["inglish"] + "\n");
     }
@@ -418,8 +418,9 @@ export class hsciistr {
   u2i_post(): void {
     // wowel_chr at boundary/in_between //nई ई कई=kAi कaई=kai कuई कoई कhई=khAi uई eई oई iई  αई Aई  aई Nई
     this.ostrdict['inglish'] = this.ostrdict['inglish']
-      .replace(/\bA([IUEO])/g, '$1')
-      .replace(/([^bcdfghjklmnpqrstvwyzBCDGHJKQSTZ])A([IUEO])/g, '$1$2')
+      .replace(/\bx([IUEO])/g, '$1')
+      // .replace(/([^bcdfghjklmnpqrstvwyzBCDGHJKQSTZ])A([IUEO])/g, '$1$2')
+      .replace(/([aeioux])x([IUEO])/g, '$1$2')
       .replace(/([IUEO])/g, function (v) { return v.toLowerCase(); });
 
     this.ostrdict['inglish'] = this.ostrdict['inglish']
@@ -443,29 +444,29 @@ export class hsciistr {
       'N', // 	ँ	901	2305		anunasika(candrabindu)
       'N', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
-      'AE', // 	ऄ à	904	2308		short a ,  e in awadh
-      'A', // 	अ	905	2309	vovls
-      'Aa', // 	आ  àα	906	2310	vovls
-      'AI', // 	इ	907	2311	vovls
-      'AI', // 	ई	908	2312	vovls
-      'AU', // 	उ	909	2313	vovls
-      'AU', // 	ऊ	90A	2314	vovls
+      'xe', // 	ऄ à	904	2308		short a ,  e in awadh
+      'x', // 	अ	905	2309	vovls
+      'xa', // 	आ  àα	906	2310	vovls
+      'xI', // 	इ	907	2311	vovls
+      'xI', // 	ई	908	2312	vovls
+      'xU', // 	उ	909	2313	vovls
+      'xU', // 	ऊ	90A	2314	vovls
       'ri', // 	ऋ	90B	2315	vovls
       'li', // 	ऌ	90C	2316	vovls
-      'AE', // 	ऍ	90D	2317	no	candra e
-      'AE', // 	ऎ	90E	2318	no	short e
-      'AE', // 	ए	90F	2319	vovls
-      'AE', // 	ऐ	910	2320	vovls
-      'AO', // 	ऑ	911	2321		candra o
-      'AO', // 	ऒ	912	2322		short o
-      'AO', // 	ओ	913	2323
-      'AO', // 	औ	914	2324
+      'xE', // 	ऍ	90D	2317	no	candra e
+      'xE', // 	ऎ	90E	2318	no	short e
+      'xE', // 	ए	90F	2319	vovls
+      'xE', // 	ऐ	910	2320	vovls
+      'xO', // 	ऑ	911	2321		candra o
+      'xO', // 	ऒ	912	2322		short o
+      'xO', // 	ओ	913	2323
+      'xO', // 	औ	914	2324
       'k', // 	क	915	2325
       'K', // 	ख	916	2326
       'g', // 	ग	917	2327
       'gh', // 	घ	918	2328
       'ng', // 	ङ	919	2329
-      'ch', // 	चꞆꞇćċ	91A	2330
+      'c', // 	चꞆꞇćċ	91A	2330
       'Ch', // 	छ	91B	2331
       'z', // 	ज	91C	2332
       'Z', // 	झ	91D	2333
@@ -553,10 +554,10 @@ export class hsciistr {
       '9', // 	९	96F	2415
       '_', // 	॰	970	2416		abbreviation sign
       '__', // 	ॱ	971	2417		high spacing dot
-      'A', // 	ॲ	972	2418		A
-      'AO', // 	ॳ	973	2419		o
-      'AO', // 	ॴ	974	2420		oe
-      'AO', // 	ॵ	975	2421		ao
+      'x', // 	ॲ	972	2418		A
+      'xO', // 	ॳ	973	2419		o
+      'xO', // 	ॴ	974	2420		oe
+      'xO', // 	ॵ	975	2421		ao
       'ui', // 	ॶ	976	2422		ui
       'ui', // 	ॷ	977	2423		uui
       'q', // 	ॸ	978	2424		d
@@ -586,24 +587,24 @@ export class hsciistr {
       'N', // d82 nbindu
       ':', // d83 visarga
       'e', // d84
-      'A', // d85 letter a
-      'Aa', // d86 letter aa
-      'AE', // d87  letter ae
+      'x', // d85 letter a
+      'xa', // d86 letter aa
+      'xE', // d87  letter ae
       'ae', // d88  letter aae
-      'AI', // d89  letter i
-      'AI', // d8a letter ii
-      'AU', // d8b= sinhala letter u
-      'AU', // d8c= sinhala letter uu
+      'xI', // d89  letter i
+      'xI', // d8a letter ii
+      'xU', // d8b= sinhala letter u
+      'xU', // d8c= sinhala letter uu
       'r', // 	d8d volalic r
       'ri', // 	d8e vocalic rr
       'l', // 	d8f volalic l
       'li', // 	d90 volalic ll
-      'AE', // 	d91 letter e
-      'AE', // 	d92 letter ee
-      'AE', // 	d93= sinhala letter ai
-      'AO', // 	d94= sinhala letter o
-      'AO', // 	d95= sinhala letter oo
-      'AO', // 	d96= sinhala letter au
+      'xE', // 	d91 letter e
+      'xE', // 	d92 letter ee
+      'xE', // 	d93= sinhala letter ai
+      'xO', // 	d94= sinhala letter o
+      'xO', // 	d95= sinhala letter oo
+      'xO', // 	d96= sinhala letter au
       '', // 	d97 null
       '', // 	d98 null
       '', // 	d99 null
@@ -613,7 +614,7 @@ export class hsciistr {
       'gh', // 	d9d gha
       'N', // 	d9e nga
       'N', // 	d9f nnga
-      'ch', // 	da0 ch
+      'c', // 	da0 ch
       'Ch', // 	da1 chh
       'z', // 	da2 za
       'Z', // 	da3 zha
