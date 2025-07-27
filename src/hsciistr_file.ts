@@ -444,8 +444,8 @@ export class hsciistr {
   u2idict = {
     all_phoniks_list: [
       '', // 	ऀ	900	2304		inverted candrabindu
-      '', // 	ँ	901 N	2305		anunasika(candrabindu) 
-      '', // 	ं ń	902	2306	anuswara	anusvara bindu // लड़कियां भाग कर शादी कर रहें
+      'N', // 	ँ	901 N	2305		anunasika(candrabindu) // लड़कियां भाग कर शादी कर रहें
+      'N', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
       'x', // 	अ	905	2309	vovls

@@ -1,12 +1,10 @@
 ##### steps to chnage this library, update version and publish
-1. du changes and test
-    1. write tests to test chages in sometest.test.ts file and sAve in __tests__ tree.
-    2. npm install ; npm run test
-2. if tests passed then :
-    1. npm login
-    2. npm version patch  // --no-git-tag-version && npm publish --access public
+1. npm install # tu install Dhis pAckage 
+2. npm run build # run after du changes
+3. git commit
+4. npm version patch  // --no-git-tag-version && npm publish --access public
 (# Instead of patch, you can use 'minor' or 'major')
-    3. npm publish
+5. npm publish
 
 ```
 namespace hsciistr {
