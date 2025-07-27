@@ -445,7 +445,7 @@ export class hsciistr {
     all_phoniks_list: [
       '', // 	ऀ	900	2304		inverted candrabindu
       'NN', // 	ँ	901	2305		anunasika(candrabindu)
-      'N', // 	ं ń	902	2306	anuswara	anusvara bindu
+      'NN', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
       'x', // 	अ	905	2309	vovls
