@@ -444,7 +444,7 @@ export class hsciistr {
   u2idict = {
     all_phoniks_list: [
       '', // 	ऀ	900	2304		inverted candrabindu
-      'N', // 	ँ	901	2305		anunasika(candrabindu)
+      'NN', // 	ँ	901	2305		anunasika(candrabindu)
       'N', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
