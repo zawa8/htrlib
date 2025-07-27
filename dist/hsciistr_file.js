@@ -22,8 +22,8 @@ export class hsciistr {
         this.u2idict = {
             all_phoniks_list: [
                 '', // 	ऀ	900	2304		inverted candrabindu
-                'N', // 	ँ	901	2305		anunasika(candrabindu)
-                'N', // 	ं ń	902	2306	anuswara	anusvara bindu
+                '', // 	ँ	901 N	2305		anunasika(candrabindu) 
+                '', // 	ं ń	902	2306	anuswara	anusvara bindu // लड़कियां भाग कर शादी कर रहें
                 ':', // 	ः	903	2307		visarga
                 'xe', // 	ऄ à	904	2308		short a ,  e in awadh
                 'x', // 	अ	905	2309	vovls
@@ -666,7 +666,7 @@ export class hsciistr {
                 }
                 indeks++;
             }
-            // this.u2i_post(); //console.log(`this.ostrdict[inglish]=${this.ostrdict.inglish}\n`);
+            this.u2i_post(); //console.log(`this.ostrdict[inglish]=${this.ostrdict.inglish}\n`);
             this.istr = this.ostrdict.inglish; //console.log(` end of i2l , this.ostrdict[inglish]=this.istr=${this.istr}\n`);
         }
     }
@@ -679,12 +679,14 @@ export class hsciistr {
             .replace(/([IUEO])/g, function (v) { return v.toLowerCase(); });
         this.ostrdict['inglish'] = this.ostrdict['inglish']
             // .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
-            .replace(/([a-zBCDGHJKQSTZ])Aa/g, '$1a')
+            //'xa', // 	आ  àα	906	2310	vovls
+            //.replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
             //.replace( /([\W_])A/g, '$1a' )
             .replace(/([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h')
             //.replace(/([iueo])A([aIUEO])/g, '$1$2')
             .replace(/wN\b/g, 'wm')
-            .replace(/([Aaiueo])N\b/g, '$1')
+            .replace(/([xaiueo])N/g, '$1')
+            .replace(/([xaiueo])N([\s\b])/g, '$1$2')
             .replace(/N([w])/g, '$1')
             .replace(/(^r)N$/g, '$1')
             .replace(/N([),\'\s\.!\?naeiuhwv\b])/g, '$1')
