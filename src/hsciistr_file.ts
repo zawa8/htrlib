@@ -424,8 +424,9 @@ export class hsciistr {
       .replace(/([IUEO])/g, function (v) { return v.toLowerCase(); });
 
     this.ostrdict['inglish'] = this.ostrdict['inglish']
+      // .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
       .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
-      .replace( /([\W_])A/g, '$1a' )
+      //.replace( /([\W_])A/g, '$1a' )
       .replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
       //.replace(/([iueo])A([aIUEO])/g, '$1$2')
       .replace(/wN\b/g, 'wm')
@@ -447,7 +448,7 @@ export class hsciistr {
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
       'x', // 	अ	905	2309	vovls
       'xa', // 	आ  àα	906	2310	vovls
-      'xI', // 	इ	907	2311	vovls
+      'xI', // 	इ	907	2311	vovls // xiya //kxi
       'xI', // 	ई	908	2312	vovls
       'xU', // 	उ	909	2313	vovls
       'xU', // 	ऊ	90A	2314	vovls
@@ -464,7 +465,7 @@ export class hsciistr {
       'k', // 	क	915	2325
       'K', // 	ख	916	2326
       'g', // 	ग	917	2327
-      'gh', // 	घ	918	2328
+      'G', // 	घ	918	2328
       'ng', // 	ङ	919	2329
       'c', // 	चꞆꞇćċ	91A	2330
       'Ch', // 	छ	91B	2331
