@@ -410,7 +410,7 @@ export class hsciistr {
         }
         indeks++;
       }
-      // this.u2i_post(); //console.log(`this.ostrdict[inglish]=${this.ostrdict.inglish}\n`);
+      this.u2i_post(); //console.log(`this.ostrdict[inglish]=${this.ostrdict.inglish}\n`);
       this.istr = this.ostrdict.inglish; //console.log(` end of i2l , this.ostrdict[inglish]=this.istr=${this.istr}\n`);
     }
   }
@@ -425,7 +425,8 @@ export class hsciistr {
 
     this.ostrdict['inglish'] = this.ostrdict['inglish']
       // .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
-      .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
+      //'xa', // 	आ  àα	906	2310	vovls
+      //.replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
       //.replace( /([\W_])A/g, '$1a' )
       .replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
       //.replace(/([iueo])A([aIUEO])/g, '$1$2')
