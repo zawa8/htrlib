@@ -7,6 +7,7 @@ del/
 rf.*
 *.gz
 *.zip
+del
 */del
 # dependencies
 /node_modules
