@@ -1,6 +1,6 @@
 {
   "name": "htrlib",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "./dist/hsciistr_file.js",
   "types": "./dist/hsciistr_file.d.ts",
   "scripts": {
