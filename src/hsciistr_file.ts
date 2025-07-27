@@ -184,9 +184,9 @@ export class hsciistr {
     let indeks: number = 0;
     let curr_chr: string = '';
     let curr_chr_indeks_in_hinchars = -1;
-    this.ostrdict.inglish = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(
-      /j/g, 'T').replace(/J/g, 'Th').replace(
-      /q/g, 'D').replace(/Q/g,'Dh') ;
+    //this.ostrdict.inglish = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(
+    //  /j/g, 'T').replace(/J/g, 'Th').replace(
+    //  /q/g, 'D').replace(/Q/g,'Dh') ;
     if('inglish' === this.tu) {
       console.log( 'this.tostr is inglish , so returning from i2l()' );
       return ;
