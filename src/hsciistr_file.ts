@@ -431,7 +431,7 @@ export class hsciistr {
       .replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
       //.replace(/([iueo])A([aIUEO])/g, '$1$2')
       .replace(/wN\b/g, 'wm')
-      .replace(/([xaiueo])N/g, '$1')
+      .replace(/([aiueo])N/g, '$1')
       .replace(/([xaiueo])N([\s\b])/g, '$1$2')
       .replace(/N([w])/g, '$1')
       .replace( /(^r)N$/g, '$1' )
