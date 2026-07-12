@@ -1,7 +1,8 @@
 ##### steps to chnage this library, update version and publish
 1. du changes and test
     1. write tests to test chages in sometest.test.ts file and sAve in __tests__ tree.
-    2. npm install ; npm run test
+    2. npm install (after running qhis "htrlib\node_modules" dir gets created so gitignore node_modules
+	3. npm run test (now __tests__  dir not present so skip qhis)
 2. if tests passed then :
     1. npm login
     2. npm version patch  // --no-git-tag-version && npm publish --access public
@@ -43,6 +44,8 @@ class hsciistr {
 
 ##### hsciistr => open hsciistr.md 
 1. [about hsciistr](https://github.com/zawa8/hsciistr/blob/typescript/hsciistr.md)
+
+2. hscii npmjs packages url : https://www.npmjs.com/settings/hscii/packages htrlib libhsciifp
 
 [martinpersson article][article1]
 
