@@ -41,6 +41,10 @@ class hsciistr {
 
 ```
 
+npm login details : hscii / punxmrazxn=  . i will get otp also.
+https://addons.mozilla.org/en-US/firefox/users/edit : v..g_atrate_gmail.com name is hscii
+https://addons.mozilla.org/en-US/firefox/user/17735318/ extensions 
+https://addons.mozilla.org/en-US/firefox/addon/linguist84/
 
 ##### hsciistr => open hsciistr.md 
 1. [about hsciistr](https://github.com/zawa8/hsciistr/blob/typescript/hsciistr.md)
