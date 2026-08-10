@@ -184,9 +184,11 @@ export class hsciistr {
     let indeks: number = 0;
     let curr_chr: string = '';
     let curr_chr_indeks_in_hinchars = -1;
-    this.ostrdict.inglish = this.istr.replace(/T/g, 'th').replace(/D/g, 'dh').replace(
-      /j/g, 'T').replace(/J/g, 'Th').replace(
-      /q/g, 'D').replace(/Q/g,'Dh') ;
+    // ostrdict.inglish keeps the raw single-letter hscii markers (t/T/d/D/j/J/q/Q)
+    // rather than expanding them into th/dh/Th/Dh digraphs - the hscii font glyphs
+    // (englosoftw8) already carry that aspirated look visually, so the text layer
+    // doesn't need to spell it out.
+    this.ostrdict.inglish = this.istr;
     if('inglish' === this.tu) {
       console.log( 'this.tostr is inglish , so returning from i2l()' );
       return ;
@@ -416,25 +418,28 @@ export class hsciistr {
   }
 
   u2i_post(): void {
-    // wowel_chr at boundary/in_between //nई ई कई=kAi कaई=kai कuई कoई कhई=khAi uई eई oई iई  αई Aई  aई Nई
+    // wowel_chr at boundary/in_between, mirrors scriptToXnglo() in mappings.ts:
+    // x/_i/_u/_e are the new lowercase markers (अ/इ,ई/उ,ऊ/ए,ऐ). अ and आ resolve
+    // to their final form ("x"/"xa") directly from u2idict, so they need no
+    // position-dependent handling here anymore - only the underscore markers do.
     this.ostrdict['inglish'] = this.ostrdict['inglish']
-      .replace(/\bA([IUEO])/g, '$1')
-      .replace(/([^bcdfghjklmnpqrstvwyzBCDGHJKQSTZ])A([IUEO])/g, '$1$2')
-      .replace(/([IUEO])/g, function (v) { return v.toLowerCase(); });
+      .replace(/^_/, '')
+      .replace(/(\W)_/g, '$1')
+      .replace(/([aiueo])_/g, '$1')
+      .replace(/_i/g, 'yi')
+      .replace(/_e/g, 'ye')
+      .replace(/_u/g, 'xu');
 
     this.ostrdict['inglish'] = this.ostrdict['inglish']
-      .replace( /([a-zBCDGHJKQSTZ])Aa/g, '$1a' )
-      .replace( /([\W_])A/g, '$1a' )
       .replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
-      //.replace(/([iueo])A([aIUEO])/g, '$1$2')
-      .replace(/wN\b/g, 'wm')
-      .replace(/([Aaiueo])N\b/g, '$1')
-      .replace(/N([w])/g, '$1')
-      .replace( /(^r)N$/g, '$1' )
-      .replace(/N([),\'\s\.!\?naeiuhwv\b])/g, '$1')
-      .replace(/N([bBpf])/g, 'm$1')
-      .replace(/N([^kgKG])/g, 'n$1')
-      .replace(/N/g, 'n');
+      // N-handling matches scriptToXnglo() in mappings.ts exactly - xnar no longer
+      // transliterates English, so Nn2phonetic_N's spelling-ambiguity guesswork
+      // (sync/anchor/uncle etc.) doesn't apply here; N is always an unambiguous
+      // anusvara marker from the indic source by this point.
+      .replace(/N$/, '')
+      .replace(/N(\W)/g, '$1')
+      .replace(/Nb/g, 'mb').replace(/NB/g, 'mB').replace(/Np/g, 'mp').replace(/Nf/g, 'mf')
+      .replace(/N(?![kKgG])/g, 'n');
   }
 
   u2idict = {
@@ -443,30 +448,30 @@ export class hsciistr {
       'N', // 	ँ	901	2305		anunasika(candrabindu)
       'N', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
-      'AE', // 	ऄ à	904	2308		short a ,  e in awadh
-      'A', // 	अ	905	2309	vovls
-      'Aa', // 	आ  àα	906	2310	vovls
-      'AI', // 	इ	907	2311	vovls
-      'AI', // 	ई	908	2312	vovls
-      'AU', // 	उ	909	2313	vovls
-      'AU', // 	ऊ	90A	2314	vovls
+      'xe', // 	ऄ à	904	2308		short a ,  e in awadh
+      'x', // 	अ	905	2309	vovls
+      'xa', // 	आ  àα	906	2310	vovls
+      '_i', // 	इ	907	2311	vovls
+      '_i', // 	ई	908	2312	vovls
+      '_u', // 	उ	909	2313	vovls
+      '_u', // 	ऊ	90A	2314	vovls
       'ri', // 	ऋ	90B	2315	vovls
       'li', // 	ऌ	90C	2316	vovls
-      'AE', // 	ऍ	90D	2317	no	candra e
-      'AE', // 	ऎ	90E	2318	no	short e
-      'AE', // 	ए	90F	2319	vovls
-      'AE', // 	ऐ	910	2320	vovls
-      'AO', // 	ऑ	911	2321		candra o
-      'AO', // 	ऒ	912	2322		short o
-      'AO', // 	ओ	913	2323
-      'AO', // 	औ	914	2324
+      '_e', // 	ऍ	90D	2317	no	candra e
+      '_e', // 	ऎ	90E	2318	no	short e
+      '_e', // 	ए	90F	2319	vovls
+      '_e', // 	ऐ	910	2320	vovls
+      'ao', // 	ऑ	911	2321		candra o
+      '_o', // 	ऒ	912	2322		short o
+      'o', // 	ओ	913	2323
+      'ou', // 	औ	914	2324
       'k', // 	क	915	2325
       'K', // 	ख	916	2326
       'g', // 	ग	917	2327
       'gh', // 	घ	918	2328
-      'ng', // 	ङ	919	2329
-      'ch', // 	चꞆꞇćċ	91A	2330
-      'Ch', // 	छ	91B	2331
+      'N', // 	ङ	919	2329
+      'c', // 	चꞆꞇćċ	91A	2330
+      'C', // 	छ	91B	2331
       'z', // 	ज	91C	2332
       'Z', // 	झ	91D	2333
       'n', // 	ञ	91E	2334		nya
@@ -496,7 +501,7 @@ export class hsciistr {
       'S', // 	श	936	2358
       's', // 	ष	937	2359
       's', // 	स	938	2360
-      'H', // 	हɦH	939	2361
+      'v', // 	हɦH	939	2361
       'oe', // 	ऺ	93A	2362		oe
       'ui', // 	ऻ	93B	2363		ooe
       '', // 	़	93C	2364		nukta for extending the alphabet to new letters
@@ -506,8 +511,8 @@ export class hsciistr {
       'i', // 	ी	940	2368	vvs
       'u', // 	ु	941	2369	vvs
       'u', // 	ू	942	2370	vvs
-      'ri', // 	ृ	943	2371	vvs
-      'ri', // 	ॄ	944	2372
+      'r', // 	ृ	943	2371	vvs
+      'r', // 	ॄ	944	2372
       'e', // 	ॅ	945	2373		candra e
       'ei', // 	ॆ	946	2374		short e
       'e', // 	े	947	2375
@@ -515,10 +520,10 @@ export class hsciistr {
       'o', // 	ॉ	949	2377		candra o
       'oe', // 	ॊ	94A	2378		short o
       'o', // 	ो	94B	2379	vvs
-      'o', // 	ौ	94C	2380	vvs
+      'ou', // 	ौ	94C	2380	vvs
       '', // 	्	94D	2381	virama	VIRAMA halant suppresses inherent vowel
       '', // 	ॎ	94E	2382		prishthamatra e , combines with e to form ai, with aa to form o,and with o to form au
-      'o', // 	ॏ	94F	2383		aw
+      'ou', // 	ॏ	94F	2383		aw
       'om', // 	ॐ	950	2384
       '', // 	॑	951	2385		stress sign udatta, vedic tone svarita
       '', // 	॒	952	2386		anudatta
@@ -553,10 +558,10 @@ export class hsciistr {
       '9', // 	९	96F	2415
       '_', // 	॰	970	2416		abbreviation sign
       '__', // 	ॱ	971	2417		high spacing dot
-      'A', // 	ॲ	972	2418		A
-      'AO', // 	ॳ	973	2419		o
-      'AO', // 	ॴ	974	2420		oe
-      'AO', // 	ॵ	975	2421		ao
+      'x', // 	ॲ	972	2418		A
+      'xo', // 	ॳ	973	2419		o
+      'xo', // 	ॴ	974	2420		oe
+      'xo', // 	ॵ	975	2421		ao
       'ui', // 	ॶ	976	2422		ui
       'ui', // 	ॷ	977	2423		uui
       'q', // 	ॸ	978	2424		d
