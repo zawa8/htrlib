@@ -186,49 +186,49 @@ export class hsciistr {
     }
   }
 
-  i2l(): void {
-    console.log(`begin i2l() this.input is ${this.input}. this.output_dict.xi is ${this.output_dict.xi}`);
-    const inputLength: number = this.input.length;
-    let indeks: number = 0;
-    let curr_chr: string = '';
-    let curr_chr_indeks_in_hinchars = -1;
-    // output_dict.xi keeps the raw single-letter hscii markers (t/T/d/D/j/J/q/Q)
-    // rather than expanding them into th/dh/Th/Dh digraphs - the hscii font glyphs
-    // (englosoftw8) already carry that aspirated look visually, so the text layer
-    // doesn't need to spell it out.
-    this.output_dict.xi = this.input;
-    if('xi' === this.tu) {
-      console.log( 'this.tur is xi , so returning phrom i2l()' );
-      return ;
-    }
+  // i2l(): void {
+    // console.log(`begin i2l() this.input is ${this.input}. this.output_dict.xi is ${this.output_dict.xi}`);
+    // const inputLength: number = this.input.length;
+    // let indeks: number = 0;
+    // let curr_chr: string = '';
+    // let curr_chr_indeks_in_hinchars = -1;
+    // // output_dict.xi keeps the raw single-letter hscii markers (t/T/d/D/j/J/q/Q)
+    // // rather than expanding them into th/dh/Th/Dh digraphs - the hscii font glyphs
+    // // (englosoftw8) already carry that aspirated look visually, so the text layer
+    // // doesn't need to spell it out.
+    // this.output_dict.xi = this.input;
+    // if('xi' === this.tu) {
+      // console.log( 'this.tur is xi , so returning phrom i2l()' );
+      // return ;
+    // }
 
-    while (indeks < inputLength) {
-      curr_chr = this.input[indeks];
-      curr_chr_indeks_in_hinchars = this.hinchars.indexOf(curr_chr);
-      switch (this.tu) {
-        // case 'xi': break;
-        case 'all':
-          for (const key in this.i2l_dikt) {
-            if (curr_chr_indeks_in_hinchars > -1) {
-              this.output_dict[key] += this.i2l_dikt[key][curr_chr_indeks_in_hinchars];
-            } else {
-              this.output_dict[key] += curr_chr;
-            }
-          }
-          break;
+    // while (indeks < inputLength) {
+      // curr_chr = this.input[indeks];
+      // curr_chr_indeks_in_hinchars = this.hinchars.indexOf(curr_chr);
+      // switch (this.tu) {
+        // // case 'xi': break;
+        // case 'all':
+          // for (const key in this.i2l_dikt) {
+            // if (curr_chr_indeks_in_hinchars > -1) {
+              // this.output_dict[key] += this.i2l_dikt[key][curr_chr_indeks_in_hinchars];
+            // } else {
+              // this.output_dict[key] += curr_chr;
+            // }
+          // }
+          // break;
 
-        default:
-          if (this.tu in this.i2l_dikt) {
-            if (curr_chr_indeks_in_hinchars > -1) {
-              this.output_dict[this.tu] += this.i2l_dikt[this.tu][curr_chr_indeks_in_hinchars];
-            } else {
-              this.output_dict[this.tu] += curr_chr;
-            }
-          }
-      }
-      indeks++;
-    }
-  }
+        // default:
+          // if (this.tu in this.i2l_dikt) {
+            // if (curr_chr_indeks_in_hinchars > -1) {
+              // this.output_dict[this.tu] += this.i2l_dikt[this.tu][curr_chr_indeks_in_hinchars];
+            // } else {
+              // this.output_dict[this.tu] += curr_chr;
+            // }
+          // }
+      // }
+      // indeks++;
+    // }
+  // }
   // https://phuoc.ng/collection/this-vs-that/node-iterator-vs-tree-walker/ shadow
   transliterate_tekst_nodes(node: Node) {
     let dikt_pair_list: Array<{ tekstNode: Node | null; start: number }> = [];
@@ -335,21 +335,21 @@ export class hsciistr {
     }
   }
   // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
-  hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsHA';
-  i2l_dikt: { [key: string]: string } = {
-    hindi: 'कखजझटठडढतथदधनपफबभमयरलशसहअव',
-    bangla: 'কখজঝটঠডঢতথদধনপফবভমযরলশসহঅw',
-    gurmukhi: 'ਕਖਜਝਟਠਡਢਤਥਦਧਨਪਫਬਭਮਯਰਲਸ਼ਸਹਅਵ',
-    guzrati: 'કખજઝટઠડઢતથદધનપફબભમયરલશસહઅવ',
-    oriya: 'କଖଜଝଟTଡଢତଥଦଧନପଫବଭମଯରଲଶସହଅଵ',
-    telugu: 'కఖజఝటఠడఢతథదధనపఫబభమయరలశసహఅవ',
-    kannada: 'ಕಖಜಝಟಠಡಢತಥದಧನಪಫಬಭಮಯರಲಶಸಹಅವ',
-    malayalam: 'കഖജഝടഠഡഢതഥദധനപഫബഭമയരലശസഹഅവ',
-    sinhala: 'කඛජඣටඨඩඪතථදධනපඵබභමයරලශසහඅව',
-    tamil: 'கKஜZடTdDதJqQநபfbBமயரலஶஸஹஅவ',
-    korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐w',
-    russian: 'kKzZtTдДтТдДнпфбБмйрлщшHAw'
-  };
+  // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsHA';
+  // i2l_dikt: { [key: string]: string } = {
+    // hindi: 'कखजझटठडढतथदधनपफबभमयरलशसहअव',
+    // bangla: 'কখজঝটঠডঢতথদধনপফবভমযরলশসহঅw',
+    // gurmukhi: 'ਕਖਜਝਟਠਡਢਤਥਦਧਨਪਫਬਭਮਯਰਲਸ਼ਸਹਅਵ',
+    // guzrati: 'કખજઝટઠડઢતથદધનપફબભમયરલશસહઅવ',
+    // oriya: 'କଖଜଝଟTଡଢତଥଦଧନପଫବଭମଯରଲଶସହଅଵ',
+    // telugu: 'కఖజఝటఠడఢతథదధనపఫబభమయరలశసహఅవ',
+    // kannada: 'ಕಖಜಝಟಠಡಢತಥದಧನಪಫಬಭಮಯರಲಶಸಹಅವ',
+    // malayalam: 'കഖജഝടഠഡഢതഥദധനപഫബഭമയരലശസഹഅവ',
+    // sinhala: 'කඛජඣටඨඩඪතථදධනපඵබභමයරලශසහඅව',
+    // tamil: 'கKஜZடTdDதJqQநபfbBமயரலஶஸஹஅவ',
+    // korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐w',
+    // russian: 'kKzZtTдДтТдДнпфбБмйрлщшHAw'
+  // };
 
   xvjqK2hindi(): hsciistr {
     this.set_input(
@@ -407,23 +407,18 @@ export class hsciistr {
   }
 
   unicode_india_10scripts_to_xnglo_india_post(): void {
-    // wowel_chr at boundary/in_between, mirrors scriptToXnglo() in mappings.ts:
-    // x/_i/_u/_e are the new lowercase markers (अ/इ,ई/उ,ऊ/ए,ऐ). अ and आ resolve
-    // to their final form ("x"/"xa") directly from unicode_india_9scripts_2_xnglo_india_dict, so they need no
-    // position-dependent handling here anymore - only the underscore markers do.
     this.output_dict['xi'] = this.output_dict['xi']
-		.replace(/^#S/, "S");
-		.replace(/(\W)#S/g, "$1S");
-		.replace(/#S/g, "kS");
-		.replace(/^_/, "");
-		.replace(/(\W)_/g, "$1");
-		.replace(/([aiueo])_/g, "$1");
-		.replace(/_i/g, "yi").replace(/_e/g, "ye").replace(/_u/g, "xu");
-		.replace(/N$/, "");
-		.replace(/N(\W)/g, "$1");
-		.replace(/Nb/g, "mb").replace(/NB/g, "mB").replace(/Np/g, "mp").replace(/Nf/g, "mf");
+		.replace(/^#S/, "S")
+		.replace(/(\W)#S/g, "$1S")
+		.replace(/#S/g, "kS")
+		.replace(/^_/, "")
+		.replace(/(\W)_/g, "$1")
+		.replace(/([aiueo])_/g, "$1")
+		.replace(/_i/g, "yi").replace(/_e/g, "ye").replace(/_u/g, "xu")
+		.replace(/N$/, "")
+		.replace(/N(\W)/g, "$1")
+		.replace(/Nb/g, "mb").replace(/NB/g, "mB").replace(/Np/g, "mp").replace(/Nf/g, "mf")
 		.replace(/N(?![kKgG])/g, "n");
-    // this.output_dict['xi'] = this.output_dict['xi'].replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
   }
 
   unicode_india_9scripts_2_xnglo_india_dict = {
