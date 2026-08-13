@@ -1,9 +1,38 @@
-e52 is English (26+26)
-
+e52 is English (26+26) , e23 is English(abcdefghi klmnop rstu wxyz)
 u9 : 9 indian writing scripts
 u10 : 9 indian writing scripts + 1 srilanka writing script
-xi(xnglo_india) , xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
-xi(xnglo_india) , xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
+
+list of xnglo languages :
+xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
+xp(xnglo_pnzabi) , xo(xnglo_odia) , xj(xnglo_telugu) , xt(xnglo_tamil)
+xm(xnglo_malayalam) , xk(xnglo_kannada) , xg(xnglo_guzrati) , xs(xnglo_sinhala)
+xi(xnglo_india) is xnglo script for all 10 indian/srilankan languages.
+
+csv for xnglo phonetics (phonemes/graphemes) is ./xNglo_phoneme_grapheme.csv
+xnglo script for all xnglo langauges is made up from albhabets present in ./xNglo_phoneme_grapheme.csv
+these are 38 : a-z K G C Z T Q J Q N P B R S
+
+this project is to create npmjs typescript library for transformation phrom/tu :
+phrom(e52/u10/e52_u10) -> tu(e23/xe/xi/xv/xb/xp/xo/xj/xt/xm/xk/xs)
+
+for e52->e23 there should be function e52tue23.
+replace("lover", "lwxr"). replace("never", "nxwxr"). replace("vest", "weist"). replace("vine", "wayin"). replace("vary", "wxyri"). replace("vet", "wyt"). replace("v", "w"). replace("j", "z"). replace("q", "k")
+
+for u9 to xi:
+u9_to_xi character wise transliteration function based on mappings in ./u9_to_xi.csv
+
+for unicode_sinhala to xi:
+unicode_sinhala_to_xi character wise transliteration function based on mappings in ./u9_to_xi.csv
+
+for u10 to xi:
+u10_to_xi  will call u9_to_xi/unicode_sinhala_to_xi character wise transliteration function
+
+for e52->xe :
+1. e52->transliterate->punjabi->u10_to_xi->xe
+
+for e52 to xv/xb/xp/xo/xj/xt/xm/xk/xs
+1. e52 to hindi/bengali/punzabi/odia/telugu/tamil/kannada/sinhala google translation.
+2. translated text -> u10_to_xi -> xv/xb/xp/xo/xj/xt/xm/xk/xs
 ##### steps to chnage this library, update version and publish
 1. du changes and test
     1. write tests to test chages in sometest.test.ts file and sAve in __tests__ tree.
