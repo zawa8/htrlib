@@ -1,3 +1,6 @@
+import translate from 'translate';
+// Optional: Set default options for the translator
+translate.engine = 'google'; // Default fallback engine
 export class hsciistr {
 	// e52 is English (26+26)
 	// u9 : 9 indian writing scripts
@@ -7,59 +10,17 @@ export class hsciistr {
 	// xv(xnglo_hindi) , xb(xnglo_bengali), xp(xnglo_pnzabi), xg(xnglo_guzraji) , xo(xnglo_oriya)
 	// xj(xnglo_telugu) , xt(xnglo_tmil), xm(xnglo_mlyalm), xk(xnglo_knrra) , xs(xnglo_sinhla)
 	// xmr(xnglo_mrathi)
-
-	// Translates this.input (English) into the target language's native
-	// script via Google's public translate endpoint -- no API key, no
-	// npm dependency, ported directly from translet-xnglo's
-	// app/api/translate/route.ts (its "translate" mode).
+	
 	async translate_e52_x(tuarg: string): Promise<string> {
-		if (!this.input) return "";
-		try {
-			const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${tuarg}&dt=t&q=${encodeURIComponent(this.input)}`;
-			const response = await fetch(url);
-			const data = await response.json();
-			const translatedText = data[0]?.map((item: any) => item[0]).join("") || this.input;
-			this.input = translatedText;
-			return translatedText;
-		} catch (error) {
-			console.error("translation failed:", error);
-			throw error;
-		}
-	}
-
-	// Phonetic Latin-script -> native-script transliteration (NOT
-	// translation -- e.g. "namaste" -> "नमस्ते"), word-token by word-token,
-	// via Google's Input Tools endpoint. Ported from translet-xnglo's
-	// app/api/translate/route.ts (its "transliterate" mode).
-	static itc_code_dict: { [key: string]: string } = {
-		hi: "hi-t-i0-und", bn: "bn-t-i0-und", pa: "pa-t-i0-und", gu: "gu-t-i0-und",
-		or: "or-t-i0-und", ta: "ta-t-i0-und", te: "te-t-i0-und", kn: "kn-t-i0-und", ml: "ml-t-i0-und",
-	};
-
-	async transliterate_e52_x(tuarg: string): Promise<string> {
-		if (!this.input) return "";
-		const itcCode = hsciistr.itc_code_dict[tuarg] ?? "hi-t-i0-und";
-		const tokens = this.input.match(/([a-zA-Z]+|[^a-zA-Z]+)/g) || [this.input];
-		const transliteratedTokens: string[] = [];
-		for (const token of tokens) {
-			if (/^[a-zA-Z]+$/.test(token)) {
-				try {
-					const url = `https://inputtools.google.com/request?text=${encodeURIComponent(token)}&itc=${itcCode}&num=1`;
-					const response = await fetch(url);
-					const data = await response.json();
-					const localizedWord = data[1]?.[0]?.[1]?.[0] || token;
-					transliteratedTokens.push(localizedWord);
-				} catch {
-					transliteratedTokens.push(token);
-				}
-			} else {
-				transliteratedTokens.push(token);
+		if (this.input) {
+			try {
+				this.input = await translate(this.input, { from: 'en', to: tuarg });
+			} catch (error) {
+				console.error("translation failed:", error);
+				throw error;
 			}
 		}
-		const result = transliteratedTokens.join("");
-		this.input = result;
-		return result;
-	}
+	}	
 
 	static e52_x38_translatecode_dict: { [key: string]: string } = {
 		xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
@@ -72,7 +33,6 @@ export class hsciistr {
 		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt: 'xt38', xm38: 'xm38', 
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
 	};
-
   input: string;   phrom: string;   tu: string;
   output: { [key: string]: string } = {
 		e23: '', xe38: '', xi38: '',
@@ -81,11 +41,11 @@ export class hsciistr {
 		xs38: ''
   };
 
-  constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi38) {
+  constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi) {
     if ( (phrom in hsciistr.phrom_dikt) && (tu in hsciistr.tu_dikt)) { this.phrom = phrom ; this.tu = tu ; }
 	else {
       this.phrom = hsciistr.phrom_dikt.e52u10 ;
-      this.tu = hsciistr.tu_dikt.xi38 ;
+      this.tu = hsciistr.tu_dikt.xi ;
       console.error("this.phrom/tu not correct allowed this.phrom /tu is in hsciistr.phrom_dikt / hsciistr.tu_dikt") ;
     }
     this.input = "";
@@ -101,39 +61,33 @@ export class hsciistr {
   }
   settostr(tostr: string): hsciistr {
     if (tostr in hsciistr.tu_dikt)  { this.tu = tostr ; } else {
-      this.tu = hsciistr.tu_dikt.xi38 ;
+      this.tu = hsciistr.tu_dikt.xi ;
       console.error("this.tu not correct allowed this.tu is in hsciistr.tu_dikt\n") ;
     }
     return this;
   }
 
-  async duztr(): Promise<hsciistr> {
+  duztr(): hsciistr { //console.log( `in duztr: (input,phrom_arg,tostr)= (${this.input},${this.phrom_arg},${this.tostr})` );
     switch (this.phrom) {
-      case hsciistr.phrom_dikt.u10: this.uL2xin38(); break;
+      // case hsciistr.phrom_dikt.e52: this.e52_tu_e23(); break;
+      // case hsciistr.phrom_dikt.u10: this.uL2xin38(); break;
       case hsciistr.phrom_dikt.e52u10: this.e52_tu_e23(); this.uL2xin38(); break;
       case hsciistr.phrom_dikt.e52:
-        switch (this.tu) {
-          case hsciistr.tu_dikt.e23: this.e52_tu_e23(); break;
-          case hsciistr.tu_dikt.xi38: this.uL2xin38(); break;
-          default:
-            // any xv38/xb38/xp38/xg38/xo38/xt38/xj38/xm38/xk38/xs38/xmr38 target:
-            // translate e52 -> that language's native script, then run the
-            // native-script text through the u10->xi38 converter, and copy
-            // the shared 'xi38' result into this specific output slot.
-            if (this.tu in hsciistr.e52_x38_translatecode_dict) {
-              await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
-              this.uL2xin38();
-              this.output[this.tu] = this.output.xi38;
-            } else {
-              console.error(`duztr: unknown this.tu "${this.tu}" for phrom e52`);
-            }
-            break;
-        }
-        break;
+		switch (this.tu) {
+			case hsciistr.tu_dikt.e23: e52_tu_e23() ; break;
+			case hsciistr.tu_dikt.xi: uL2xin38(); break;
+			case hsciistr.tu_dikt.xv38:
+				await translate_e52_x('hi');
+				uL2xin38();
+				this.output.xv38 = this.output.xi38 ;
+			break;
+		// xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
+		// xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
+		}
+	  break;
     }
     return this;
   }
-
 
 	e52_tu_e23(): void {
 		if (this.input) {
@@ -200,7 +154,7 @@ export class hsciistr {
         if (nekst_ztred_span.textContent) {
           this.input = nekst_ztred_span.textContent;
           this.duztr();
-          nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
+          nekst_ztred_span.textContent = this.output['xi']; /// wery wery important
         }
       }  
     }
@@ -243,7 +197,7 @@ export class hsciistr {
           if (nekst_ztred_span.textContent) {
             this.input = nekst_ztred_span.textContent;
             this.duztr();
-            nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
+            nekst_ztred_span.textContent = this.output['xi']; /// wery wery important
           }
         }
       }
@@ -263,10 +217,7 @@ export class hsciistr {
 
   uL2xin38_pre(): void {
     if (this.input) { // this.input = this.input.toLowerCase();
-      // NOTE: mappings.ts (translet-xnglo) maps क्ष -> "S", this maps it
-      // to "sh" -- a real discrepancy, not yet reconciled. Flagged, not
-      // silently picked either way.
-      this.input = this.input.replace(/([\s\b])क्ष/g, '$1sh').replace(/^क्ष/g, 'sh').replace(/ज्ञ/g, 'gy').replace(/त्र/g, 'jr');
+      this.input = this.input.replace(/([\s\b])क्ष/g, '$1sh').replace(/^क्ष/g, 'sh').replace(/ज्ञ/g, 'gy');
     }
   }
 
@@ -275,7 +226,7 @@ export class hsciistr {
     if (this.input) {
       const inputLength: number = this.input.length;
       //console.log(` start of uL2xin38 , this.input=${this.input} and inputLength is ${inputLength}`);
-      this.output['xi38'] = '';
+      this.output['xi'] = '';
       let indeks: number = 0; let curr_char: string = ''; let nekst_char: string = ''; //| undefined= '';
       let curr_unicodeL: number = 0; let curr_unicode_li: number = 0; let curr_unicode_ki: number = 0;
 
@@ -286,19 +237,19 @@ export class hsciistr {
         curr_unicode_ki = curr_unicodeL % 0x80;
         nekst_char = this.input[indeks + 1];
         if (curr_unicode_li > 0x11 && curr_unicode_li < 0x1b) {
-          this.output['xi38'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
+          this.output['xi'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
         } else if (curr_unicode_li === 0x1b) {
-          this.output['xi38'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
-        } else { this.output['xi38'] += curr_char; }
+          this.output['xi'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
+        } else { this.output['xi'] += curr_char; }
         indeks++;
       }
-      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output[xi]=${this.output.xi38}\n`);
-      this.input = this.output.xi38;
+      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output[xi]=${this.output.xi}\n`);
+      this.input = this.output.xi;
     }
   }
 
   unicode_india_10scripts_to_xnglo_india_post(): void {
-    this.output['xi38'] = this.output['xi38']
+    this.output['xi'] = this.output['xi']
 		.replace(/^#S/, "S")
 		.replace(/(\W)#S/g, "$1S")
 		.replace(/#S/g, "kS")
