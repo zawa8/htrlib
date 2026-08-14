@@ -1,4 +1,5 @@
-remainder,xi,hindi_unicode,bengali_unicode,gurmukhi_unicode,gujarati_unicode,oriya_unicode,tamil_unicode,telugu_unicode,kannada_unicode,malayalam_unicode
+,,U+0900,U+0980,U+0A00,U+0A80,U+0B00,U+0B80,U+0C00,U+0C80,U+0D00
+remainder,xi,hindi,bengali,gurmukhi,gujarati,oriya,tamil,telugu,kannada,malayalam
 0,,ऀ,,,,,,,,
 1,N,ँ,ँ,ँ,ँ,ँ,,ఁ,,,
 2,N,ं,ं,ं,ं,ं,ஂ,ం,ం,ം

@@ -3,7 +3,7 @@ u9 : 9 indian writing scripts
 u10 : 9 indian writing scripts + 1 srilanka writing script
 
 list of xnglo languages :
-xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
+xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali), xmr(xnglo_mrathi)
 xp(xnglo_pnzabi) , xo(xnglo_odia) , xj(xnglo_telugu) , xt(xnglo_tamil)
 xm(xnglo_malayalam) , xk(xnglo_kannada) , xg(xnglo_guzrati) , xs(xnglo_sinhala)
 xi(xnglo_india) is xnglo script for all 10 indian/srilankan languages.
@@ -13,9 +13,9 @@ xnglo script for all xnglo langauges is made up from albhabets present in ./xNgl
 these are 38 : a-z K G C Z T Q J Q N P B R S
 
 this project is to create npmjs typescript library for transformation phrom/tu :
-phrom(e52/u10/e52_u10) -> tu(e23/xe/xi/xv/xb/xp/xo/xj/xt/xm/xk/xs)
+phrom(e52/u10/e52_u10) -> tu(e23/xe/xi/xv/xb/xp/xo/xj/xt/xm/xk/xs/xmr)
 
-for e52->e23 there should be function e52tue23.
+for e52->e23 there should be function e52_tu_e23. it should do transliterate as
 replace("lover", "lwxr"). replace("never", "nxwxr"). replace("vest", "weist"). replace("vine", "wayin"). replace("vary", "wxyri"). replace("vet", "wyt"). replace("v", "w"). replace("j", "z"). replace("q", "k")
 
 for u9 to xi:

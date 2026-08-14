@@ -1,17 +1,44 @@
+import translate from 'translate';
+// Optional: Set default options for the translator
+translate.engine = 'google'; // Default fallback engine
 export class hsciistr {
 	// e52 is English (26+26)
 	// u9 : 9 indian writing scripts
 	// u10 : 9 indian writing scripts + 1 srilanka writing script
-	// xi(xnglo_india) , xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
-	// xi(xnglo_india) , xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali)
-  static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10', e52u10: 'e52u10' };
-  static tu_dikt: { [key: string]: string }  =  {
-  all:'all', xi:'xi', korean:'korean', russian:'russian', hindi:'hindi', bangla:'bangla', gurmukhi:'gurmukhi',
-  guzrati:'guzrati', oriya:'oriya', tamil:'tamil', kannada:'kannada', telugu:'telugu', malayalam:'malayalam', sinhala:'sinhala'
-  };
+	// x38(xnglo_english) e52->x38 will be done using mappings in data/3k_local_copy.tsv
+	// xi(xnglo indik(any 1 of u10 converted to xnglo))
+	// xv(xnglo_hindi) , xb(xnglo_bengali), xp(xnglo_pnzabi), xg(xnglo_guzraji) , xo(xnglo_oriya)
+	// xj(xnglo_telugu) , xt(xnglo_tmil), xm(xnglo_mlyalm), xk(xnglo_knrra) , xs(xnglo_sinhla)
+	// xmr(xnglo_mrathi)
+	
+	async translate_e52_x(tuarg: string): Promise<string> {
+		if (this.input) {
+			try {
+				this.input = await translate(this.input, { from: 'en', to: tuarg });
+			} catch (error) {
+				console.error("translation failed:", error);
+				throw error;
+			}
+		}
+	}	
+
+	static e52_x38_translatecode_dict: { [key: string]: string } = {
+		xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
+		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
+	};
+	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10', e52u10: 'e52u10' };
+	static tu_dikt: { [key: string]: string }  =  {
+		e23: 'e23', xe38: 'xe38', 
+		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38', 
+		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt: 'xt38', xm38: 'xm38', 
+		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
+	};
   input: string;   phrom: string;   tu: string;
-  output_dict: { [key: string]: string } = {
-    xi: '', korean: '', russian: '', hindi: '', bangla: '', gurmukhi: '', guzrati: '', oriya: '', tamil: '', kannada: '', telugu: '', malayalam: '', sinhala: ''
+  output: { [key: string]: string } = {
+		e23: '', xe38: '', xi38: '',
+		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'', 
+		xj38: '', xt38: '', xm38: '', xk38: '',
+		xs38: ''
   };
 
   constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi) {
@@ -45,190 +72,43 @@ export class hsciistr {
       // case hsciistr.phrom_dikt.e52: this.e52_tu_e23(); break;
       // case hsciistr.phrom_dikt.u10: this.uL2xin38(); break;
       case hsciistr.phrom_dikt.e52u10: this.e52_tu_e23(); this.uL2xin38(); break;
+      case hsciistr.phrom_dikt.e52:
+		switch (this.tu) {
+			case hsciistr.tu_dikt.e23: e52_tu_e23() ; break;
+			case hsciistr.tu_dikt.xi: uL2xin38(); break;
+			case hsciistr.tu_dikt.xv38:
+				await translate_e52_x('hi');
+				uL2xin38();
+				this.output.xv38 = this.output.xi38 ;
+			break;
+		// xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
+		// xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
+		}
+	  break;
     }
-    //console.log( `duztr bifore i2l() this.output_dict.xi is ${this.output_dict.xi}. this.input is ${this.input}.` );
-    this.i2l();
     return this;
   }
 
-  Hh2phonetic_hv(): void {
-    if (this.input) {
-      this.input = this.input.replace(/H/g, 'h') .replace(/(\s)h/g, '$1H').replace(/([^kgcztdjqpbs])h/gi, '$1v');
-        // .replace(/([^kgcztdjqpbswटडपबसԃᴛ])h/gi, '$1H');
-    }
-  }
+	e52_tu_e23(): void {
+		if (this.input) {
+		  this.input = this.input.toLowerCase();
+		  this.input = this.input
+			.replace(/lover/g, "lwxr")
+			.replace(/never/g, "nxwxr")
+			.replace(/vest/g, "weist")
+			.replace(/vine/g, "wayin")
+			.replace(/vary/g, "wxyri")
+			.replace(/vet/g, "wyt")
+			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w')
+			.replace(/([a-wyz])x/g, '$1ks')
+			.replace(/\bxi/g, 'zi')
+			.replace(/\bxy/g, 'zai')
+			.replace(/\bxmas/g, 'christmAs')
+			.replace(/\bxr/g, 'xksr')
+			.replace(/\bx/g, 'xks');
+		}
+	}
 
-  Nn2phonetic_N(): void {
-    if (this.input) {
-      this.input = this.input
-		// .replace(/N/g, 'n')
-		.replace(/^#S/, "S");
-		.replace(/(\W)#S/g, "$1S");
-		.replace(/#S/g, "kS");
-		.replace(/^_/, "");
-		.replace(/(\W)_/g, "$1");
-		.replace(/([aiueo])_/g, "$1");
-		.replace(/_i/g, "yi").replace(/_e/g, "ye").replace(/_u/g, "xu");
-		.replace(/N$/, "");
-		.replace(/N(\W)/g, "$1");
-		.replace(/Nb/g, "mb").replace(/NB/g, "mB").replace(/Np/g, "mp").replace(/Nf/g, "mf");
-		.replace(/N(?![kKgG])/g, "n");
-        // .replace(/n([cgk])\b/gi, 'ṅ$1')
-        // .replace(/\bn/gi, 'ñ')
-        // .replace(/([a-z])nk/gi, '$1ṅk')
-        // .replace(/oung/gi, 'ouṅg')
-        // .replace(/ginge/gi, 'giñge')
-        // .replace(/([ht])inge/gi, '$1iñge')
-        // .replace(/([fyc])ring/gi, '$1riñg')
-        // .replace(/engin/gi, 'eñgin')
-        // .replace(/ngth/gi, 'ñgth')
-        // .replace(/ange([^dr])/gi, 'añge$1')
-        // .replace(/\bt([ai])ng([ei])/gi, 't$1ñg$2')
-        // .replace(/\bangi/gi, 'añgi')
-        // .replace(/inge/gi, 'iñge')
-        // .replace(/ing/gi, 'iṅg')
-        // .replace(/nge\b/gi, 'ñge')
-        // .replace(/ngel/gi, 'ñgel')
-        // .replace(/([dr])ang([ei])/gi, '$1añg$2')
-        // .replace(/([lv])eng/gi, '$1eñg')
-        // .replace(/chang([ei])/gi, 'chañg$1')
-        // .replace(/sseng/gi, 'sseñg')
-        // .replace(/nger/gi, 'ṅger')
-        // .replace(/([a-z])ng/gi, '$1ṅg')
-        // .replace(/sync/gi, 'syṅc')
-        // .replace(/anchor/gi, 'aṅchor')
-        // .replace(/linco/gi, 'liṅco')
-        // .replace(/sincl/gi, 'siṅcl')
-        // .replace(/\buncle(s?)\b/gi, 'uṅcle$1')
-        // .replace(/menco/gi, 'meṅco')
-        // .replace(/([iu])nct/gi, '$1ṅct')
-        // .replace(/nc([hyei])/gi, 'ñc$1')
-        // .replace(/inc([^hueioay])/gi, 'iṅc$1')
-        // .replace(/inc([aeiou])/gi, 'iñc$1')
-        // .replace(/([a-z])unc([^hyei])/gi, '$1uṅc$2')
-        // .replace(/enc([^eiyh])/gi, 'eñc$1')
-        // .replace(/([ao])nc([^hyei])/gi, '$1ṅc$2')
-        // .replace(/ṅ/g, 'N')
-        // .replace(/ñ/g, 'n');
-    }
-  }
-
-  Ww2vv(): void {
-    if (this.input) {
-      this.input = this.input
-        .replace(/W/g, 'w')
-        // .replace(/away/gi, 'àⱱày')
-        // .replace(/war([ey])/gi, 'ⱱàr$1')
-        // .replace(/wa([nrs])/gi, 'ⱱα$1')
-        // .replace(/who/gi, 'ẃहo')
-        // .replace(/wr/gi, 'ẃr')
-        // .replace(/\bw/gi, 'ⱱ')
-        // .replace(/w\b/gi, 'ẃ')
-        // .replace(/swer/gi, 'sẃer')
-        // .replace(/two/gi, 'tẃo')
-        // .replace(/([^aeo])w/gi, '$1ⱱ')
-        // .replace(/\baw([^efknr])/gi, 'àⱱ$1')
-        // .replace(/aw([efknr])/gi, 'αẃ$1')
-        // .replace(/([a-z])aw/gi, '$1αẃ')
-        // .replace(/([eo])w/gi, '$1ẃ')
-        // .replace(/ẃ/g, 'w')
-        // .replace(/ⱱ/g, 'W')
-		;
-    }
-  }
-
-  Aa2phonetic_Aa(): void {
-    if (this.input) {
-      this.input = this.input
-        .replace(/A/g, 'a')
-        // .replace(/aft/gi, 'αft')
-        // .replace(/aw([kf\s])/gi, 'αw$1')
-        // .replace(/\bar([cekmst])\b/gi, 'αr$1')
-        // .replace(/guar/gi, 'guαr')
-        // .replace(/ijab/gi, 'ijαb')
-        // .replace(/ebab/gi, 'ebαb')
-        // .replace(/ihad/gi, 'iHαԃ')
-        // .replace(/ia([ck])/gi, 'iα$1')
-        // .replace(/\ba/gi, 'à')
-        // .replace(/ai\b/g, 'αi')
-        // .replace(/uar([bce-su-z])/gi, 'uàr$1')
-        // .replace(/([a-z])a\b/gi, '$1α')
-        // .replace(/a([w])\b/gi, 'α$1')
-        // .replace(/\ba([ntsmd])\b/gi, 'à$1')
-        // .replace(/ar([aiey])/gi, 'àr$1')
-        // .replace(/([^uheio\s])arre([^lasn])/gi, '$1αrre$2')
-        // .replace(/([eio\s])ar/gi, '$1àr')
-        // .replace(/i([lgn])ar([^y])/gi, 'i$1αr$2')
-        // .replace( /([^beiuohlgn])ar([^y])/gi, '$1αr$2' )
-        // .replace(/bar([^oiuer])/gi, 'bαr$1')
-        // .replace( /era([\b\s])/gi, 'erα$1' )
-        // .replace(/([bcdfह\b\s])all([^yo])/gi, '$1αll$2')
-        // .replace(/ava/gi, 'αvα')
-        // .replace(/([^\b\soe])ard/gi, '$1αrd')
-        // .replace(/([ag])raph/gi, '$1rαph')
-        // .replace(/las([skmt])/gi, 'lαs$1')
-		;
-    }
-  }
-
-  e52_tu_e23(): void {
-    if (this.input) {
-      this.input = this.input.toLowerCase();
-	  this.input = this.input.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w')
-        .replace(/([a-wyz])x/g, '$1ks')
-        .replace(/\bxi/g, 'zi')
-        .replace(/\bxy/g, 'zai')
-        .replace(/\bxmas/g, 'christmAs')
-        .replace(/\bxr/g, 'xksr')
-        .replace(/\bx/g, 'xks'); //α/g,'A').replace();
-      // this.output_dict["xi"] = this.input ; // wiml
-      // console.log("e52_tu_e23::e52_tu_e23 this.output_dict[xi] is: \n" + this.output_dict["xi"] + "\n");
-    }
-  }
-
-  // i2l(): void {
-    // console.log(`begin i2l() this.input is ${this.input}. this.output_dict.xi is ${this.output_dict.xi}`);
-    // const inputLength: number = this.input.length;
-    // let indeks: number = 0;
-    // let curr_chr: string = '';
-    // let curr_chr_indeks_in_hinchars = -1;
-    // // output_dict.xi keeps the raw single-letter hscii markers (t/T/d/D/j/J/q/Q)
-    // // rather than expanding them into th/dh/Th/Dh digraphs - the hscii font glyphs
-    // // (englosoftw8) already carry that aspirated look visually, so the text layer
-    // // doesn't need to spell it out.
-    // this.output_dict.xi = this.input;
-    // if('xi' === this.tu) {
-      // console.log( 'this.tur is xi , so returning phrom i2l()' );
-      // return ;
-    // }
-
-    // while (indeks < inputLength) {
-      // curr_chr = this.input[indeks];
-      // curr_chr_indeks_in_hinchars = this.hinchars.indexOf(curr_chr);
-      // switch (this.tu) {
-        // // case 'xi': break;
-        // case 'all':
-          // for (const key in this.i2l_dikt) {
-            // if (curr_chr_indeks_in_hinchars > -1) {
-              // this.output_dict[key] += this.i2l_dikt[key][curr_chr_indeks_in_hinchars];
-            // } else {
-              // this.output_dict[key] += curr_chr;
-            // }
-          // }
-          // break;
-
-        // default:
-          // if (this.tu in this.i2l_dikt) {
-            // if (curr_chr_indeks_in_hinchars > -1) {
-              // this.output_dict[this.tu] += this.i2l_dikt[this.tu][curr_chr_indeks_in_hinchars];
-            // } else {
-              // this.output_dict[this.tu] += curr_chr;
-            // }
-          // }
-      // }
-      // indeks++;
-    // }
-  // }
   // https://phuoc.ng/collection/this-vs-that/node-iterator-vs-tree-walker/ shadow
   transliterate_tekst_nodes(node: Node) {
     let dikt_pair_list: Array<{ tekstNode: Node | null; start: number }> = [];
@@ -274,7 +154,7 @@ export class hsciistr {
         if (nekst_ztred_span.textContent) {
           this.input = nekst_ztred_span.textContent;
           this.duztr();
-          nekst_ztred_span.textContent = this.output_dict['xi']; /// wery wery important
+          nekst_ztred_span.textContent = this.output['xi']; /// wery wery important
         }
       }  
     }
@@ -317,7 +197,7 @@ export class hsciistr {
           if (nekst_ztred_span.textContent) {
             this.input = nekst_ztred_span.textContent;
             this.duztr();
-            nekst_ztred_span.textContent = this.output_dict['xi']; /// wery wery important
+            nekst_ztred_span.textContent = this.output['xi']; /// wery wery important
           }
         }
       }
@@ -334,44 +214,6 @@ export class hsciistr {
       }
     }
   }
-  // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
-  // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsHA';
-  // i2l_dikt: { [key: string]: string } = {
-    // hindi: 'कखजझटठडढतथदधनपफबभमयरलशसहअव',
-    // bangla: 'কখজঝটঠডঢতথদধনপফবভমযরলশসহঅw',
-    // gurmukhi: 'ਕਖਜਝਟਠਡਢਤਥਦਧਨਪਫਬਭਮਯਰਲਸ਼ਸਹਅਵ',
-    // guzrati: 'કખજઝટઠડઢતથદધનપફબભમયરલશસહઅવ',
-    // oriya: 'କଖଜଝଟTଡଢତଥଦଧନପଫବଭମଯରଲଶସହଅଵ',
-    // telugu: 'కఖజఝటఠడఢతథదధనపఫబభమయరలశసహఅవ',
-    // kannada: 'ಕಖಜಝಟಠಡಢತಥದಧನಪಫಬಭಮಯರಲಶಸಹಅವ',
-    // malayalam: 'കഖജഝടഠഡഢതഥദധനപഫബഭമയരലശസഹഅവ',
-    // sinhala: 'කඛජඣටඨඩඪතථදධනපඵබභමයරලශසහඅව',
-    // tamil: 'கKஜZடTdDதJqQநபfbBமயரலஶஸஹஅவ',
-    // korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐w',
-    // russian: 'kKzZtTдДтТдДнпфбБмйрлщшHAw'
-  // };
-
-  xvjqK2hindi(): hsciistr {
-    this.set_input(
-      this.input.replace(/q/g, 'द').replace(/j/g, 'त').replace(/Q/g, 'ध').replace(/J/g, 'थ').replace(/K/g, 'ख')
-      .replace(/Z/g, 'झ').replace(/T/g, 'ठ').replace(/D/g, 'ढ').replace(/B/g, 'भ').replace(/S/g, 'श').replace(/x/g, 'अ').replace(/v/g, 'ह')
-    );
-    return this;
-  }
-
-  kh2soft() {
-    this.set_input(
-      this.input.replace(/([kztdjqbs])h/g, '$1___')
-        .replace(/q___/g, 'ध')
-        .replace(/j___/g, 'थ')
-        .replace(/k___/g, 'ख')
-        .replace(/z___/g, 'झ')
-        .replace(/t___/g, 'ठ')
-        .replace(/d___/g, 'ढ')
-        .replace(/b___/g, 'भ')
-        .replace(/s___/g, 'श'));
-    return this;
-  }
 
   uL2xin38_pre(): void {
     if (this.input) { // this.input = this.input.toLowerCase();
@@ -384,7 +226,7 @@ export class hsciistr {
     if (this.input) {
       const inputLength: number = this.input.length;
       //console.log(` start of uL2xin38 , this.input=${this.input} and inputLength is ${inputLength}`);
-      this.output_dict['xi'] = '';
+      this.output['xi'] = '';
       let indeks: number = 0; let curr_char: string = ''; let nekst_char: string = ''; //| undefined= '';
       let curr_unicodeL: number = 0; let curr_unicode_li: number = 0; let curr_unicode_ki: number = 0;
 
@@ -395,19 +237,19 @@ export class hsciistr {
         curr_unicode_ki = curr_unicodeL % 0x80;
         nekst_char = this.input[indeks + 1];
         if (curr_unicode_li > 0x11 && curr_unicode_li < 0x1b) {
-          this.output_dict['xi'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
+          this.output['xi'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
         } else if (curr_unicode_li === 0x1b) {
-          this.output_dict['xi'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
-        } else { this.output_dict['xi'] += curr_char; }
+          this.output['xi'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
+        } else { this.output['xi'] += curr_char; }
         indeks++;
       }
-      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output_dict[xi]=${this.output_dict.xi}\n`);
-      this.input = this.output_dict.xi;
+      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output[xi]=${this.output.xi}\n`);
+      this.input = this.output.xi;
     }
   }
 
   unicode_india_10scripts_to_xnglo_india_post(): void {
-    this.output_dict['xi'] = this.output_dict['xi']
+    this.output['xi'] = this.output['xi']
 		.replace(/^#S/, "S")
 		.replace(/(\W)#S/g, "$1S")
 		.replace(/#S/g, "kS")
