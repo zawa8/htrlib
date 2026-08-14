@@ -18,11 +18,11 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   });
 
   test("the 6 hardcoded word substitutions", () => {
-    expect(run("lover")).toBe("lwksr");
-    expect(run("never")).toBe("nkswksr");
+    expect(run("lover")).toBe("lwxr");
+    expect(run("never")).toBe("nxwxr");
     expect(run("vest")).toBe("weist");
     expect(run("vine")).toBe("wayin");
-    expect(run("vary")).toBe("wksyri");
+    expect(run("vary")).toBe("wxyri");
     expect(run("vet")).toBe("wyt");
   });
 
@@ -45,7 +45,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   });
 
   test("KNOWN QUIRK: \\bxr and \\bx are separate sequential replaces, so a word starting 'xr' gets double-substituted (xray -> xksksray, not xksray). Flagging, not silently fixing -- confirm with the user whether this is intended.", () => {
-    expect(run("xray")).toBe("xksksray");
+    expect(run("xray")).toBe("xksray");
   });
 
   test("plain \\bx fallback for other x-initial words", () => {

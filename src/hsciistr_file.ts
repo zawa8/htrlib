@@ -139,19 +139,19 @@ export class hsciistr {
 		if (this.input) {
 		  this.input = this.input.toLowerCase();
 		  this.input = this.input
+			.replace(/([a-wyz])x/g, '$1ks')
+			.replace(/\bxi/g, 'zi')
+			.replace(/\bxy/g, 'zai')
+			.replace(/\bxmas/g, 'christmAs')
+			.replace(/\bxr/g, 'xksr')
+			.replace(/\bx/g, 'xks')
 			.replace(/lover/g, "lwxr")
 			.replace(/never/g, "nxwxr")
 			.replace(/vest/g, "weist")
 			.replace(/vine/g, "wayin")
 			.replace(/vary/g, "wxyri")
 			.replace(/vet/g, "wyt")
-			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w')
-			.replace(/([a-wyz])x/g, '$1ks')
-			.replace(/\bxi/g, 'zi')
-			.replace(/\bxy/g, 'zai')
-			.replace(/\bxmas/g, 'christmAs')
-			.replace(/\bxr/g, 'xksr')
-			.replace(/\bx/g, 'xks');
+			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w');
 		}
 	}
 
