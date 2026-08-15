@@ -114,7 +114,12 @@ export class hsciistr {
       case hsciistr.phrom_dikt.e52:
         switch (this.tu) {
           case hsciistr.tu_dikt.e23: this.e52_tu_e23(); break;
-          case hsciistr.tu_dikt.xi38: this.uL2xin38(); break;
+          // case hsciistr.tu_dikt.xi38: this.uL2xin38(); break;
+          case hsciistr.tu_dikt.xe38:
+			await this.transliterate_e52_x('pa') ;
+			this.uL2xin38();
+			this.output.xe38 = this.output.xi38;
+		  break;
           default:
             // any xv38/xb38/xp38/xg38/xo38/xt38/xj38/xm38/xk38/xs38/xmr38 target:
             // translate e52 -> that language's native script, then run the
