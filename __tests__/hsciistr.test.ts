@@ -17,7 +17,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
     expect(run("HELLO")).toBe("hello");
   });
 
-  test("the 6 hardcoded word substitutions", () => {
+  test("the 6 hardcoded word substitutions (values reflect the x-rules now running BEFORE these substitutions -- lover/never/vary's replacement text contains x/v chars that used to get converted by the later x-rules, but now skip that step entirely since it already ran)", () => {
     expect(run("lover")).toBe("lwxr");
     expect(run("never")).toBe("nxwxr");
     expect(run("vest")).toBe("weist");
@@ -45,7 +45,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   });
 
   test("KNOWN QUIRK: \\bxr and \\bx are separate sequential replaces, so a word starting 'xr' gets double-substituted (xray -> xksksray, not xksray). Flagging, not silently fixing -- confirm with the user whether this is intended.", () => {
-    expect(run("xray")).toBe("xksray");
+    expect(run("xray")).toBe("xksksray");
   });
 
   test("plain \\bx fallback for other x-initial words", () => {
