@@ -69,7 +69,7 @@ export class hsciistr {
 	static tu_dikt: { [key: string]: string }  =  {
 		e23: 'e23', xe38: 'xe38', 
 		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38', 
-		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt: 'xt38', xm38: 'xm38', 
+		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38', 
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
 	};
 
@@ -86,7 +86,7 @@ export class hsciistr {
 	else {
       this.phrom = hsciistr.phrom_dikt.e52u10 ;
       this.tu = hsciistr.tu_dikt.xi38 ;
-      console.error("this.phrom/tu not correct allowed this.phrom /tu is in hsciistr.phrom_dikt / hsciistr.tu_dikt") ;
+      console.error("aiqxr ",phrom," not in ",hsciistr.phrom_dikt," or ", tu," not in ", hsciistr.tu_dikt,"\n") ;
     }
     this.input = "";
   }
@@ -95,14 +95,14 @@ export class hsciistr {
   set_phrom(phrom_arg: string): hsciistr {
     if (phrom_arg in hsciistr.phrom_dikt)  { this.phrom = phrom_arg ; } else {
       this.phrom = hsciistr.phrom_dikt.e52u10 ;
-      console.error("this.phrom not correct allowed this.phrom is in hsciistr.phrom_dikt\n") ;
+      console.error(phrom_arg," not in ",hsciistr.phrom_dikt,"\n") ;
     }
     return this;
   }
-  settostr(tostr: string): hsciistr {
-    if (tostr in hsciistr.tu_dikt)  { this.tu = tostr ; } else {
+  set_tu(tu_arg: string): hsciistr {
+    if (tu_arg in hsciistr.tu_dikt)  { this.tu = tu_arg ; } else {
       this.tu = hsciistr.tu_dikt.xi38 ;
-      console.error("this.tu not correct allowed this.tu is in hsciistr.tu_dikt\n") ;
+      console.error(tu_arg," not in ",hsciistr.tu_dikt,"\n") ;
     }
     return this;
   }
@@ -139,12 +139,19 @@ export class hsciistr {
 		if (this.input) {
 		  this.input = this.input.toLowerCase();
 		  this.input = this.input
-			.replace(/([a-wyz])x/g, '$1ks')
+			.replace(/([aiueo])xx/g, '$1ks')
+			.replace(/xce/g, 'kse')
+			.replace(/xca/g, 'ksa')
+			.replace(/xci/g, 'ksai')
+			.replace(/xcu/g, 'kskyu')
 			.replace(/\bxi/g, 'zi')
 			.replace(/\bxy/g, 'zai')
-			.replace(/\bxmas/g, 'christmAs')
-			.replace(/\bxr/g, 'xksr')
-			.replace(/\bx/g, 'xks')
+			.replace(/xy/g, 'ksi')
+			// .replace(/\bxmas/g, 'xksmas')
+			// .replace(/\bxr/g, 'xksr')
+			.replace(/\bx([aiueo])/g, 'z$1')
+			.replace(/\bx/g, 'eks')
+			.replace(/([a-wyz])x/g, '$1ks')
 			.replace(/lover/g, "lwxr")
 			.replace(/never/g, "nxwxr")
 			.replace(/vest/g, "weist")
@@ -266,7 +273,8 @@ export class hsciistr {
       // NOTE: mappings.ts (translet-xnglo) maps क्ष -> "S", this maps it
       // to "sh" -- a real discrepancy, not yet reconciled. Flagged, not
       // silently picked either way.
-      this.input = this.input.replace(/([\s\b])क्ष/g, '$1sh').replace(/^क्ष/g, 'sh').replace(/ज्ञ/g, 'gy').replace(/त्र/g, 'jr');
+      this.input = this.input.replace(/([\b\s])क्ष/g, '$1s').replace(/^क्ष/g, 's').replace(/ज्ञ/g, 'gy');
+										// .replace(/त्र/g, 'jr');
     }
   }
 
@@ -305,6 +313,7 @@ export class hsciistr {
 		.replace(/^_/, "")
 		.replace(/(\W)_/g, "$1")
 		.replace(/([aiueo])_/g, "$1")
+		// .replace(/_a/g, "a").
 		.replace(/_i/g, "yi").replace(/_e/g, "ye").replace(/_u/g, "xu")
 		.replace(/N$/, "")
 		.replace(/N(\W)/g, "$1")
@@ -320,7 +329,7 @@ export class hsciistr {
       ':', // 	ः	903	2307		visarga
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
       'x', // 	अ	905	2309	vovls
-      'xa', // 	आ  àα	906	2310	vovls
+      'a', // 	आ  àα	906	2310	vovls
       '_i', // 	इ	907	2311	vovls
       '_i', // 	ई	908	2312	vovls
       '_u', // 	उ	909	2313	vovls
@@ -378,19 +387,19 @@ export class hsciistr {
       '!', // 	ऽ	93D	2365		Avagraha
       'a', // 	ा α	93E	2366	vvs
       'i', // 	ि	93F	2367	vvs
-      'ii', // 	ी	940	2368	vvs
+      'i', // 	ी	940	2368	vvs
       'u', // 	ु	941	2369	vvs
-      'uu', // 	ू	942	2370	vvs
+      'u', // 	ू	942	2370	vvs
       'ri', // 	ृ	943	2371	vvs
       'r', // 	ॄ	944	2372
       'e', // 	ॅ	945	2373		candra e
-      'ei', // 	ॆ	946	2374		short e
+      'e', // 	ॆ	946	2374		short e
       'e', // 	े	947	2375
-      'ei', // 	ै	948	2376
+      'ye', // 	ै	948	2376
       'o', // 	ॉ	949	2377		candra o
       'oe', // 	ॊ	94A	2378		short o
       'o', // 	ो	94B	2379	vvs
-      'xu', // 	ौ	94C	2380	vvs
+      'ou', // 	ौ	94C	2380	vvs
       '', // 	्	94D	2381	virama	VIRAMA halant suppresses inherent vowel
       '', // 	ॎ	94E	2382		prishthamatra e , combines with e to form ai, with aa to form o,and with o to form au
       'ou', // 	ॏ	94F	2383		aw
@@ -547,7 +556,7 @@ export class hsciistr {
       'ri', // dd8= sinhala vowel sign vocalic r
       'e', // dd9= sinhala vowel sign e
       'e', // dda= sinhala vowel sign ee
-      'ei', // ddb= sinhala vowel sign ai
+      'ye', // ddb= sinhala vowel sign ai
       'o', // ddc= sinhala vowel sign o
       'o', // ddd= sinhala vowel sign oo
       'o', // dde= sinhala vowel sign au

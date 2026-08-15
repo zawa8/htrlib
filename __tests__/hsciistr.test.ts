@@ -14,7 +14,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   };
 
   test("lowercases input", () => {
-    expect(run("HELLO")).toBe("hello");
+    expect(run("HELLO violet")).toBe("hello wiolet");
   });
 
   test("the 6 hardcoded word substitutions (values reflect the x-rules now running BEFORE these substitutions -- lover/never/vary's replacement text contains x/v chars that used to get converted by the later x-rules, but now skip that step entirely since it already ran)", () => {
@@ -39,17 +39,22 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   });
 
   test("word-initial x variants", () => {
-    expect(run("xit")).toBe("zit"); // \bxi -> zi
+    expect(run("x exxon")).toBe("eks ekson"); // \bxi -> zi
+    expect(run("xit xylophone")).toBe("zit zailophone"); // \bxi -> zi
     expect(run("xylophone")).toBe("zailophone"); // \bxy -> zai
-    expect(run("xmas")).toBe("christmAs"); // \bxmas -> christmAs
-  });
-
-  test("KNOWN QUIRK: \\bxr and \\bx are separate sequential replaces, so a word starting 'xr' gets double-substituted (xray -> xksksray, not xksray). Flagging, not silently fixing -- confirm with the user whether this is intended.", () => {
-    expect(run("xray")).toBe("xksksray");
-  });
-
-  test("plain \\bx fallback for other x-initial words", () => {
-    expect(run("xkcd")).toBe("xkskcd");
+    expect(run("xmas")).toBe("eksmas"); // \bxmas -> christmAs
+	expect(run("xray")).toBe("eksray");
+	expect(run("xander")).toBe("zander");
+	expect(run("oxygen")).toBe("oksigen");
+	expect(run("xiao xena")).toBe("ziao zena");
+	expect(run("xena xena")).toBe("zena zena");
+	expect(run("xkcd")).toBe("ekskcd");
+	expect(run("x xkcd x")).toBe("eks ekskcd eks");
+	expect(run("excel")).toBe("eksel");
+	expect(run("exceed")).toBe("ekseed");
+	expect(run("excellent")).toBe("eksellent");
+	expect(run("excite")).toBe("eksaite");
+	expect(run("excuse")).toBe("ekskyuse");
   });
 
   test("no-op on empty input", () => {
@@ -70,24 +75,26 @@ describe("uL2xin38 (Devanagari u9/u10 -> xi38)", () => {
 
   test("अनार (pomegranate) -> xnar", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("अनार")).toBe("xnar");
+    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouQa lgana xjynj SuB mana gya vye");
   });
 
   test("नमस्ते -> nmsje", () => {
-    expect(run("नमस्ते")).toBe("nmsje");
+    expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsje? jelNgan (luQiana)");
   });
 
   test("ligatures: त्र -> jr, ज्ञ -> gy", () => {
-    expect(run("त्र")).toBe("jr");
+    expect(run("त्र ज्ञ हिंदी में श्रुति लेख")).toBe("jr gy vinqi me Sruji leK");
+    expect(run("हिंदी में क्षत्रिय कक्षा कैसे लिखते हैं")).toBe("vinqi me sjriy kksa kyese liKje vye");
     expect(run("ज्ञ")).toBe("gy");
   });
 
   test("क्ष currently -> sh (NOTE: mappings.ts maps this to 'S' -- open discrepancy, not yet reconciled; this test documents CURRENT behavior, not necessarily correct behavior)", () => {
-    expect(run("क्ष")).toBe("sh");
+    expect(run("क्ष क्ष कक्षा कक्ष")).toBe("s s kksa kks");
   });
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
-    expect(run("कंबल")).toBe("kmbl");
+    expect(run("कंबल रंग ")).toBe("kmbl rNg ");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur our xNgiTi qono Sbq Suru voje vye. in qono Sbqo ka wiwrn nice qiya gya vye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {
@@ -122,10 +129,10 @@ describe("duztr() dispatch", () => {
 
   test("phrom=e52u10 runs e52_tu_e23 then uL2xin38 (ASCII passes through unicode step untouched)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xi38);
-    h.set_input("Vine");
+    h.set_input("Vine अनार");
     await h.duztr();
-    expect(h.input).toBe("wayin");
-    expect(h.output.xi38).toBe("wayin");
+    expect(h.input).toBe("wayin xnar");
+    expect(h.output.xi38).toBe("wayin xnar");
   });
 
   test("phrom=e52, tu=e23 transliterates without touching output dict", async () => {
@@ -138,16 +145,16 @@ describe("duztr() dispatch", () => {
 
 describe("constructor validation / fallback", () => {
   test("invalid phrom/tu falls back to e52u10 / xi38 defaults", () => {
-    const h = new hsciistr("not_a_real_phrom", "not_a_real_tu");
+    const h = new hsciistr("bogus", "bogxs");
     expect(h.phrom).toBe(hsciistr.phrom_dikt.e52u10);
     expect(h.tu).toBe(hsciistr.tu_dikt.xi38);
   });
 
-  test("set_phrom / settostr also fall back on invalid values", () => {
+  test("set_phrom / set_tu also fall back on invalid values", () => {
     const h = new hsciistr();
     h.set_phrom("bogus");
     expect(h.phrom).toBe(hsciistr.phrom_dikt.e52u10);
-    h.settostr("bogus");
+    h.set_tu("bogus");
     expect(h.tu).toBe(hsciistr.tu_dikt.xi38);
   });
 });
