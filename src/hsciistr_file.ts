@@ -109,8 +109,15 @@ export class hsciistr {
 
   async duztr(): Promise<hsciistr> {
     switch (this.phrom) {
-      case hsciistr.phrom_dikt.u10: this.uL2xin38(); break;
-      case hsciistr.phrom_dikt.e52u10: this.e52_tu_e23(); this.uL2xin38(); break;
+      case hsciistr.phrom_dikt.u10:
+        this.uL2xin38();
+        this.output[this.tu] = this.output.xi38;
+        break;
+      case hsciistr.phrom_dikt.e52u10:
+        this.e52_tu_e23();
+        this.uL2xin38();
+        this.output[this.tu] = this.output.xi38;
+        break;
       case hsciistr.phrom_dikt.e52:
         switch (this.tu) {
           case hsciistr.tu_dikt.e23: this.e52_tu_e23(); break;
@@ -610,4 +617,3 @@ export class hsciistr {
   };
 
 }
-
