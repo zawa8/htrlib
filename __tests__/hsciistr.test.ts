@@ -127,6 +127,21 @@ describe("duztr() dispatch", () => {
     expect(h.output.xi38).toBe("xnar");
   });
 
+  test("GAP FIX: phrom=u10 with a specific target (xv38) also copies the xi38 result into that slot, not just output.xi38", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xv38);
+    h.set_input("अनार");
+    await h.duztr();
+    expect(h.output.xv38).toBe("xnar");
+    expect(h.output.xi38).toBe("xnar");
+  });
+
+  test("GAP FIX: phrom=e52u10 with a specific target (xv38) also copies into that slot", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xv38);
+    h.set_input("Vine अनार");
+    await h.duztr();
+    expect(h.output.xv38).toBe("wayin xnar");
+  });
+
   test("phrom=e52u10 runs e52_tu_e23 then uL2xin38 (ASCII passes through unicode step untouched)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xi38);
     h.set_input("Vine अनार");
@@ -140,6 +155,28 @@ describe("duztr() dispatch", () => {
     h.set_input("vet");
     await h.duztr();
     expect(h.input).toBe("wyt");
+  });
+
+  test("phrom=e52, tu=xe38: routes through transliterate_e52_x('pa') (Punjabi) -> uL2xin38 -> output.xe38, NOT translate_e52_x. We cannot change what the real Google API returns, so this mocks the API boundary and verifies OUR pipeline wiring (right endpoint, right language code, right native-script text fed into uL2xin38, right output slot) -- not the linguistic quality of Google's transliteration itself.", async () => {
+    const realFetch = global.fetch;
+    global.fetch = jest.fn().mockResolvedValue({
+      json: async () => [null, [["namaste", ["ਨਮਸਤੇ"]]]],
+    }) as any;
+
+    const h = new hsciistr(hsciistr.phrom_dikt.e52, hsciistr.tu_dikt.xe38);
+    h.set_input("namaste");
+    await h.duztr();
+
+    // confirms transliterate (Input Tools), not translate (Translate API), was used
+    const calledUrl = (global.fetch as jest.Mock).mock.calls[0][0] as string;
+    expect(calledUrl).toContain("inputtools.google.com/request");
+    expect(calledUrl).toContain("itc=pa-t-i0-und");
+
+    // confirms the native-script result got fed through uL2xin38 into output.xe38
+    expect(h.output.xe38).toBe(h.output.xi38);
+    expect(h.output.xe38.length).toBeGreaterThan(0);
+
+    global.fetch = realFetch;
   });
 });
 
