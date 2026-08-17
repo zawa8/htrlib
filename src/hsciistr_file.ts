@@ -1,226 +1,194 @@
 export class hsciistr {
-  istr: string;
-  static from_dikt: { [key: string]: string }  =  { 
-    ascii: 'ascii',
-    indikunicode: 'indikunicode',
-    ascii_and_indik: 'ascii_and_indik'
-  };
-  static tu_dikt: { [key: string]: string }  =  {
-  all:'all', inglish:'inglish', korean:'korean', russian:'russian', hindi:'hindi', bangla:'bangla', gurmukhi:'gurmukhi',
-  guzrati:'guzrati', oriya:'oriya', tamil:'tamil', kannada:'kannada', telugu:'telugu', malayalam:'malayalam', sinhala:'sinhala'
-  };
-  ostrdict: { [key: string]: string } = {
-    inglish: '', korean: '', russian: '', hindi: '', bangla: '', gurmukhi: '', guzrati: '', oriya: '', tamil: '', kannada: '', telugu: '', malayalam: '', sinhala: ''
-  };
-  from: string;
-  tu: string;
+	// e52 is English (26+26)
+	// u9 : 9 indian writing scripts
+	// u10 : 9 indian writing scripts + 1 srilanka writing script
+	// x38(xnglo_english) e52->x38 will be done using mappings in data/3k_local_copy.tsv
+	// xi(xnglo indik(any 1 of u10 converted to xnglo))
+	// xv(xnglo_hindi) , xb(xnglo_bengali), xp(xnglo_pnzabi), xg(xnglo_guzraji) , xo(xnglo_oriya)
+	// xj(xnglo_telugu) , xt(xnglo_tmil), xm(xnglo_mlyalm), xk(xnglo_knrra) , xs(xnglo_sinhla)
+	// xmr(xnglo_mrathi)
 
-  constructor(from=hsciistr.from_dikt.ascii_and_indik, tu=hsciistr.tu_dikt.inglish) {
-    if ( (from in hsciistr.from_dikt) && (tu in hsciistr.tu_dikt)) {
-      this.from = from ; 
-      this.tu = tu ;
-    } else {
-      this.from = hsciistr.from_dikt.ascii_and_indik ;
-      this.tu = hsciistr.tu_dikt.inglish ;
-      console.error("this.from/tu not correct allowed this.from /tu is in hsciistr.from_dikt / hsciistr.tu_dikt") ;
+	// Translates this.input (English) into the target language's native
+	// script via Google's public translate endpoint -- no API key, no
+	// npm dependency, ported directly from translet-xnglo's
+	// app/api/translate/route.ts (its "translate" mode).
+	async translate_e52_x(tuarg: string): Promise<string> {
+		if (!this.input) return "";
+		try {
+			const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${tuarg}&dt=t&q=${encodeURIComponent(this.input)}`;
+			const response = await fetch(url);
+			const data = await response.json();
+			const translatedText = data[0]?.map((item: any) => item[0]).join("") || this.input;
+			this.input = translatedText;
+			return translatedText;
+		} catch (error) {
+			console.error("translation failed:", error);
+			throw error;
+		}
+	}
+
+	// Phonetic Latin-script -> native-script transliteration (NOT
+	// translation -- e.g. "namaste" -> "नमस्ते"), word-token by word-token,
+	// via Google's Input Tools endpoint. Ported from translet-xnglo's
+	// app/api/translate/route.ts (its "transliterate" mode).
+	static itc_code_dict: { [key: string]: string } = {
+		hi: "hi-t-i0-und", bn: "bn-t-i0-und", pa: "pa-t-i0-und", gu: "gu-t-i0-und",
+		or: "or-t-i0-und", ta: "ta-t-i0-und", te: "te-t-i0-und", kn: "kn-t-i0-und", ml: "ml-t-i0-und",
+	};
+
+	async transliterate_e52_x(tuarg: string): Promise<string> {
+		if (!this.input) return "";
+		const itcCode = hsciistr.itc_code_dict[tuarg] ?? "hi-t-i0-und";
+		const tokens = this.input.match(/([a-zA-Z]+|[^a-zA-Z]+)/g) || [this.input];
+		const transliteratedTokens: string[] = [];
+		for (const token of tokens) {
+			if (/^[a-zA-Z]+$/.test(token)) {
+				try {
+					const url = `https://inputtools.google.com/request?text=${encodeURIComponent(token)}&itc=${itcCode}&num=1`;
+					const response = await fetch(url);
+					const data = await response.json();
+					const localizedWord = data[1]?.[0]?.[1]?.[0] || token;
+					transliteratedTokens.push(localizedWord);
+				} catch {
+					transliteratedTokens.push(token);
+				}
+			} else {
+				transliteratedTokens.push(token);
+			}
+		}
+		const result = transliteratedTokens.join("");
+		this.input = result;
+		return result;
+	}
+
+	static e52_x38_translatecode_dict: { [key: string]: string } = {
+		xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
+		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
+	};
+	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10', e52u10: 'e52u10' };
+	static tu_dikt: { [key: string]: string }  =  {
+		e23: 'e23', xe38: 'xe38', 
+		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38', 
+		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38', 
+		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
+	};
+
+  input: string;   phrom: string;   tu: string;
+  output: { [key: string]: string } = {
+		e23: '', xe38: '', xi38: '',
+		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'', 
+		xj38: '', xt38: '', xm38: '', xk38: '',
+		xs38: ''
+  };
+
+  constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi38) {
+    if ( (phrom in hsciistr.phrom_dikt) && (tu in hsciistr.tu_dikt)) { this.phrom = phrom ; this.tu = tu ; }
+	else {
+      this.phrom = hsciistr.phrom_dikt.e52u10 ;
+      this.tu = hsciistr.tu_dikt.xi38 ;
+      console.error("aiqxr ",phrom," not in ",hsciistr.phrom_dikt," or ", tu," not in ", hsciistr.tu_dikt,"\n") ;
     }
-    this.istr = "";
+    this.input = "";
   }
 
-  setistr(istr: string): hsciistr { this.istr = istr; return this; }
-  setfromstr(fromstr: string): hsciistr {
-    if (fromstr in hsciistr.from_dikt)  { this.from = fromstr ; } else {
-      this.from = hsciistr.from_dikt.ascii_and_indik ;
-      console.error("this.from not correct allowed this.from is in hsciistr.from_dikt\n") ;
+  set_input(input: string): hsciistr { this.input = input; return this; }
+  set_phrom(phrom_arg: string): hsciistr {
+    if (phrom_arg in hsciistr.phrom_dikt)  { this.phrom = phrom_arg ; } else {
+      this.phrom = hsciistr.phrom_dikt.e52u10 ;
+      console.error(phrom_arg," not in ",hsciistr.phrom_dikt,"\n") ;
     }
     return this;
   }
-  settostr(tostr: string): hsciistr {
-    if (tostr in hsciistr.tu_dikt)  { this.tu = tostr ; } else {
-      this.tu = hsciistr.tu_dikt.inglish ;
-      console.error("this.tu not correct allowed this.tu is in hsciistr.tu_dikt\n") ;
+  set_tu(tu_arg: string): hsciistr {
+    if (tu_arg in hsciistr.tu_dikt)  { this.tu = tu_arg ; } else {
+      this.tu = hsciistr.tu_dikt.xi38 ;
+      console.error(tu_arg," not in ",hsciistr.tu_dikt,"\n") ;
     }
     return this;
   }
 
-  duztr(): hsciistr { //console.log( `in duztr: (istr,fromstr,tostr)= (${this.istr},${this.fromstr},${this.tostr})` );
-    switch (this.from) {
-      case hsciistr.from_dikt.ascii: this.e2i(); break;
-      case hsciistr.from_dikt.indikunicode: this.u2i(); break;
-      case hsciistr.from_dikt.ascii_and_indik: this.e2i(); this.u2i(); break;
-    }
-    //console.log( `duztr bifore i2l() this.ostrdict.inglish is ${this.ostrdict.inglish}. this.istr is ${this.istr}.` );
-    this.i2l();
-    return this;
-  }
-
-  Hh2phonetic_H(): void {
-    if (this.istr) {
-      this.istr = this.istr
-        .replace(/H/g, 'h')
-        .replace(/(\s)h/g, '$1H')
-        .replace(/([^kgcꞇćjztdpbswटडपबसԃᴛ])h/gi, '$1H');
-    }
-  }
-
-  Nn2phonetic_N(): void {
-    if (this.istr) {
-      this.istr = this.istr
-        .replace(/N/g, 'n')
-        .replace(/n([cgk])\b/gi, 'ṅ$1')
-        .replace(/\bn/gi, 'ñ')
-        .replace(/([a-z])nk/gi, '$1ṅk')
-        .replace(/oung/gi, 'ouṅg')
-        .replace(/ginge/gi, 'giñge')
-        .replace(/([ht])inge/gi, '$1iñge')
-        .replace(/([fyc])ring/gi, '$1riñg')
-        .replace(/engin/gi, 'eñgin')
-        .replace(/ngth/gi, 'ñgth')
-        .replace(/ange([^dr])/gi, 'añge$1')
-        .replace(/\bt([ai])ng([ei])/gi, 't$1ñg$2')
-        .replace(/\bangi/gi, 'añgi')
-        .replace(/inge/gi, 'iñge')
-        .replace(/ing/gi, 'iṅg')
-        .replace(/nge\b/gi, 'ñge')
-        .replace(/ngel/gi, 'ñgel')
-        .replace(/([dr])ang([ei])/gi, '$1añg$2')
-        .replace(/([lv])eng/gi, '$1eñg')
-        .replace(/chang([ei])/gi, 'chañg$1')
-        .replace(/sseng/gi, 'sseñg')
-        .replace(/nger/gi, 'ṅger')
-        .replace(/([a-z])ng/gi, '$1ṅg')
-        .replace(/sync/gi, 'syṅc')
-        .replace(/anchor/gi, 'aṅchor')
-        .replace(/linco/gi, 'liṅco')
-        .replace(/sincl/gi, 'siṅcl')
-        .replace(/\buncle(s?)\b/gi, 'uṅcle$1')
-        .replace(/menco/gi, 'meṅco')
-        .replace(/([iu])nct/gi, '$1ṅct')
-        .replace(/nc([hyei])/gi, 'ñc$1')
-        .replace(/inc([^hueioay])/gi, 'iṅc$1')
-        .replace(/inc([aeiou])/gi, 'iñc$1')
-        .replace(/([a-z])unc([^hyei])/gi, '$1uṅc$2')
-        .replace(/enc([^eiyh])/gi, 'eñc$1')
-        .replace(/([ao])nc([^hyei])/gi, '$1ṅc$2')
-        .replace(/ṅ/g, 'N')
-        .replace(/ñ/g, 'n');
-    }
-  }
-
-  Ww2vv(): void {
-    if (this.istr) {
-      this.istr = this.istr
-        .replace(/W/g, 'w')
-        .replace(/away/gi, 'àⱱày')
-        .replace(/war([ey])/gi, 'ⱱàr$1')
-        .replace(/wa([nrs])/gi, 'ⱱα$1')
-        .replace(/who/gi, 'ẃहo')
-        .replace(/wr/gi, 'ẃr')
-        .replace(/\bw/gi, 'ⱱ')
-        .replace(/w\b/gi, 'ẃ')
-        .replace(/swer/gi, 'sẃer')
-        .replace(/two/gi, 'tẃo')
-        .replace(/([^aeo])w/gi, '$1ⱱ')
-        .replace(/\baw([^efknr])/gi, 'àⱱ$1')
-        .replace(/aw([efknr])/gi, 'αẃ$1')
-        .replace(/([a-z])aw/gi, '$1αẃ')
-        .replace(/([eo])w/gi, '$1ẃ')
-        .replace(/ẃ/g, 'w')
-        .replace(/ⱱ/g, 'W');
-    }
-  }
-
-  Aa2phonetic_Aa(): void {
-    if (this.istr) {
-      this.istr = this.istr
-        .replace(/A/g, 'a')
-        .replace(/aft/gi, 'αft')
-        .replace(/aw([kf\s])/gi, 'αw$1')
-        .replace(/\bar([cekmst])\b/gi, 'αr$1')
-        .replace(/guar/gi, 'guαr')
-        .replace(/ijab/gi, 'ijαb')
-        .replace(/ebab/gi, 'ebαb')
-        .replace(/ihad/gi, 'iHαԃ')
-        .replace(/ia([ck])/gi, 'iα$1')
-        .replace(/\ba/gi, 'à')
-        .replace(/ai\b/g, 'αi')
-        .replace(/uar([bce-su-z])/gi, 'uàr$1')
-        .replace(/([a-z])a\b/gi, '$1α')
-        .replace(/a([w])\b/gi, 'α$1')
-        .replace(/\ba([ntsmd])\b/gi, 'à$1')
-        .replace(/ar([aiey])/gi, 'àr$1')
-        .replace(/([^uheio\s])arre([^lasn])/gi, '$1αrre$2')
-        .replace(/([eio\s])ar/gi, '$1àr')
-        .replace(/i([lgn])ar([^y])/gi, 'i$1αr$2')
-        .replace( /([^beiuohlgn])ar([^y])/gi, '$1αr$2' )
-        .replace(/bar([^oiuer])/gi, 'bαr$1')
-        .replace( /era([\b\s])/gi, 'erα$1' )
-        .replace(/([bcdfह\b\s])all([^yo])/gi, '$1αll$2')
-        .replace(/ava/gi, 'αvα')
-        .replace(/([^\b\soe])ard/gi, '$1αrd')
-        .replace(/([ag])raph/gi, '$1rαph')
-        .replace(/las([skmt])/gi, 'lαs$1');
-    }
-  }
-
-  e2i(): void {
-    if (this.istr) {
-      this.istr = this.istr.toLowerCase();
-	  this.istr = this.istr.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w')
-        .replace(/([a-wyz])x/g, '$1ks')
-        .replace(/\bxi/g, 'zi')
-        .replace(/\bxy/g, 'zai')
-        .replace(/\bxmas/g, 'christmAs')
-        .replace(/\bxr/g, 'Aksr')
-        .replace(/\bx/g, 'Aks'); //α/g,'A').replace();
-      // this.ostrdict["inglish"] = this.istr ; // wiml
-      // console.log("e2i::e2i this.ostrdict[inglish] is: \n" + this.ostrdict["inglish"] + "\n");
-    }
-  }
-
-  i2l(): void {
-    console.log(`begin i2l() this.istr is ${this.istr}. this.ostrdict.inglish is ${this.ostrdict.inglish}`);
-    const inputLength: number = this.istr.length;
-    let indeks: number = 0;
-    let curr_chr: string = '';
-    let curr_chr_indeks_in_hinchars = -1;
-    // ostrdict.inglish keeps the raw single-letter hscii markers (t/T/d/D/j/J/q/Q)
-    // rather than expanding them into th/dh/Th/Dh digraphs - the hscii font glyphs
-    // (englosoftw8) already carry that aspirated look visually, so the text layer
-    // doesn't need to spell it out.
-    this.ostrdict.inglish = this.istr;
-    if('inglish' === this.tu) {
-      console.log( 'this.tostr is inglish , so returning from i2l()' );
-      return ;
-    }
-
-    while (indeks < inputLength) {
-      curr_chr = this.istr[indeks];
-      curr_chr_indeks_in_hinchars = this.hinchars.indexOf(curr_chr);
-      switch (this.tu) {
-        // case 'inglish': break;
-        case 'all':
-          for (const key in this.i2l_dikt) {
-            if (curr_chr_indeks_in_hinchars > -1) {
-              this.ostrdict[key] += this.i2l_dikt[key][curr_chr_indeks_in_hinchars];
+  async duztr(): Promise<hsciistr> {
+    switch (this.phrom) {
+      case hsciistr.phrom_dikt.u10:
+        this.uL2xin38();
+        this.output[this.tu] = this.output.xi38;
+        break;
+      case hsciistr.phrom_dikt.e52u10:
+        this.e52_tu_e23();
+        this.uL2xin38();
+        this.output[this.tu] = this.output.xi38;
+        break;
+      case hsciistr.phrom_dikt.e52:
+        switch (this.tu) {
+          case hsciistr.tu_dikt.e23: this.e52_tu_e23(); break;
+          // case hsciistr.tu_dikt.xi38: this.uL2xin38(); break;
+          case hsciistr.tu_dikt.xe38:
+			await this.transliterate_e52_x('pa') ;
+			this.uL2xin38();
+			this.output.xe38 = this.output.xi38;
+		  break;
+          default:
+            // any xv38/xb38/xp38/xg38/xo38/xt38/xj38/xm38/xk38/xs38/xmr38 target:
+            // translate e52 -> that language's native script, then run the
+            // native-script text through the u10->xi38 converter, and copy
+            // the shared 'xi38' result into this specific output slot.
+            if (this.tu in hsciistr.e52_x38_translatecode_dict) {
+              await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
+              this.uL2xin38();
+              this.output[this.tu] = this.output.xi38;
             } else {
-              this.ostrdict[key] += curr_chr;
+              console.error(`duztr: unknown this.tu "${this.tu}" for phrom e52`);
             }
-          }
-          break;
-
-        default:
-          if (this.tu in this.i2l_dikt) {
-            if (curr_chr_indeks_in_hinchars > -1) {
-              this.ostrdict[this.tu] += this.i2l_dikt[this.tu][curr_chr_indeks_in_hinchars];
-            } else {
-              this.ostrdict[this.tu] += curr_chr;
-            }
-          }
-      }
-      indeks++;
+            break;
+        }
+        break;
     }
+    return this;
   }
+
+
+	e52_tu_e23(): void {
+		if (this.input) {
+		  this.input = this.input.toLowerCase();
+		  this.input = this.input
+			.replace(/([aiueo])xx/g, '$1ks')
+			.replace(/xce/g, 'kse')
+			.replace(/xca/g, 'ksa')
+			.replace(/xci/g, 'ksai')
+			.replace(/xcu/g, 'kskyu')
+			.replace(/ch/g, 'C')
+			.replace(/cco/g, 'ko')
+			.replace(/cce/g, 'kse')
+			.replace(/cci/g, 'ksi')
+			.replace(/ce/g, 's')       // must run AFTER cce, which also contains "ce" -- ordering matters
+			.replace(/c[yi]/g, 'si')   // must run AFTER cci, which also contains "ci" -- ordering matters
+			.replace(/ck/g, 'k')
+			.replace(/c/g, 'k')        // catch-all: any 'c' not already caught above is a hard c -> k
+			.replace(/C/g, 'c')        // end of c section: un-protect ch's temporary marker back to lowercase
+			.replace(/\bcild\b/g, 'caild') // whole-word exception: by now "child" has become "cild"
+			                                 // via the general ch rule above (same as "children" -> "cildren",
+			                                 // which is correct) -- but child's i is the long /ai/ sound
+			                                 // ("caild"), and there's no letter-pattern rule that could
+			                                 // distinguish "child" from "children" locally, so it's a
+			                                 // hardcoded fixup, same idea as the word-exceptions below.
+			.replace(/\bxi/g, 'zi')
+			.replace(/\bxy/g, 'zai')
+			.replace(/xy/g, 'ksi')
+			// .replace(/\bxmas/g, 'xksmas')
+			// .replace(/\bxr/g, 'xksr')
+			.replace(/\bx([aiueo])/g, 'z$1')
+			.replace(/\bx/g, 'eks')
+			.replace(/([a-wyz])x/g, '$1ks')
+			.replace(/lover/g, "lwxr")
+			.replace(/never/g, "nxwxr")
+			.replace(/vest/g, "weist")
+			.replace(/vine/g, "wayin")
+			.replace(/vary/g, "wxyri")
+			.replace(/vet/g, "wyt")
+			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w');
+		}
+	}
+
   // https://phuoc.ng/collection/this-vs-that/node-iterator-vs-tree-walker/ shadow
   transliterate_tekst_nodes(node: Node) {
     let dikt_pair_list: Array<{ tekstNode: Node | null; start: number }> = [];
@@ -234,9 +202,7 @@ export class hsciistr {
     if (shadow_root) {
       const treeWalker = doc.createTreeWalker(shadow_root, NodeFilter.SHOW_TEXT, {
         acceptNode: (node) => {
-          return node.parentNode?.nodeName.toLowerCase() === 'script'
-            ? NodeFilter.FILTER_REJECT
-            : NodeFilter.FILTER_ACCEPT;
+          return node.parentNode?.nodeName.toLowerCase() === 'script' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
         }
       });
       let nekst_node: Node | null;
@@ -266,9 +232,9 @@ export class hsciistr {
       for (let i = 0; i < ztred_span_list.length; ++i) {
         let nekst_ztred_span = ztred_span_list[i];
         if (nekst_ztred_span.textContent) {
-          this.istr = nekst_ztred_span.textContent;
+          this.input = nekst_ztred_span.textContent;
           this.duztr();
-          nekst_ztred_span.textContent = this.ostrdict['inglish']; /// wery wery important
+          nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
         }
       }  
     }
@@ -285,9 +251,7 @@ export class hsciistr {
     if (doc) {
       nodeIterator = doc.createNodeIterator(node_arg, NodeFilter.SHOW_TEXT, {
         acceptNode: (node) => {
-          return node.parentNode?.nodeName.toLowerCase() === 'script'
-            ? NodeFilter.FILTER_REJECT
-            : NodeFilter.FILTER_ACCEPT;
+          return node.parentNode?.nodeName.toLowerCase() === 'script' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
         }
       });
       if (nodeIterator) {
@@ -311,9 +275,9 @@ export class hsciistr {
         for (let i = 0; i < ztred_span_list.length; ++i) {
           let nekst_ztred_span = ztred_span_list[i];
           if (nekst_ztred_span.textContent) {
-            this.istr = nekst_ztred_span.textContent;
+            this.input = nekst_ztred_span.textContent;
             this.duztr();
-            nekst_ztred_span.textContent = this.ostrdict['inglish']; /// wery wery important
+            nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
           }
         }
       }
@@ -330,127 +294,69 @@ export class hsciistr {
       }
     }
   }
-  // hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsɦA';
-  hinchars: string = 'kKzZtTdDjJqQnpfbBmyrlSsHA';
-  i2l_dikt: { [key: string]: string } = {
-    hindi: 'कखजझटठडढतथदधनपफबभमयरलशसहअव',
-    bangla: 'কখজঝটঠডঢতথদধনপফবভমযরলশসহঅw',
-    gurmukhi: 'ਕਖਜਝਟਠਡਢਤਥਦਧਨਪਫਬਭਮਯਰਲਸ਼ਸਹਅਵ',
-    guzrati: 'કખજઝટઠડઢતથદધનપફબભમયરલશસહઅવ',
-    oriya: 'କଖଜଝଟTଡଢତଥଦଧନପଫବଭମଯରଲଶସହଅଵ',
-    telugu: 'కఖజఝటఠడఢతథదధనపఫబభమయరలశసహఅవ',
-    kannada: 'ಕಖಜಝಟಠಡಢತಥದಧನಪಫಬಭಮಯರಲಶಸಹಅವ',
-    malayalam: 'കഖജഝടഠഡഢതഥദധനപഫബഭമയരലശസഹഅവ',
-    sinhala: 'කඛජඣටඨඩඪතථදධනපඵබභමයරලශසහඅව',
-    tamil: 'கKஜZடTdDதJqQநபfbBமயரலஶஸஹஅவ',
-    korean: 'ㅋKㅈZㅌT다DjJqQㄴㅍf바Bㅁㅑ라lSㅅㅎㅏ봐w',
-    russian: 'kKzZtTдДтТдДнпфбБмйрлщшHAw'
-  };
 
-  xvjqK2hindi(): hsciistr {
-    this.setistr(
-      this.istr.replace(/q/g, 'द').replace(/j/g, 'त').replace(/Q/g, 'ध').replace(/J/g, 'थ').replace(/K/g, 'ख')
-      .replace(/Z/g, 'झ').replace(/T/g, 'ठ').replace(/D/g, 'ढ').replace(/B/g, 'भ').replace(/S/g, 'श').replace(/x/g, 'अ').replace(/v/g, 'ह')
-    );
-    return this;
-  }
-
-  kh2hindiK() {
-    this.setistr(
-      this.istr.replace(/([kztdjqbs])h/g, '$1___')
-        .replace(/q___/g, 'ध')
-        .replace(/j___/g, 'थ')
-        .replace(/k___/g, 'ख')
-        .replace(/z___/g, 'झ')
-        .replace(/t___/g, 'ठ')
-        .replace(/d___/g, 'ढ')
-        .replace(/b___/g, 'भ')
-        .replace(/s___/g, 'श'));
-    return this;
-  }
-
-  u2i_pre(): void {
-    if (this.istr) {
-      this.istr = this.istr.toLowerCase();
-      this.istr = this.istr.replace(/([\s\b])क्ष/g, '$1sh').replace(/^क्ष/g, 'sh').replace(/ज्ञ/g, 'gy');
+  uL2xin38_pre(): void {
+    if (this.input) { // this.input = this.input.toLowerCase();
+      // NOTE: mappings.ts (translet-xnglo) maps क्ष -> "S", this maps it
+      // to "sh" -- a real discrepancy, not yet reconciled. Flagged, not
+      // silently picked either way.
+      this.input = this.input.replace(/([\b\s])क्ष/g, '$1s').replace(/^क्ष/g, 's').replace(/ज्ञ/g, 'gy');
+										// .replace(/त्र/g, 'jr');
     }
   }
 
-  u2i(): void { 
-    this.u2i_pre();
-    if (this.istr) {
-      const inputLength: number = this.istr.length;
-      //console.log(` start of u2i , this.istr=${this.istr} and inputLength is ${inputLength}`);
-      this.ostrdict['inglish'] = '';
-      let indeks: number = 0;
-      let curr_char: string = '';
-      let nekst_char: string = ''; //| undefined= '';
-      let curr_char_code: number = 0;
-      let curr_lang_code: number = 0;
-      let curr_char_modulo: number = 0;
+  uL2xin38(): void { 
+    this.uL2xin38_pre();
+    if (this.input) {
+      const inputLength: number = this.input.length;
+      //console.log(` start of uL2xin38 , this.input=${this.input} and inputLength is ${inputLength}`);
+      this.output['xi38'] = '';
+      let indeks: number = 0; let curr_char: string = ''; let nekst_char: string = ''; //| undefined= '';
+      let curr_unicodeL: number = 0; let curr_unicode_li: number = 0; let curr_unicode_ki: number = 0;
 
       while (indeks < inputLength) {
-        if (indeks === 0) {
-          curr_char = this.istr[indeks];
-        } else {
-          curr_char = nekst_char;
-        }
-        curr_char_code = curr_char.charCodeAt(0);
-        curr_lang_code = (curr_char_code / 0x80) >> 0;
-        curr_char_modulo = curr_char_code % 0x80;        
-
-
-        nekst_char = this.istr[indeks + 1];
-        if (curr_lang_code > 0x11 && curr_lang_code < 0x1b) {
-          this.ostrdict['inglish'] +=
-            this.u2idict.all_phoniks_list[curr_char_modulo]; 
-        } else if (curr_lang_code === 0x1b) {
-          this.ostrdict['inglish'] +=
-            this.usinhl2idict.all_phoniks_list[curr_char_modulo];
-        } else {
-          this.ostrdict['inglish'] += curr_char;
-        }
+        if (indeks === 0) { curr_char = this.input[0]; } else { curr_char = nekst_char; }
+        curr_unicodeL = curr_char.charCodeAt(0);
+        curr_unicode_li = (curr_unicodeL / 0x80) >> 0;
+        curr_unicode_ki = curr_unicodeL % 0x80;
+        nekst_char = this.input[indeks + 1];
+        if (curr_unicode_li > 0x11 && curr_unicode_li < 0x1b) {
+          this.output['xi38'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
+        } else if (curr_unicode_li === 0x1b) {
+          this.output['xi38'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
+        } else { this.output['xi38'] += curr_char; }
         indeks++;
       }
-      this.u2i_post(); //console.log(`this.ostrdict[inglish]=${this.ostrdict.inglish}\n`);
-      this.istr = this.ostrdict.inglish; //console.log(` end of i2l , this.ostrdict[inglish]=this.istr=${this.istr}\n`);
+      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output[xi]=${this.output.xi38}\n`);
+      this.input = this.output.xi38;
     }
   }
 
-  u2i_post(): void {
-    // wowel_chr at boundary/in_between, mirrors scriptToXnglo() in mappings.ts:
-    // x/_i/_u/_e are the new lowercase markers (अ/इ,ई/उ,ऊ/ए,ऐ). अ and आ resolve
-    // to their final form ("x"/"xa") directly from u2idict, so they need no
-    // position-dependent handling here anymore - only the underscore markers do.
-    this.ostrdict['inglish'] = this.ostrdict['inglish']
-      .replace(/^_/, '')
-      .replace(/(\W)_/g, '$1')
-      .replace(/([aiueo])_/g, '$1')
-      .replace(/_i/g, 'yi')
-      .replace(/_e/g, 'ye')
-      .replace(/_u/g, 'xu');
-
-    this.ostrdict['inglish'] = this.ostrdict['inglish']
-      .replace( /([^kgcztdjqpbsKGCZTDJQPBSf])H/g, '$1h' )
-      // N-handling matches scriptToXnglo() in mappings.ts exactly - xnar no longer
-      // transliterates English, so Nn2phonetic_N's spelling-ambiguity guesswork
-      // (sync/anchor/uncle etc.) doesn't apply here; N is always an unambiguous
-      // anusvara marker from the indic source by this point.
-      .replace(/N$/, '')
-      .replace(/N(\W)/g, '$1')
-      .replace(/Nb/g, 'mb').replace(/NB/g, 'mB').replace(/Np/g, 'mp').replace(/Nf/g, 'mf')
-      .replace(/N(?![kKgG])/g, 'n');
+  unicode_india_10scripts_to_xnglo_india_post(): void {
+    this.output['xi38'] = this.output['xi38']
+		.replace(/^#S/, "S")
+		.replace(/(\W)#S/g, "$1S")
+		.replace(/#S/g, "kS")
+		.replace(/^_/, "")
+		.replace(/(\W)_/g, "$1")
+		.replace(/([aiueo])_/g, "$1")
+		// .replace(/_a/g, "a").
+		.replace(/_i/g, "yi").replace(/_e/g, "ye").replace(/_u/g, "xu")
+		.replace(/N$/, "")
+		.replace(/N(\W)/g, "$1")
+		.replace(/Nb/g, "mb").replace(/NB/g, "mB").replace(/Np/g, "mp").replace(/Nf/g, "mf")
+		.replace(/N(?![kKgG])/g, "n");
   }
 
-  u2idict = {
-    all_phoniks_list: [
+  unicode_india_9scripts_2_xnglo_india_dict = {
+    unicode_hindi_array: [
       '', // 	ऀ	900	2304		inverted candrabindu
       'N', // 	ँ	901	2305		anunasika(candrabindu)
       'N', // 	ं ń	902	2306	anuswara	anusvara bindu
       ':', // 	ः	903	2307		visarga
       'xe', // 	ऄ à	904	2308		short a ,  e in awadh
       'x', // 	अ	905	2309	vovls
-      'xa', // 	आ  àα	906	2310	vovls
+      'a', // 	आ  àα	906	2310	vovls
       '_i', // 	इ	907	2311	vovls
       '_i', // 	ई	908	2312	vovls
       '_u', // 	उ	909	2313	vovls
@@ -511,12 +417,12 @@ export class hsciistr {
       'i', // 	ी	940	2368	vvs
       'u', // 	ु	941	2369	vvs
       'u', // 	ू	942	2370	vvs
-      'r', // 	ृ	943	2371	vvs
+      'ri', // 	ृ	943	2371	vvs
       'r', // 	ॄ	944	2372
       'e', // 	ॅ	945	2373		candra e
-      'ei', // 	ॆ	946	2374		short e
+      'e', // 	ॆ	946	2374		short e
       'e', // 	े	947	2375
-      'ei', // 	ै	948	2376
+      'ye', // 	ै	948	2376
       'o', // 	ॉ	949	2377		candra o
       'oe', // 	ॊ	94A	2378		short o
       'o', // 	ो	94B	2379	vvs
@@ -536,8 +442,8 @@ export class hsciistr {
       'K', // 	ख़	959	2393
       'g', // 	ग़	95A	2394
       'z', // 	ज़	95B	2395
-      'rr', // 	ड़	95C	2396
-      'D', // 	ढ़	95D	2397
+      'R', // 	ड़	95C	2396
+      'R', // 	ढ़	95D	2397
       'f', // 	फ़	95E	2398
       'y', // 	य़	95F	2399
       'ri', // 	ॠ	960	2400
@@ -583,9 +489,9 @@ export class hsciistr {
     ]
   };
 
-  usinhl2idict = {
+  unicode_india_10thscript_2_xnglo_india_dict = {
     ///////kKzZtTdDjJqQnpfbBmyrlwSsɦ
-    all_phoniks_list: [
+    unicode_hindi_array: [
       '', // 	d80
       'N', // d81 CANDRABINDU
       'N', // d82 nbindu
@@ -677,7 +583,7 @@ export class hsciistr {
       'ri', // dd8= sinhala vowel sign vocalic r
       'e', // dd9= sinhala vowel sign e
       'e', // dda= sinhala vowel sign ee
-      'ei', // ddb= sinhala vowel sign ai
+      'ye', // ddb= sinhala vowel sign ai
       'o', // ddc= sinhala vowel sign o
       'o', // ddd= sinhala vowel sign oo
       'o', // dde= sinhala vowel sign au
@@ -726,4 +632,3 @@ export class hsciistr {
   };
 
 }
-
