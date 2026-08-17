@@ -156,6 +156,21 @@ export class hsciistr {
 			.replace(/xca/g, 'ksa')
 			.replace(/xci/g, 'ksai')
 			.replace(/xcu/g, 'kskyu')
+			.replace(/ch/g, 'C')
+			.replace(/cco/g, 'ko')
+			.replace(/cce/g, 'kse')
+			.replace(/cci/g, 'ksi')
+			.replace(/ce/g, 's')       // must run AFTER cce, which also contains "ce" -- ordering matters
+			.replace(/c[yi]/g, 'si')   // must run AFTER cci, which also contains "ci" -- ordering matters
+			.replace(/ck/g, 'k')
+			.replace(/c/g, 'k')        // catch-all: any 'c' not already caught above is a hard c -> k
+			.replace(/C/g, 'c')        // end of c section: un-protect ch's temporary marker back to lowercase
+			.replace(/\bcild\b/g, 'caild') // whole-word exception: by now "child" has become "cild"
+			                                 // via the general ch rule above (same as "children" -> "cildren",
+			                                 // which is correct) -- but child's i is the long /ai/ sound
+			                                 // ("caild"), and there's no letter-pattern rule that could
+			                                 // distinguish "child" from "children" locally, so it's a
+			                                 // hardcoded fixup, same idea as the word-exceptions below.
 			.replace(/\bxi/g, 'zi')
 			.replace(/\bxy/g, 'zai')
 			.replace(/xy/g, 'ksi')
