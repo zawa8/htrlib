@@ -160,8 +160,7 @@ export class hsciistr {
 			.replace(/cco/g, 'ko')
 			.replace(/cce/g, 'kse')
 			.replace(/cci/g, 'ksi')
-			.replace(/ce/g, 'se')       // must run AFTER cce, which also contains "ce" -- ordering matters
-			.replace(/c[yi]/g, 'si')   // must run AFTER cci, which also contains "ci" -- ordering matters
+			.replace(/c([yei])/g, 's$1')   // must run AFTER cci, which also contains "ci" -- ordering matters
 			.replace(/ck/g, 'k')
 			.replace(/c/g, 'k')        // catch-all: any 'c' not already caught above is a hard c -> k
 			.replace(/C/g, 'c')        // end of c section: un-protect ch's temporary marker back to lowercase
