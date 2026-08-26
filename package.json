@@ -1,7 +1,9 @@
 {
   "name": "@hscii/htrlib",
-  "version": "1.0.31",
-  "publishConfig": { "access": "public" },
+  "version": "1.0.32",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/hsciistr_file.js",
   "types": "./dist/hsciistr_file.d.ts",
   "scripts": {
