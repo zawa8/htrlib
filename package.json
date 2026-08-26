@@ -1,5 +1,5 @@
 {
-  "name": "@zawa8/htrlib",
+  "name": "@hscii/htrlib",
   "version": "1.0.29",
   "main": "./dist/hsciistr_file.js",
   "types": "./dist/hsciistr_file.d.ts",
