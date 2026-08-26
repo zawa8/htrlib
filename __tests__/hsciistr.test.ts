@@ -57,6 +57,17 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
 	expect(run("excuse")).toBe("ekskyuse");
   });
 
+  test("testiNg regeksp: /([^lhr])ough$/g", () => {
+    expect(run("cough")).toBe("cxf");
+    expect(run("dough")).toBe("dxf");
+    expect(run("enough")).toBe("enxf");
+    expect(run("sourdough")).toBe("sourdxf");
+  });
+  
+  test("testiNg dge xnd ge", () => {
+    expect(run("badge")).toBe("baze");
+  });
+  
   test("no-op on empty input", () => {
     const h = new hsciistr();
     h.set_input("");

@@ -151,6 +151,9 @@ export class hsciistr {
 		if (this.input) {
 		  this.input = this.input.toLowerCase();
 		  this.input = this.input
+			.replace(/ought/g, 'ot')
+			.replace(/([^lhr])ough$/g, '$1xf')
+			.replace(/dge/g, 'ze')
 			.replace(/([aiueo])xx/g, '$1ks')
 			.replace(/xce/g, 'kse')
 			.replace(/xca/g, 'ksa')
