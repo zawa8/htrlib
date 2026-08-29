@@ -69,7 +69,7 @@ export class hsciistr {
 	static tu_dikt: { [key: string]: string }  =  {
 		e23: 'e23', xe38: 'xe38', 
 		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38', 
-		xp38: 'xp38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38', 
+		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38', 
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
 	};
 
