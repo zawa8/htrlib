@@ -347,7 +347,8 @@ export class hsciistr {
 		.replace(/N$/, "")
 		.replace(/N(\W)/g, "$1")
 		.replace(/Nb/g, "mb").replace(/NB/g, "mB").replace(/Np/g, "mp").replace(/Nf/g, "mf")
-		.replace(/N(?![kKgG])/g, "n");
+		.replace(/N(?![kKgG])/g, "n")
+  .replace(/([^kgcztdjqpbs])v/g,"$1h");
   }
 
   unicode_india_9scripts_2_xnglo_india_dict = {
