@@ -152,7 +152,7 @@ export class hsciistr {
 		  this.input = this.input.toLowerCase();
 		  this.input = this.input
 			.replace(/ought/g, 'ot')
-			.replace(/([^lhr])ough$/g, '$1xf')
+			.replace(/([^lhr])ough$/g, '$1f')
 			.replace(/dge/g, 'ze')
 			.replace(/([aiueo])xx/g, '$1ks')
 			.replace(/xce/g, 'kse')
@@ -187,7 +187,7 @@ export class hsciistr {
 			.replace(/vine/g, "wayin")
 			.replace(/vary/g, "wxyri")
 			.replace(/vet/g, "wyt")
-			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w');
+			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w'); // .toLowerCase();
 		}
 	}
 
