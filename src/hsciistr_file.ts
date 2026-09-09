@@ -352,7 +352,7 @@ export class hsciistr {
   }
 
   unicode_india_9scripts_2_xnglo_india_dict = {
-    unicode_hindi_array: [
+        unicode_hindi_array: [
       '', // 	ऀ	900	2304		inverted candrabindu
       'N', // 	ँ	901	2305		anunasika(candrabindu)
       'N', // 	ं ń	902	2306	anuswara	anusvara bindu
@@ -377,7 +377,7 @@ export class hsciistr {
       'k', // 	क	915	2325
       'K', // 	ख	916	2326
       'g', // 	ग	917	2327
-      'gh', // 	घ	918	2328
+      'G', // 	घ	918	2328  (purana: 'gh')
       'N', // 	ङ	919	2329
       'c', // 	चꞆꞇćċ	91A	2330
       'C', // 	छ	91B	2331
@@ -385,14 +385,14 @@ export class hsciistr {
       'Z', // 	झ	91D	2333
       'n', // 	ञ	91E	2334		nya
       't', // 	ट	91F	2335
-      'T', // 	ठ	920	2336
+      'th', // 	ठ	920	2336  (purana: 'T')
       'd', // 	ड	921	2337
-      'D', // 	ढ	922	2338
+      'dh', // 	ढ	922	2338  (purana: 'D')
       'n', // 	ण	923	2339		nna
-      'j', // 	तтτ	924	2340
-      'J', // 	थ	925	2341
-      'q', // 	द ꟈđԃ	926	2342
-      'Q', // 	ध	927	2343 Ԁh dh ԃh
+      'T', // 	तтτ	924	2340  (purana: 'j')
+      'Th', // 	थ	925	2341  (purana: 'J')
+      'D', // 	द ꟈđԃ	926	2342  (purana: 'q')
+      'Dh', // 	ध	927	2343  (purana: 'Q')
       'n', // 	न	928	2344
       'n', // 	ऩ	929	2345		nnna
       'p', // 	प	92A	2346
@@ -410,7 +410,7 @@ export class hsciistr {
       'S', // 	श	936	2358
       's', // 	ष	937	2359
       's', // 	स	938	2360
-      'v', // 	हɦH	939	2361
+      'H', // 	हɦH	939	2361  (purana: 'v')
       'oe', // 	ऺ	93A	2362		oe
       'ui', // 	ऻ	93B	2363		ooe
       '', // 	़	93C	2364		nukta for extending the alphabet to new letters
@@ -467,7 +467,7 @@ export class hsciistr {
       '9', // 	९	96F	2415
       '_', // 	॰	970	2416		abbreviation sign
       '__', // 	ॱ	971	2417		high spacing dot
-      'x', // 	ॲ	972	2418		A
+      'A', // 	ॲ	972	2418		(purana: 'x')
       'xo', // 	ॳ	973	2419		o
       'xo', // 	ॴ	974	2420		oe
       'xo', // 	ॵ	975	2421		ao
