@@ -1,3 +1,8 @@
+import {
+  transliterate_dom_node as transliterate_dom_node_impl,
+  untransliterate_dom_node as untransliterate_dom_node_impl,
+} from './hsciistr/dom/transliterate_dom';
+
 export class hsciistr {
 	// e52 is English (26+26)
 	// u9 : 9 indian writing scripts
@@ -67,16 +72,16 @@ export class hsciistr {
 	};
 	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10', e52u10: 'e52u10' };
 	static tu_dikt: { [key: string]: string }  =  {
-		e23: 'e23', xe38: 'xe38', 
-		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38', 
-		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38', 
+		e23: 'e23', xe38: 'xe38',
+		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38',
+		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
 	};
 
   input: string;   phrom: string;   tu: string;
   output: { [key: string]: string } = {
 		e23: '', xe38: '', xi38: '',
-		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'', 
+		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'',
 		xj38: '', xt38: '', xm38: '', xk38: '',
 		xs38: ''
   };
@@ -120,8 +125,16 @@ export class hsciistr {
         break;
       case hsciistr.phrom_dikt.e52:
         switch (this.tu) {
-          case hsciistr.tu_dikt.e23: this.e52_tu_e23(); break;
-          // case hsciistr.tu_dikt.xi38: this.uL2xin38(); break;
+          case hsciistr.tu_dikt.e23:
+            this.e52_tu_e23();
+            break;
+          case hsciistr.tu_dikt.xi38:
+            // e52 source, generic xnglo-India target: e23 IS the xnglo
+            // subset for English, so just run e52->e23 and expose it
+            // also as xi38. (Previously this case silently no-op'd.)
+            this.e52_tu_e23();
+            this.output.xi38 = this.output.e23;
+            break;
           case hsciistr.tu_dikt.xe38:
 			await this.transliterate_e52_x('pa') ;
 			this.uL2xin38();
@@ -188,114 +201,27 @@ export class hsciistr {
 			.replace(/vary/g, "wxyri")
 			.replace(/vet/g, "wyt")
 			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w'); // .toLowerCase();
+		  // mirror the e52_tu_e23 result into output.e23, same way
+		  // uL2xin38() mirrors into output.xi38. Without this line,
+		  // duztr() with tu=e23 leaves output.e23 == ''.
+		  this.output.e23 = this.input;
 		}
 	}
 
-  // https://phuoc.ng/collection/this-vs-that/node-iterator-vs-tree-walker/ shadow
-  transliterate_tekst_nodes(node: Node) {
-    let dikt_pair_list: Array<{ tekstNode: Node | null; start: number }> = [];
-    let curr_dikt_pair: { tekstNode: Node | null; start: number };
-    let curr_node_text: string = '';
-    const doc = node.ownerDocument;
-    if (!doc) {
-      return;
-    }
-    const shadow_root:Node|null = doc.body.shadowRoot ;
-    if (shadow_root) {
-      const treeWalker = doc.createTreeWalker(shadow_root, NodeFilter.SHOW_TEXT, {
-        acceptNode: (node) => {
-          return node.parentNode?.nodeName.toLowerCase() === 'script' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
-        }
-      });
-      let nekst_node: Node | null;
-      let text: string = '';
-      while ((nekst_node = treeWalker.nextNode())) {
-        //console.log(textNode.nodeValue);
-        dikt_pair_list.push({ tekstNode: nekst_node, start: text.length });
-        if (nekst_node.nodeValue) {
-          text += nekst_node.nodeValue;
-        }
-      }
-      for (let i = 0; i < dikt_pair_list.length; ++i) {
-        curr_dikt_pair = dikt_pair_list[i];
-        let spanNode: HTMLSpanElement = document.createElement('span');
-        spanNode.className = 'ztred';
-        spanNode.dataset.oldtekst = curr_node_text!;
-        if (curr_dikt_pair.tekstNode && curr_dikt_pair.tekstNode.parentNode) {
-          curr_dikt_pair.tekstNode.parentNode.replaceChild(
-            spanNode,
-            curr_dikt_pair.tekstNode
-          );
-          spanNode.appendChild(curr_dikt_pair.tekstNode);
-        }
-      }
-      const ztred_span_list: HTMLCollectionOf<Element> =
-        doc.getElementsByClassName('ztred');
-      for (let i = 0; i < ztred_span_list.length; ++i) {
-        let nekst_ztred_span = ztred_span_list[i];
-        if (nekst_ztred_span.textContent) {
-          this.input = nekst_ztred_span.textContent;
-          this.duztr();
-          nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
-        }
-      }  
-    }
-  }
+	transliterate_tekst_nodes(node: Node): void {
+		const doc = node.ownerDocument;
+		if (doc?.body.shadowRoot) {
+			transliterate_dom_node_impl(this, doc.body.shadowRoot);
+		}
+	}
 
-  transliterate_dom_node(node_arg: Node): void {
-    let dikt_pair_list: Array<{ tekstNode: any; start: number }> = [];
-    let curr_dikt_pair: { tekstNode: any; start: number } | null = null;
-    let nekst_node: Node | null = null;
-    let curr_node_text: string = '';
-    let text: string = '';
-    let nodeIterator: NodeIterator | null = null;
-    const doc = node_arg.ownerDocument;
-    if (doc) {
-      nodeIterator = doc.createNodeIterator(node_arg, NodeFilter.SHOW_TEXT, {
-        acceptNode: (node) => {
-          return node.parentNode?.nodeName.toLowerCase() === 'script' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
-        }
-      });
-      if (nodeIterator) {
-        while ((nekst_node = nodeIterator.nextNode())) {
-          dikt_pair_list.push({ tekstNode: nekst_node, start: text.length });
-          text += nekst_node.nodeValue!;
-        }
-        for (let i = 0; i < dikt_pair_list.length; ++i) {
-          curr_dikt_pair = dikt_pair_list[i];
-          let spanNode: HTMLSpanElement = document.createElement('span');
-          spanNode.className = 'ztred';
-          spanNode.dataset.oldtekst = curr_node_text!;
-          curr_dikt_pair.tekstNode.parentNode.replaceChild(
-            spanNode,
-            curr_dikt_pair.tekstNode
-          );
-          spanNode.appendChild(curr_dikt_pair.tekstNode);
-        }
-        const ztred_span_list: HTMLCollectionOf<Element> =
-          doc.getElementsByClassName('ztred');
-        for (let i = 0; i < ztred_span_list.length; ++i) {
-          let nekst_ztred_span = ztred_span_list[i];
-          if (nekst_ztred_span.textContent) {
-            this.input = nekst_ztred_span.textContent;
-            this.duztr();
-            nekst_ztred_span.textContent = this.output['xi38']; /// wery wery important
-          }
-        }
-      }
-    }
-  }
+	transliterate_dom_node(node: Node): void {
+		transliterate_dom_node_impl(this, node);
+	}
 
-  untransliterate_dom_node(): void {
-    let nodes: HTMLCollectionOf<Element> =
-      document.getElementsByClassName('ztred');
-    for (let i: number = 0; i < nodes.length; i++) {
-      const node: Element = nodes[i];
-      if (node instanceof HTMLElement) {
-        node.innerText = node.dataset.oldtekst!;
-      }
-    }
-  }
+	untransliterate_dom_node(): void {
+		untransliterate_dom_node_impl();
+	}
 
   uL2xin38_pre(): void {
     if (this.input) { // this.input = this.input.toLowerCase();
@@ -307,7 +233,7 @@ export class hsciistr {
     }
   }
 
-  uL2xin38(): void { 
+  uL2xin38(): void {
     this.uL2xin38_pre();
     if (this.input) {
       const inputLength: number = this.input.length;
@@ -323,7 +249,7 @@ export class hsciistr {
         curr_unicode_ki = curr_unicodeL % 0x80;
         nekst_char = this.input[indeks + 1];
         if (curr_unicode_li > 0x11 && curr_unicode_li < 0x1b) {
-          this.output['xi38'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki]; 
+          this.output['xi38'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
         } else if (curr_unicode_li === 0x1b) {
           this.output['xi38'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
         } else { this.output['xi38'] += curr_char; }
