@@ -2,6 +2,10 @@ import {
   transliterate_dom_node as transliterate_dom_node_impl,
   untransliterate_dom_node as untransliterate_dom_node_impl,
 } from './hsciistr/dom/transliterate_dom';
+import { e52_tu_e23 as e52_tu_e23_impl } from './hsciistr/e52_tu_e23';
+import { unicode_india_to_xnglo_india as u10_to_xi38_impl } from './hsciistr/u10_to_xi38';
+import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
+import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 
 export class hsciistr {
 	// e52 is English (26+26)
@@ -20,18 +24,13 @@ export class hsciistr {
 	async translate_e52_x(tuarg: string): Promise<string> {
 		if (!this.input) return "";
 		try {
-			const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${tuarg}&dt=t&q=${encodeURIComponent(this.input)}`;
-			const response = await fetch(url);
-			const data = await response.json();
-			const translatedText = data[0]?.map((item: any) => item[0]).join("") || this.input;
-			this.input = translatedText;
-			return translatedText;
+			this.input = await translate_e52_x_impl(this.input, tuarg);
+			return this.input;
 		} catch (error) {
 			console.error("translation failed:", error);
 			throw error;
 		}
 	}
-
 	// Phonetic Latin-script -> native-script transliteration (NOT
 	// translation -- e.g. "namaste" -> "नमस्ते"), word-token by word-token,
 	// via Google's Input Tools endpoint. Ported from translet-xnglo's
@@ -43,29 +42,10 @@ export class hsciistr {
 
 	async transliterate_e52_x(tuarg: string): Promise<string> {
 		if (!this.input) return "";
-		const itcCode = hsciistr.itc_code_dict[tuarg] ?? "hi-t-i0-und";
-		const tokens = this.input.match(/([a-zA-Z]+|[^a-zA-Z]+)/g) || [this.input];
-		const transliteratedTokens: string[] = [];
-		for (const token of tokens) {
-			if (/^[a-zA-Z]+$/.test(token)) {
-				try {
-					const url = `https://inputtools.google.com/request?text=${encodeURIComponent(token)}&itc=${itcCode}&num=1`;
-					const response = await fetch(url);
-					const data = await response.json();
-					const localizedWord = data[1]?.[0]?.[1]?.[0] || token;
-					transliteratedTokens.push(localizedWord);
-				} catch {
-					transliteratedTokens.push(token);
-				}
-			} else {
-				transliteratedTokens.push(token);
-			}
-		}
-		const result = transliteratedTokens.join("");
-		this.input = result;
-		return result;
+		this.input = await transliterate_e52_x_impl(this.input, tuarg);
+		return this.input;
 	}
-
+	
 	static e52_x38_translatecode_dict: { [key: string]: string } = {
 		xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
 		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
@@ -161,53 +141,11 @@ export class hsciistr {
 
 
 	e52_tu_e23(): void {
-		if (this.input) {
-		  this.input = this.input.toLowerCase();
-		  this.input = this.input
-			.replace(/ought/g, 'ot')
-			.replace(/([^lhr])ough$/g, '$1f')
-			.replace(/dge/g, 'ze')
-			.replace(/([aiueo])xx/g, '$1ks')
-			.replace(/xce/g, 'kse')
-			.replace(/xca/g, 'ksa')
-			.replace(/xci/g, 'ksai')
-			.replace(/xcu/g, 'kskyu')
-			.replace(/ch/g, 'C')
-			.replace(/cco/g, 'ko')
-			.replace(/cce/g, 'kse')
-			.replace(/cci/g, 'ksi')
-			.replace(/c([yei])/g, 's$1')   // must run AFTER cci, which also contains "ci" -- ordering matters
-			.replace(/ck/g, 'k')
-			.replace(/c/g, 'k')        // catch-all: any 'c' not already caught above is a hard c -> k
-			.replace(/C/g, 'c')        // end of c section: un-protect ch's temporary marker back to lowercase
-			.replace(/\bcild\b/g, 'caild') // whole-word exception: by now "child" has become "cild"
-			                                 // via the general ch rule above (same as "children" -> "cildren",
-			                                 // which is correct) -- but child's i is the long /ai/ sound
-			                                 // ("caild"), and there's no letter-pattern rule that could
-			                                 // distinguish "child" from "children" locally, so it's a
-			                                 // hardcoded fixup, same idea as the word-exceptions below.
-			.replace(/\bxi/g, 'zi')
-			.replace(/\bxy/g, 'zai')
-			.replace(/xy/g, 'ksi')
-			// .replace(/\bxmas/g, 'xksmas')
-			// .replace(/\bxr/g, 'xksr')
-			.replace(/\bx([aiueo])/g, 'z$1')
-			.replace(/\bx/g, 'eks')
-			.replace(/([a-wyz])x/g, '$1ks')
-			.replace(/lover/g, "lwxr")
-			.replace(/never/g, "nxwxr")
-			.replace(/vest/g, "weist")
-			.replace(/vine/g, "wayin")
-			.replace(/vary/g, "wxyri")
-			.replace(/vet/g, "wyt")
-			.replace(/j/g, 'z').replace(/q/g, 'k').replace(/v/g, 'w'); // .toLowerCase();
-		  // mirror the e52_tu_e23 result into output.e23, same way
-		  // uL2xin38() mirrors into output.xi38. Without this line,
-		  // duztr() with tu=e23 leaves output.e23 == ''.
-		  this.output.e23 = this.input;
-		}
+		if (!this.input) return;
+		this.input = e52_tu_e23_impl(this.input);
+		this.output.e23 = this.input;
 	}
-
+	
 	transliterate_tekst_nodes(node: Node): void {
 		const doc = node.ownerDocument;
 		if (doc?.body.shadowRoot) {
@@ -233,33 +171,12 @@ export class hsciistr {
     }
   }
 
-  uL2xin38(): void {
-    this.uL2xin38_pre();
-    if (this.input) {
-      const inputLength: number = this.input.length;
-      //console.log(` start of uL2xin38 , this.input=${this.input} and inputLength is ${inputLength}`);
-      this.output['xi38'] = '';
-      let indeks: number = 0; let curr_char: string = ''; let nekst_char: string = ''; //| undefined= '';
-      let curr_unicodeL: number = 0; let curr_unicode_li: number = 0; let curr_unicode_ki: number = 0;
-
-      while (indeks < inputLength) {
-        if (indeks === 0) { curr_char = this.input[0]; } else { curr_char = nekst_char; }
-        curr_unicodeL = curr_char.charCodeAt(0);
-        curr_unicode_li = (curr_unicodeL / 0x80) >> 0;
-        curr_unicode_ki = curr_unicodeL % 0x80;
-        nekst_char = this.input[indeks + 1];
-        if (curr_unicode_li > 0x11 && curr_unicode_li < 0x1b) {
-          this.output['xi38'] += this.unicode_india_9scripts_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
-        } else if (curr_unicode_li === 0x1b) {
-          this.output['xi38'] += this.unicode_india_10thscript_2_xnglo_india_dict.unicode_hindi_array[curr_unicode_ki];
-        } else { this.output['xi38'] += curr_char; }
-        indeks++;
-      }
-      this.unicode_india_10scripts_to_xnglo_india_post(); //console.log(`this.output[xi]=${this.output.xi38}\n`);
-      this.input = this.output.xi38;
-    }
-  }
-
+	uL2xin38(): void {
+		if (!this.input) return;
+		this.input = u10_to_xi38_impl(this.input);
+		this.output.xi38 = this.input;
+	}
+	
   unicode_india_10scripts_to_xnglo_india_post(): void {
     this.output['xi38'] = this.output['xi38']
 		.replace(/^#S/, "S")
