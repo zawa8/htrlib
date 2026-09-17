@@ -3,7 +3,7 @@ import {
   untransliterate_dom_node as untransliterate_dom_node_impl,
 } from './hsciistr/dom/transliterate_dom';
 import { e52_tu_e23 as e52_tu_e23_impl } from './hsciistr/e52_tu_e23';
-import { unicode_india_to_xnglo_india as u10_to_xi38_impl } from './hsciistr/u10_to_xi38';
+import { unicode_india_to_xnglo_india_xi52 as u10_to_xi52_impl } from './hsciistr/u10_to_xi52';
 import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
 import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 
@@ -95,12 +95,12 @@ export class hsciistr {
   async duztr(): Promise<hsciistr> {
     switch (this.phrom) {
       case hsciistr.phrom_dikt.u10:
-        this.uL2xin38();
+        this.uL2xi52();
         this.output[this.tu] = this.output.xi38;
         break;
       case hsciistr.phrom_dikt.e52u10:
         this.e52_tu_e23();
-        this.uL2xin38();
+        this.uL2xi52();
         this.output[this.tu] = this.output.xi38;
         break;
       case hsciistr.phrom_dikt.e52:
@@ -117,7 +117,7 @@ export class hsciistr {
             break;
           case hsciistr.tu_dikt.xe38:
 			await this.transliterate_e52_x('pa') ;
-			this.uL2xin38();
+			this.uL2xi52();
 			this.output.xe38 = this.output.xi38;
 		  break;
           default:
@@ -127,7 +127,7 @@ export class hsciistr {
             // the shared 'xi38' result into this specific output slot.
             if (this.tu in hsciistr.e52_x38_translatecode_dict) {
               await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
-              this.uL2xin38();
+              this.uL2xi52();
               this.output[this.tu] = this.output.xi38;
             } else {
               console.error(`duztr: unknown this.tu "${this.tu}" for phrom e52`);
@@ -161,7 +161,7 @@ export class hsciistr {
 		untransliterate_dom_node_impl();
 	}
 
-  uL2xin38_pre(): void {
+  uL2xi52_pre(): void {
     if (this.input) { // this.input = this.input.toLowerCase();
       // NOTE: mappings.ts (translet-xnglo) maps क्ष -> "S", this maps it
       // to "sh" -- a real discrepancy, not yet reconciled. Flagged, not
@@ -171,10 +171,10 @@ export class hsciistr {
     }
   }
 
-	uL2xin38(): void {
-		if (!this.input) return;
-		this.input = u10_to_xi38_impl(this.input);
-		this.output.xi38 = this.input;
+	uL2xi52(): void {
+	  if (!this.input) return;
+	  this.input = u10_to_xi52_impl(this.input);
+	  this.output.xi38 = this.input;
 	}
 	
   unicode_india_10scripts_to_xnglo_india_post(): void {

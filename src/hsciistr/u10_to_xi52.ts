@@ -2,9 +2,8 @@ import { U9_MAP } from './dicts/u9_map';
 import { U10_MAP } from './dicts/u10_map';
 import { xnglo_india_post } from './xnglo_post';
 
-export function unicode_india_to_xnglo_india(input: string): string {
+export function unicode_india_to_xnglo_india_xi52(input: string): string {
   if (!input) return '';
-  // pre
   let s = input
     .replace(/([\b\s])क्ष/g, '$1s').replace(/^क्ष/g, 's')
     .replace(/ज्ञ/g, 'gy');

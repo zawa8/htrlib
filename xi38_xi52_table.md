@@ -1,66 +1,51 @@
 # xi38 / xi52 transliteration table
 
-Two conventions are used in this repo. **xi38** is the older scheme that
-the existing tests were written against. **xi52** is the scheme this
-branch (`wimxlds_p1onli`) is migrating toward. In some cases they agree;
-in others they do not.
+Two Roman conventions are used in this repo.
 
-Only the letters whose values are confirmed are listed here. Everything
-else is TBD and should be filled in as the convention is finalized.
+- **xi38** (also called xh38 = xnglohinDi38, and the `xv38` series) is the
+  older scheme, targeted at readers who have the xi38/xh38 font.
+- **xi52** is the scheme this branch (`wimxlds_p1onli`) targets. It uses
+  digraphs for aspirated stops, so it reads correctly for plain-Latin
+  readers who don't have the font installed.
 
-## Confirmed values
+## Full confirmed mapping
 
 | Hindi | xi38 | xi52 | plain-Latin | notes |
 |-------|------|------|-------------|-------|
-| अ     | `x`  | `x`  | `A` / `a`   | glyph: `x` and `A` both drawn as A-shape with a horizontal bar in the lower section, so the two render identically in the font |
-| त     | `j`  | `T`  | `T`         | |
-| थ     | `J`  | `j`  | `Th`        | |
-| द     | `q`  | `D`  | `D`         | |
-| ध     | `Q`  | `q`  | `Dh`        | see note below |
-| ट     | `t`  | `t`  | `t`         | |
-| ठ     | `T`  | `J`  | `th`        | |
-| ड     | `d`  | `d`  | `d`         | |
-| ढ     | `D`  | `Q`  | `dh`        | |
-| ह     | `v`  | `H`  | `H`         | in the xi52 font the `H` glyph gets an extra dot on top; xi38 uses `v` whose glyph looks like `∀` |
-| व     | `w`  | `w`  | `w`         | same in both conventions |
+| अ     | `x`  | `x`  | `A` / `a`   | glyph: in both fonts, `x` and `A` are drawn as an A-shape with a horizontal bar in the lower section |
+| त     | `j`  | `T`  | `T`         | unaspirated dental |
+| थ     | `J`  | `j`  | `Th`        | aspirated dental |
+| द     | `D`  | `D`  | `D`         | unaspirated dental (voiced) |
+| ध     | `q`  | `Dh` | `Dh`        | aspirated dental (voiced) |
+| ट     | `t`  | `t`  | `t`         | unaspirated retroflex |
+| ठ     | `T`  | `J`  | `th`        | aspirated retroflex |
+| ड     | `d`  | `d`  | `d`         | unaspirated retroflex (voiced) |
+| ढ     | `Q`  | `dh` | `dh`        | aspirated retroflex (voiced) |
+| ड़    | `R`  | `R`  | `rr`        | retroflex flap |
+| ढ़    | `R`  | `R`  | `rr`        | same as ड़ in both conventions |
+| ह     | `v`  | `H`  | `H`         | xi38 font draws `v` as `∀`; xi52 font draws `H` with a dot on top |
+| व     | `w`  | `w`  | `w`         | same in both |
 
-## Contested / TBD
+## The core pattern
 
-- **ध**: two candidate mappings are in play.
-  - If xi38 is `Q` and xi52 is `q` (matching the "aspirated = alternate
-    case" pattern of the other stops), then पौधा is `pouQa` in xi38 and
-    `pouqa` in xi52.
-  - If the earlier statement `पौधा -> pouqa (xi38) -> pouDha (xi52)` is
-    taken literally, then ध maps to `q` in xi38 and to `Dh` in xi52.
-  - **This needs to be resolved before the array is finalized.**
+For aspirated stops, xi38 uses single uppercase letters, and xi52 uses
+two-letter digraphs. They swap:
 
-## Conventions
+| pair | xi38 | xi52 |
+|------|------|------|
+| dental unaspirated / aspirated | `j` / `J` | `T` / `j` |
+| dental voiced unaspirated / aspirated | `D` / `q` | `D` / `Dh` |
+| retroflex unaspirated / aspirated | `t` / `T` | `t` / `J` |
+| retroflex voiced unaspirated / aspirated | `d` / `Q` | `d` / `dh` |
 
-- **Aspirated stops** take a key that is *not* the same as the unaspirated
-  counterpart. In the 38-character xnglo alphabet
-  (`a-z K G C Z T Q J N P B R S`), the aspirated members are typically
-  uppercase letters not otherwise used.
-- **ह (ha)** is special: in xi38 it is written `v` because the font draws
-  the `v` glyph as `∀`. In xi52 it is written `H` because the font draws
-  the `H` glyph with an extra dot. Both render as a distinct ह-shape so
-  the reader can tell it apart from the aspiration `h` in `kh`, `gh`,
-  `ch`, `jh`, `th`, `dh`, `ph`, `bh`.
-- **व (va)** is always `w`, in every convention.
+A worked example: पौधा
 
-## How the fonts differ
-
-| letter | xi38 glyph | xi52 glyph |
-|--------|-----------|-----------|
-| `v` / `H` | `∀` (v with bar) | H with an extra dot on top |
-| `x` / `A` | A-shape with lower bar | A-shape with lower bar (identical to xi38) |
-
-Because the two glyphs for अ render identically, the choice between `x`
-and `A` in the output text does not affect what a font-equipped reader
-sees. It only affects plain-ASCII readers.
+- xi38: `pouqa`
+- xi52: `pouDha`
 
 ## Plain-reader guidance (advertisement / teaching)
 
-A reader who does not have the xnglo font installed will see plain Latin
+A reader who does not have the xnglo font installed sees plain Latin
 letters and will guess their English values. This is wrong for `x`.
 
 **Teach readers: `x` is pronounced अ. Not "eks".**

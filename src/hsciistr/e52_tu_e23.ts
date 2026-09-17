@@ -34,7 +34,7 @@ export function e52_tu_e23(input: string): string {
 
   s = s.replace(/\bcild\b/g, 'caild');
 
-  // x = Hindi schwa marker (matches uL2xin38 output convention)
+  // x = Hindi schwa marker (matches uL2xi52 output convention)
   s = s
     .replace(/\blover\b/g, 'lwxr')
     .replace(/\bnever\b/g, 'nxwxr')
