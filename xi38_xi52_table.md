@@ -13,17 +13,17 @@ Two Roman conventions are used in this repo.
 | Hindi | xi38 | xi52 | plain-Latin | notes |
 |-------|------|------|-------------|-------|
 | अ     | `x`  | `x`  | `A` / `a`   | glyph: in both fonts, `x` and `A` are drawn as an A-shape with a horizontal bar in the lower section |
-| त     | `j`  | `T`  | `T`         | unaspirated dental |
-| थ     | `J`  | `j`  | `Th`        | aspirated dental |
+| त     | `T`  | `T`  | `T`         | unaspirated dental |
+| थ     | `j`  | `j`  | `Th`        | aspirated dental |
 | द     | `D`  | `D`  | `D`         | unaspirated dental (voiced) |
-| ध     | `q`  | `Dh` | `Dh`        | aspirated dental (voiced) |
+| ध     | `q`  | `q` | `Dh`        | aspirated dental (voiced) |
 | ट     | `t`  | `t`  | `t`         | unaspirated retroflex |
-| ठ     | `T`  | `J`  | `th`        | aspirated retroflex |
+| ठ     | `J`  | `J`  | `th`        | aspirated retroflex |
 | ड     | `d`  | `d`  | `d`         | unaspirated retroflex (voiced) |
-| ढ     | `Q`  | `dh` | `dh`        | aspirated retroflex (voiced) |
+| ढ     | `Q`  | `Q` | `dh`        | aspirated retroflex (voiced) |
 | ड़    | `R`  | `R`  | `rr`        | retroflex flap |
 | ढ़    | `R`  | `R`  | `rr`        | same as ड़ in both conventions |
-| ह     | `v`  | `H`  | `H`         | xi38 font draws `v` as `∀`; xi52 font draws `H` with a dot on top |
+| ह     | `H`  | `H`  | `H`         | xi38 font draws `v` as `∀`; xi52 font draws `H` with a dot on top |
 | व     | `w`  | `w`  | `w`         | same in both |
 
 ## The core pattern
