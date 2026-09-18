@@ -5,20 +5,20 @@ import { hsciistr } from "../src/hsciistr_file";
 // need a real DOM (jsdom) environment, per the user's request to skip
 // that for now.
 
-describe("uL2xin38 (Devanagari u9/u10 -> xi38) hv", () => {
+describe("uL2xi52 (Devanagari u9/u10 -> xi38) hv", () => {
   const run = (s: string) => {
     const h = new hsciistr();
     h.set_input(s);
-    h.uL2xin38();
+    h.uL2xi52();
     return h.output.xi38;
   };
   test("जहाज़ झाग -> zvaz Zag", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zvaz smuqr me za rha hye our Zag bn rha hye.");
+    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zHaz smuDr me za rHa Hye our Zag bn rHa Hye.");
   });
   test("हल्दी नहाना -> hlqi nvana", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("vlqi ke pani me nhana cahie");
+    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHie");
   });
   
 });
@@ -133,26 +133,26 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   });
 });
 
-describe("uL2xin38 (Devanagari u9/u10 -> xi38)", () => {
+describe("uL2xi52 (Devanagari u9/u10 -> xi38)", () => {
   const run = (s: string) => {
     const h = new hsciistr();
     h.set_input(s);
-    h.uL2xin38();
+    h.uL2xi52();
     return h.output.xi38;
   };
 
   test("अनार (pomegranate) -> xnar", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouQa lgana xjynj SuB mana gya hye");
+    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouDha lgana xTynT SuB mana gya Hye");
   });
 
   test("नमस्ते -> nmsje", () => {
-    expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsje? jelNgan (luQiana)");
+    expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsTe? TelNgan (luDhiana)");
   });
 
   test("ligatures: त्र -> jr, ज्ञ -> gy", () => {
-    expect(run("त्र ज्ञ हिंदी में श्रुति लेख")).toBe( "jr gy hinqi me Sruji leK");
-    expect(run("हिंदी में क्षत्रिय कक्षा कैसे लिखते हैं")).toBe( "vinqi me sjriy kksa kyese liKje hye");
+    expect(run("त्र ज्ञ हिंदी में श्रुति लेख")).toBe( "Tr gy HinDi me SruTi leK");
+    expect(run("हिंदी में क्षत्रिय कक्षा कैसे लिखते हैं")).toBe("HinDi me sTriy kksa kyese liKTe Hye");
     expect(run("ज्ञ")).toBe("gy");
   });
 
@@ -162,7 +162,7 @@ describe("uL2xin38 (Devanagari u9/u10 -> xi38)", () => {
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
     expect(run("कंबल रंग ")).toBe("kmbl rNg ");
-    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur our xNgiTi qono Sbq Suru hoje hye. in qono Sbqo ka wiwrn nice qiya gya hye:");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur our xNgiJi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {
@@ -172,7 +172,7 @@ describe("uL2xin38 (Devanagari u9/u10 -> xi38)", () => {
   test("N post-processing: N -> n elsewhere, and at end of string is dropped", () => {
     // ं followed by a non k/K/g/G consonant, mid-word, is not in the
     // Nb/NB/Np/Nf special list -> falls through to the general N->n rule
-    expect(run("संत")).toBe("snj");
+    expect(run("संत")).toBe("snT");
   });
 
   test("passthrough for non-Devanagari (plain ASCII) input", () => {
@@ -182,13 +182,13 @@ describe("uL2xin38 (Devanagari u9/u10 -> xi38)", () => {
   test("no-op on empty input", () => {
     const h = new hsciistr();
     h.set_input("");
-    h.uL2xin38();
+    h.uL2xi52();
     expect(h.output.xi38).toBe("");
   });
 });
 
 describe("duztr() dispatch", () => {
-  test("phrom=u10 runs uL2xin38 only", async () => {
+  test("phrom=u10 runs uL2xi52 only", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xi38);
     h.set_input("अनार");
     await h.duztr();
@@ -210,7 +210,7 @@ describe("duztr() dispatch", () => {
     expect(h.output.xv38).toBe("wayin xnar");
   });
 
-  test("phrom=e52u10 runs e52_tu_e23 then uL2xin38 (ASCII passes through unicode step untouched)", async () => {
+  test("phrom=e52u10 runs e52_tu_e23 then uL2xi52 (ASCII passes through unicode step untouched)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xi38);
     h.set_input("Vine अनार");
     await h.duztr();
@@ -225,7 +225,7 @@ describe("duztr() dispatch", () => {
     expect(h.input).toBe("wyt");
   });
 
-  test("phrom=e52, tu=xe38: routes through transliterate_e52_x('pa') (Punjabi) -> uL2xin38 -> output.xe38, NOT translate_e52_x. We cannot change what the real Google API returns, so this mocks the API boundary and verifies OUR pipeline wiring (right endpoint, right language code, right native-script text fed into uL2xin38, right output slot) -- not the linguistic quality of Google's transliteration itself.", async () => {
+  test("phrom=e52, tu=xe38: routes through transliterate_e52_x('pa') (Punjabi) -> uL2xi52 -> output.xe38, NOT translate_e52_x. We cannot change what the real Google API returns, so this mocks the API boundary and verifies OUR pipeline wiring (right endpoint, right language code, right native-script text fed into uL2xi52, right output slot) -- not the linguistic quality of Google's transliteration itself.", async () => {
     const realFetch = global.fetch;
     global.fetch = jest.fn().mockResolvedValue({
       json: async () => [null, [["namaste", ["ਨਮਸਤੇ"]]]],
@@ -240,7 +240,7 @@ describe("duztr() dispatch", () => {
     expect(calledUrl).toContain("inputtools.google.com/request");
     expect(calledUrl).toContain("itc=pa-t-i0-und");
 
-    // confirms the native-script result got fed through uL2xin38 into output.xe38
+    // confirms the native-script result got fed through uL2xi52 into output.xe38
     expect(h.output.xe38).toBe(h.output.xi38);
     expect(h.output.xe38.length).toBeGreaterThan(0);
 
