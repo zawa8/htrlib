@@ -6,7 +6,7 @@ export const U10_MAP = {
     'N', //  d82 nbindu
     ':', //  d83 visarga
     'e', //  d84
-    'A', //  d85 letter a
+    'A', //  अ d85 letter a
     'Aa', // d86 letter aa
     'AE', // d87  letter ae
     'ae', // d88  letter aae
