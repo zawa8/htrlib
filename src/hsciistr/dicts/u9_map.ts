@@ -9,8 +9,8 @@ export const U9_MAP = {
     'N',  // ँ 901 2305 anunasika (candrabindu)
     'N',  // ं 902 2306 anusvara bindu
     ':',  // ः 903 2307 visarga
-    'xe', // ऄ 904 2308 short a
-    'x',  // अ 905 2309
+    'Ae', // ऄ 904 2308 short a
+    'A',  // अ 905 2309
     'a',  // आ 906 2310
     '_i', // इ 907 2311
     '_i', // ई 908 2312
@@ -37,12 +37,12 @@ export const U9_MAP = {
     'Z',  // झ 91D 2333
     'n',  // ञ 91E 2334
     't',  // ट 91F 2335
-    'J',  // ठ 920 2336   (xi52 aspirated retroflex)
+    'th',  // ठ 920 2336   (xi52 aspirated retroflex)
     'd',  // ड 921 2337
     'dh', // ढ 922 2338   (xi52 aspirated retroflex, lowercase dh)
     'n',  // ण 923 2339
     'T',  // त 924 2340   (xi52 unaspirated dental)
-    'j',  // थ 925 2341   (xi52 aspirated dental)
+    'Th',  // थ 925 2341   (xi52 aspirated dental)
     'D',  // द 926 2342
     'Dh', // ध 927 2343   (xi52 aspirated dental, capital Dh)
     'n',  // न 928 2344
@@ -120,12 +120,12 @@ export const U9_MAP = {
     '_',  // ॰ 970 2416
     '__', // ॱ 971 2417
     'A',  // ॲ 972 2418
-    'xo', // ॳ 973 2419
-    'xo', // ॴ 974 2420
-    'xo', // ॵ 975 2421
+    'Ao', // ॳ 973 2419
+    'Ao', // ॴ 974 2420
+    'Ao', // ॵ 975 2421
     'ui', // ॶ 976 2422
     'ui', // ॷ 977 2423
-    'q',  // ॸ 978 2424
+    'D',  // ॸ 978 2424
     'Z',  // ॹ 979 2425
     'y',  // ॺ 97A 2426
     'n',  // ॻ 97B 2427
