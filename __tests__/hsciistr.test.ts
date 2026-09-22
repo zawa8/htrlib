@@ -18,10 +18,10 @@ describe("uL2xi52 (Devanagari u9/u10 -> xi38) hv", () => {
   });
   test("ह", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHie");
+    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHiye");
   });
   test("इ/ई/उ/ऊ test", () => { expect(run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("zau Dua kyi(kyi) pRai kAua"); });
-  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aye huye liye"); });
+  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aye Huye liye"); });
   test("ष स्व test", () => { expect(run("ष स्व")).toBe("s sw");   });
   
 });
