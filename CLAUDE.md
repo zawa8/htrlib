@@ -4,6 +4,29 @@ xe38 : xnglo_english 38 alphabets ( 26 a-z + 11 soft konsonants K G C Z T D J Q 
 u9 : 9 indian writing scripts
 u10 : 9 indian writing scripts + 1 srilanka writing script
 
+## dicts/ file layout (updated)
+u9_map.ts used to be ONE shared table for all 9 ISCII-aligned scripts
+(devanagari/bengali/gurmukhi/gujarati/oriya/tamil/telugu/kannada/malayalam
+all route through the same offset-indexed array). That mostly worked
+because those 9 scripts share ISCII's common code-point layout within
+their own 0x80-wide block, so "offset 0x15 = ka sound" holds across all
+of them -- but each script still has its own gaps/extra letters that a
+single Devanagari-seeded table can't capture correctly.
+
+Split into src/hsciistr/dicts/u1_map.ts .. u9_map.ts (one file per script,
+same numbering as li 0x12..0x1a) + the pre-existing u10_map.ts (sinhala,
+li 0x1b, NOT ISCII-aligned -- see its own top-of-file note). u1..u9 are
+currently a STRUCTURAL split only: each file still holds the same
+Devanagari-derived values as the old shared table (see the scaffold
+notice at the top of each file), so there's no behavior change yet.
+Populating each with its own script's real Unicode-chart data (the way
+u10_map.ts/sinhala was done: unicodedata name-matching per letter, not
+raw offset-copying -- see the u10_map.ts commit history) is still TODO,
+script by script.
+  u1 devanagari(hindi/marathi) u2 bengali u3 gurmukhi(punjabi) u4 gujarati
+  u5 oriya(odia) u6 tamil u7 telugu u8 kannada u9 malayalam u10 sinhala
+Dispatch table lives in src/hsciistr/u10_to_xi52.ts (LI_TO_MAP).
+
 list of xnglo languages :
 xe38(xnglo_english_in_38_chars)
 xv38(xnglo_hindi) , xb38(xnglo_bengali), xmr38(xnglo_mrathi) , xg38(xnglo_guzrati),

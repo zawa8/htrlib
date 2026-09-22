@@ -1,6 +1,24 @@
+import { U1_MAP } from './dicts/u1_map';
+import { U2_MAP } from './dicts/u2_map';
+import { U3_MAP } from './dicts/u3_map';
+import { U4_MAP } from './dicts/u4_map';
+import { U5_MAP } from './dicts/u5_map';
+import { U6_MAP } from './dicts/u6_map';
+import { U7_MAP } from './dicts/u7_map';
+import { U8_MAP } from './dicts/u8_map';
 import { U9_MAP } from './dicts/u9_map';
 import { U10_MAP } from './dicts/u10_map';
 import { xnglo_india_post } from './xnglo_post';
+
+// li -> which per-script map, one block (0x80 codepoints) each:
+// 0x12 devanagari(u1) 0x13 bengali(u2) 0x14 gurmukhi(u3) 0x15 gujarati(u4)
+// 0x16 oriya(u5) 0x17 tamil(u6) 0x18 telugu(u7) 0x19 kannada(u8)
+// 0x1a malayalam(u9) 0x1b sinhala(u10, the only one actually verified
+// against its own script's Unicode chart so far -- see u10_map.ts's note).
+const LI_TO_MAP: Record<number, typeof U1_MAP> = {
+  0x12: U1_MAP, 0x13: U2_MAP, 0x14: U3_MAP, 0x15: U4_MAP, 0x16: U5_MAP,
+  0x17: U6_MAP, 0x18: U7_MAP, 0x19: U8_MAP, 0x1a: U9_MAP,
+};
 
 export function unicode_india_to_xnglo_india_xi52(input: string): string {
   if (!input) return '';
@@ -38,7 +56,8 @@ export function unicode_india_to_xnglo_india_xi52(input: string): string {
     const u  = ch.charCodeAt(0);
     const li = (u / 0x80) >> 0;
     const ki = u % 0x80;
-    if (li > 0x11 && li < 0x1b)      out += U9_MAP.unicode_hindi_array[ki];
+    const map = LI_TO_MAP[li];
+    if (map)                        out += map.unicode_hindi_array[ki];
     else if (li === 0x1b)           out += U10_MAP.unicode_hindi_array[ki];
     else                             out += ch;
   }

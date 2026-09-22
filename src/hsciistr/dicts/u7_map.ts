@@ -4,9 +4,9 @@
 // all 9 ISCII-aligned scripts -- Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam --
 // shared one table, per CLAUDE.md's original "u9: 9 indian writing
 // scripts" design). This split is structural only so far: NO behavior
-// change yet (still Devanagari values for every script). u9_map.ts is
-// for Malayalam (malayalam, block U+0D00-U+0D7F) and its
-// entries need verifying/rewriting against Malayalam's own Unicode chart
+// change yet (still Devanagari values for every script). u7_map.ts is
+// for Telugu (telugu, block U+0C00-U+0C7F) and its
+// entries need verifying/rewriting against Telugu's own Unicode chart
 // (letters, matras, digits) the same way u10_map.ts (sinhala) was done --
 // see u10_map.ts's own top-of-file note and the commit history around it
 // for the method (unicodedata name-matching, not raw offset-copying).
@@ -16,7 +16,7 @@
 // ह → H (font draws H with an extra dot).
 // व → w.
 // See xi38_xi52_table.md at repo root for the full mapping and rationale.
-export const U9_MAP = {
+export const U7_MAP = {
   unicode_hindi_array: [
     '',   // ऀ 900 2304 inverted candrabindu
     'N',  // ँ 901 2305 anunasika (candrabindu)

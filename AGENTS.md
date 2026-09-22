@@ -1,6 +1,10 @@
 e52 is English (26+26) , e23 is English(abcdefghi klmnop rstu wxyz)
 u9 : 9 indian writing scripts
 u10 : 9 indian writing scripts + 1 srilanka writing script
+(see CLAUDE.md "dicts/ file layout" -- u9_map.ts split into
+src/hsciistr/dicts/u1_map.ts..u9_map.ts, one per script, structural-only
+split so far, still needs per-script Unicode-chart data like u10_map.ts
+got)
 
 list of xnglo languages :
 xe(xnglo_english) , xv(xnglo_hindi) , xb(xnglo_bengali), xmr(xnglo_mrathi)
