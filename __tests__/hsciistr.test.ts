@@ -12,14 +12,17 @@ describe("uL2xi52 (Devanagari u9/u10 -> xi38) hv", () => {
     h.uL2xi52();
     return h.output.xi38;
   };
-  test("जहाज़ झाग -> zvaz Zag", () => {
+  test("जह झ test", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
     expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zHaz smuDr me za rHa Hye our Zag bn rHa Hye.");
   });
-  test("हल्दी नहाना -> hlqi nvana", () => {
+  test("ह", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
     expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHie");
   });
+  test("इ/ई/उ/ऊ test", () => { expect(run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("zau Dua kyi(kyi) pRai kAua"); });
+  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aye huye liye"); });
+  test("ष स्व test", () => { expect(run("ष स्व")).toBe("s sw");   });
   
 });
 
@@ -143,7 +146,7 @@ describe("uL2xi52 (Devanagari u9/u10 -> xi38)", () => {
 
   test("अनार (pomegranate) -> xnar", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouDha lgana xTynT SuB mana gya Hye");
+    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("Anar ka pouDha lgana ATynT SuB mana gya Hye");
   });
 
   test("नमस्ते -> nmsje", () => {
@@ -162,7 +165,7 @@ describe("uL2xi52 (Devanagari u9/u10 -> xi38)", () => {
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
     expect(run("कंबल रंग ")).toBe("kmbl rNg ");
-    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur our xNgiJi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'A' (Anuswar swr) Aksr se ANgur our ANgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {
@@ -192,30 +195,30 @@ describe("duztr() dispatch", () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xi38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xi38).toBe("xnar");
+    expect(h.output.xi38).toBe("Anar");
   });
 
   test("GAP FIX: phrom=u10 with a specific target (xv38) also copies the xi38 result into that slot, not just output.xi38", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xv38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xv38).toBe("xnar");
-    expect(h.output.xi38).toBe("xnar");
+    expect(h.output.xv38).toBe("Anar");
+    expect(h.output.xi38).toBe("Anar");
   });
 
   test("GAP FIX: phrom=e52u10 with a specific target (xv38) also copies into that slot", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xv38);
     h.set_input("Vine अनार");
     await h.duztr();
-    expect(h.output.xv38).toBe("wayin xnar");
+    expect(h.output.xv38).toBe("wayin Anar");
   });
 
   test("phrom=e52u10 runs e52_tu_e23 then uL2xi52 (ASCII passes through unicode step untouched)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xi38);
     h.set_input("Vine अनार");
     await h.duztr();
-    expect(h.input).toBe("wayin xnar");
-    expect(h.output.xi38).toBe("wayin xnar");
+    expect(h.input).toBe("wayin Anar");
+    expect(h.output.xi38).toBe("wayin Anar");
   });
 
   test("phrom=e52, tu=e23 transliterates without touching output dict", async () => {

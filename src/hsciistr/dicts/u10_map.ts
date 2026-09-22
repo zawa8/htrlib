@@ -20,20 +20,20 @@ export const U10_MAP = {
     'Aa', // आ d86 letter aa
     'AE', // ऍ d87 letter ae
     'ae', // ऍ d88 letter aae
-    'AI', // इ d89 letter i
-    'AI', // ई d8a letter ii
-    'AU', // उ d8b = sinhala letter u
-    'AU', // ऊ d8c = sinhala letter uu
+    '_i', // इ d89 letter i
+    '_i', // ई d8a letter ii
+    '_u', // उ d8b = sinhala letter u
+    '_u', // ऊ d8c = sinhala letter uu
     'r', // ऋ d8d volalic r
     'ri', // ॠ d8e vocalic rr
     'l', // ऌ d8f volalic l
     'li', // ॡ d90 volalic ll
-    'AE', // ऎ d91 letter e
-    'AE', // ए d92 letter ee
-    'AE', // ऐ d93 = sinhala letter ai
-    'AO', // ऒ d94 = sinhala letter o
-    'AO', // ओ d95 = sinhala letter oo
-    'AO', // औ d96 = sinhala letter au
+    '_e', // ऎ d91 letter e
+    '_e', // ए d92 letter ee
+    '_e', // ऐ d93 = sinhala letter ai
+    '_o', // ऒ d94 = sinhala letter o
+    '_o', // ओ d95 = sinhala letter oo
+    '_o', // औ d96 = sinhala letter au
     '', //   d97 null
     '', //   d98 null
     '', //   d99 null
