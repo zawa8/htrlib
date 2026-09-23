@@ -55,7 +55,15 @@ export class hsciistr {
 		e23: 'e23', xe38: 'xe38',
 		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38',
 		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
-		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38'
+		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38',
+		// uh38..umr38: same as xi38 for u10-sourced (native-script) input --
+		// the underlying uL2xi52() conversion already dispatches by script
+		// via u1_map.ts..u10_map.ts, so the romanization value doesn't
+		// change; these just let the caller name which script/language the
+		// native-script input was in, mirroring the xv38/xb38/.. labels
+		// used on the e52 (english-sourced) side.
+		uh38: 'uh38', ub38: 'ub38', up38: 'up38', ug38: 'ug38', uo38: 'uo38',
+		uj38: 'uj38', ut38: 'ut38', um38: 'um38', uk38: 'uk38', us38: 'us38', umr38: 'umr38'
 	};
 
   input: string;   phrom: string;   tu: string;
@@ -63,7 +71,9 @@ export class hsciistr {
 		e23: '', xe38: '', xi38: '',
 		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'',
 		xj38: '', xt38: '', xm38: '', xk38: '',
-		xs38: ''
+		xs38: '',
+		uh38: '', ub38: '', up38: '', ug38: '', uo38: '',
+		uj38: '', ut38: '', um38: '', uk38: '', us38: '', umr38: ''
   };
 
   constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi38) {
