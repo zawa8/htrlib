@@ -75,12 +75,12 @@ xh38: 'xh38', xb38: 'xb38',xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38
 
 —---
 phrom -> tu list:
-English -> e23
-English -> xe38 (eng->transliterate(punzabi) -> unicode->xi38)
-English -> translate()->uh/ub/…->xh38/xb38/…
-English -> translate()->uh/ub/…->uh38/ub38/…
-unicode -> ui38
-unicode -> xi38 
+1. English -> e23
+2. English -> xe38 (eng->transliterate(punzabi) -> unicode->xi38)
+3. English -> translate()->uh/ub/…->xh38/xb38/…
+4. English -> translate()->uh/ub/…->uh38/ub38/…
+5. unicode -> ui38
+6. unicode -> xi38 
 —---
 
 
