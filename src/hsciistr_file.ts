@@ -13,7 +13,9 @@ export class hsciistr {
 	// u10 : 9 indian writing scripts + 1 srilanka writing script
 	// x38(xnglo_english) e52->x38 will be done using mappings in data/3k_local_copy.tsv
 	// xi(xnglo indik(any 1 of u10 converted to xnglo))
-	// xv(xnglo_hindi) , xb(xnglo_bengali), xp(xnglo_pnzabi), xg(xnglo_guzraji) , xo(xnglo_oriya)
+	// xh(xnglo_hindi) , xb(xnglo_bengali), xp(xnglo_pnzabi), xg(xnglo_guzraji) , xo(xnglo_oriya)
+	// (english-sourced side; uh/ub/up/ug/uo/.. name the same slots when the
+	// source is native-script unicode instead -- see phrom_tu.md)
 	// xj(xnglo_telugu) , xt(xnglo_tmil), xm(xnglo_mlyalm), xk(xnglo_knrra) , xs(xnglo_sinhla)
 	// xmr(xnglo_mrathi)
 
@@ -47,20 +49,27 @@ export class hsciistr {
 	}
 	
 	static e52_x38_translatecode_dict: { [key: string]: string } = {
-		xv38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
-		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr'
+		xh38: 'hi', xb38: 'bn', xp38: 'pa', xg38:'gu', xo38: 'or', xt38: 'ta',
+		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr',
+		// same language codes, just also reachable via the uh38/ub38/..
+		// output-slot names (phrom_tu.md items 3 & 4: same
+		// translate()->native-script->uL2xi52 pipeline, caller picks
+		// which family of slot name -- x* or u* -- they want the result
+		// copied into).
+		uh38: 'hi', ub38: 'bn', up38: 'pa', ug38:'gu', uo38: 'or', ut38: 'ta',
+		uj38: 'te', um38: 'ml', uk38: 'kn', us38: 'si' , umr38:'mr'
 	};
-	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10', e52u10: 'e52u10' };
+	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10' };
 	static tu_dikt: { [key: string]: string }  =  {
 		e23: 'e23', xe38: 'xe38',
-		xi38: 'xi38', xv38: 'xv38', xb38: 'xb38',
+		xi38: 'xi38', ui38: 'ui38', xb38: 'xb38',
 		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
-		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38',
+		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38', xh38: 'xh38',
 		// uh38..umr38: same as xi38 for u10-sourced (native-script) input --
 		// the underlying uL2xi52() conversion already dispatches by script
 		// via u1_map.ts..u10_map.ts, so the romanization value doesn't
 		// change; these just let the caller name which script/language the
-		// native-script input was in, mirroring the xv38/xb38/.. labels
+		// native-script input was in, mirroring the xh38/xb38/.. labels
 		// used on the e52 (english-sourced) side.
 		uh38: 'uh38', ub38: 'ub38', up38: 'up38', ug38: 'ug38', uo38: 'uo38',
 		uj38: 'uj38', ut38: 'ut38', um38: 'um38', uk38: 'uk38', us38: 'us38', umr38: 'umr38'
@@ -68,18 +77,18 @@ export class hsciistr {
 
   input: string;   phrom: string;   tu: string;
   output: { [key: string]: string } = {
-		e23: '', xe38: '', xi38: '',
-		xv38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'',
+		e23: '', xe38: '', xi38: '', ui38: '',
+		xh38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'',
 		xj38: '', xt38: '', xm38: '', xk38: '',
 		xs38: '',
 		uh38: '', ub38: '', up38: '', ug38: '', uo38: '',
 		uj38: '', ut38: '', um38: '', uk38: '', us38: '', umr38: ''
   };
 
-  constructor(phrom=hsciistr.phrom_dikt.e52u10, tu=hsciistr.tu_dikt.xi38) {
+  constructor(phrom=hsciistr.phrom_dikt.u10, tu=hsciistr.tu_dikt.xi38) {
     if ( (phrom in hsciistr.phrom_dikt) && (tu in hsciistr.tu_dikt)) { this.phrom = phrom ; this.tu = tu ; }
 	else {
-      this.phrom = hsciistr.phrom_dikt.e52u10 ;
+      this.phrom = hsciistr.phrom_dikt.u10 ;
       this.tu = hsciistr.tu_dikt.xi38 ;
       console.error("aiqxr ",phrom," not in ",hsciistr.phrom_dikt," or ", tu," not in ", hsciistr.tu_dikt,"\n") ;
     }
@@ -89,7 +98,7 @@ export class hsciistr {
   set_input(input: string): hsciistr { this.input = input; return this; }
   set_phrom(phrom_arg: string): hsciistr {
     if (phrom_arg in hsciistr.phrom_dikt)  { this.phrom = phrom_arg ; } else {
-      this.phrom = hsciistr.phrom_dikt.e52u10 ;
+      this.phrom = hsciistr.phrom_dikt.u10 ;
       console.error(phrom_arg," not in ",hsciistr.phrom_dikt,"\n") ;
     }
     return this;
@@ -105,11 +114,10 @@ export class hsciistr {
   async duztr(): Promise<hsciistr> {
     switch (this.phrom) {
       case hsciistr.phrom_dikt.u10:
-        this.uL2xi52();
-        this.output[this.tu] = this.output.xi38;
-        break;
-      case hsciistr.phrom_dikt.e52u10:
-        this.e52_tu_e23();
+        // phrom_tu.md items 5 & 6: unicode -> ui38, unicode -> xi38 -- both
+        // just the generic uL2xi52() result, under whichever slot name the
+        // caller asked for (ui38 and xi38 are interchangeable aliases here,
+        // same as uh38/xh38 etc. below).
         this.uL2xi52();
         this.output[this.tu] = this.output.xi38;
         break;
@@ -131,10 +139,12 @@ export class hsciistr {
 			this.output.xe38 = this.output.xi38;
 		  break;
           default:
-            // any xv38/xb38/xp38/xg38/xo38/xt38/xj38/xm38/xk38/xs38/xmr38 target:
-            // translate e52 -> that language's native script, then run the
-            // native-script text through the u10->xi38 converter, and copy
-            // the shared 'xi38' result into this specific output slot.
+            // any xh38/xb38/xp38/xg38/xo38/xt38/xj38/xm38/xk38/xs38/xmr38 OR
+            // uh38/ub38/up38/ug38/uo38/ut38/uj38/um38/uk38/us38/umr38
+            // target (phrom_tu.md items 3 & 4): translate e52 -> that
+            // language's native script, then run the native-script text
+            // through the u10->xi38 converter, and copy the shared 'xi38'
+            // result into this specific output slot.
             if (this.tu in hsciistr.e52_x38_translatecode_dict) {
               await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
               this.uL2xi52();

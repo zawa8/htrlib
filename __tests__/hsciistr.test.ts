@@ -198,27 +198,27 @@ describe("duztr() dispatch", () => {
     expect(h.output.xi38).toBe("Anar");
   });
 
-  test("GAP FIX: phrom=u10 with a specific target (xv38) also copies the xi38 result into that slot, not just output.xi38", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xv38);
+  test("GAP FIX: phrom=u10 with a specific target (xh38) also copies the xi38 result into that slot, not just output.xi38", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xh38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xv38).toBe("Anar");
+    expect(h.output.xh38).toBe("Anar");
     expect(h.output.xi38).toBe("Anar");
   });
 
-  test("GAP FIX: phrom=e52u10 with a specific target (xv38) also copies into that slot", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xv38);
-    h.set_input("Vine अनार");
+  test("phrom=u10 with the ui38 target is interchangeable with xi38 (phrom_tu.md items 5 & 6)", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+    h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xv38).toBe("wayin Anar");
+    expect(h.output.ui38).toBe("Anar");
+    expect(h.output.xi38).toBe("Anar");
   });
 
-  test("phrom=e52u10 runs e52_tu_e23 then uL2xi52 (ASCII passes through unicode step untouched)", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.e52u10, hsciistr.tu_dikt.xi38);
-    h.set_input("Vine अनार");
+  test("phrom=u10 with a uh38 target also copies into that slot (phrom_tu.md's u* family)", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38);
+    h.set_input("अनार");
     await h.duztr();
-    expect(h.input).toBe("wayin Anar");
-    expect(h.output.xi38).toBe("wayin Anar");
+    expect(h.output.uh38).toBe("Anar");
   });
 
   test("phrom=e52, tu=e23 transliterates without touching output dict", async () => {
@@ -252,27 +252,27 @@ describe("duztr() dispatch", () => {
 });
 
 describe("constructor validation / fallback", () => {
-  test("invalid phrom/tu falls back to e52u10 / xi38 defaults", () => {
+  test("invalid phrom/tu falls back to u10 / xi38 defaults", () => {
     const h = new hsciistr("bogus", "bogxs");
-    expect(h.phrom).toBe(hsciistr.phrom_dikt.e52u10);
+    expect(h.phrom).toBe(hsciistr.phrom_dikt.u10);
     expect(h.tu).toBe(hsciistr.tu_dikt.xi38);
   });
 
   test("set_phrom / set_tu also fall back on invalid values", () => {
     const h = new hsciistr();
     h.set_phrom("bogus");
-    expect(h.phrom).toBe(hsciistr.phrom_dikt.e52u10);
+    expect(h.phrom).toBe(hsciistr.phrom_dikt.u10);
     h.set_tu("bogus");
     expect(h.tu).toBe(hsciistr.tu_dikt.xi38);
   });
 });
 
 describe("static dictionaries (shape sanity)", () => {
-  test("e52_x38_translatecode_dict covers all 11 xnglo indic scripts", () => {
+  test("e52_x38_translatecode_dict covers all 11 xnglo indic scripts, x* and u* families", () => {
     const keys = Object.keys(hsciistr.e52_x38_translatecode_dict).sort();
-    expect(keys).toEqual(
-      ["xb38", "xg38", "xj38", "xm38", "xmr38", "xo38", "xp38", "xs38", "xt38", "xv38", "xk38"].sort()
-    );
+    const x = ["xb38", "xg38", "xj38", "xm38", "xmr38", "xo38", "xp38", "xs38", "xt38", "xh38", "xk38"];
+    const u = ["ub38", "ug38", "uj38", "um38", "umr38", "uo38", "up38", "us38", "ut38", "uh38", "uk38"];
+    expect(keys).toEqual([...x, ...u].sort());
   });
 
   test("itc_code_dict entries all end in -t-i0-und", () => {
