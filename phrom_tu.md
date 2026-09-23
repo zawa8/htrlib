@@ -53,7 +53,7 @@ u r l w
 s S
 
 H/v
-—--------
+
 ```
 static phrom_dikt: { [key: string]: string }  =  {
 e52: 'e52', u10: 'u10', 
@@ -73,15 +73,16 @@ xh38: 'xh38', xb38: 'xb38',xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38
 };
 ```
 
-—---
 phrom -> tu list:
+
 1. English -> e23
 2. English -> xe38 (eng->transliterate(punzabi) -> unicode->xi38)
 3. English -> translate()->uh/ub/…->xh38/xb38/…
 4. English -> translate()->uh/ub/…->uh38/ub38/…
 5. unicode -> ui38
-6. unicode -> xi38 
-—---
+6. unicode -> xi38
+
+
 
 
 
