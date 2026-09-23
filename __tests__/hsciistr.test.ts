@@ -221,6 +221,20 @@ describe("duztr() dispatch", () => {
     expect(h.output.uh38).toBe("Anar");
   });
 
+  test("unicode(नमस्ते) -> uh38(nmsTe): u*38 is a pass-through of the same xi38/x*38 result, not a separate partial-devanagari scheme", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38);
+    h.set_input("नमस्ते");
+    await h.duztr();
+    expect(h.output.uh38).toBe("nmsTe");
+  });
+
+  test("unicode(नमस्ते) -> xi38(nmsTe)", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xi38);
+    h.set_input("नमस्ते");
+    await h.duztr();
+    expect(h.output.xi38).toBe("nmsTe");
+  });
+
   test("phrom=e52, tu=e23 transliterates without touching output dict", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.e52, hsciistr.tu_dikt.e23);
     h.set_input("vet");
