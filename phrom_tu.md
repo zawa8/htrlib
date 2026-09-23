@@ -90,7 +90,11 @@ phrom -> tu list:
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38); // krekt
 ```
 
+phrom: English e52 -> tu : xe38 test cases :
+1. knife -> naif
+2. Calcium -> कैल्सियम/कैल्शियम/ਕੈਲਸੀਅਮ/ਕੈਲਸ਼ੀਅਮ/ಕ್ಯಾಲ್ಸಿಯಂ-> kyelsiym/kyelSium/kAelsiym//kAelSiym all ok
 
+please add these tests.
 
 
 
