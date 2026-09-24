@@ -214,18 +214,18 @@ describe("duztr() dispatch", () => {
     expect(h.output.xi38).toBe("Anar");
   });
 
-  test("phrom=u10 with a uh38 target also copies into that slot (phrom_tu.md's u* family)", async () => {
+  test("phrom=u10 with a uh38 target: letters stay native, the ा matra converts to 'a', rest unchanged (phrom_tu.md's u* family)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.uh38).toBe("Anar");
+    expect(h.output.uh38).toBe("अनaर");
   });
 
-  test("unicode(नमस्ते) -> uh38(nmsTe): u*38 is a pass-through of the same xi38/x*38 result, not a separate partial-devanagari scheme", async () => {
+  test("unicode(नमस्ते) -> uh38(नमसतe): letters stay native-script, marks convert to xi38 value, virama drops", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38);
     h.set_input("नमस्ते");
     await h.duztr();
-    expect(h.output.uh38).toBe("nmsTe");
+    expect(h.output.uh38).toBe("नमसतe");
   });
 
   test("unicode(नमस्ते) -> xi38(nmsTe)", async () => {
@@ -260,6 +260,34 @@ describe("duztr() dispatch", () => {
     // confirms the native-script result got fed through uL2xi52 into output.xe38
     expect(h.output.xe38).toBe(h.output.xi38);
     expect(h.output.xe38.length).toBeGreaterThan(0);
+
+    global.fetch = realFetch;
+  });
+
+  test("phrom=e52, tu=xe38: knife -> naif (mocked Punjabi transliteration ਨਾਇਫ)", async () => {
+    const realFetch = global.fetch;
+    global.fetch = jest.fn().mockResolvedValue({
+      json: async () => [null, [["knife", ["ਨਾਇਫ"]]]],
+    }) as any;
+
+    const h = new hsciistr(hsciistr.phrom_dikt.e52, hsciistr.tu_dikt.xe38);
+    h.set_input("knife");
+    await h.duztr();
+    expect(h.output.xe38).toBe("naif");
+
+    global.fetch = realFetch;
+  });
+
+  test("phrom=e52, tu=xe38: Calcium -> one of kyelsiym/kyelSiym/kAelsiym/kAelSiym (mocked Punjabi transliteration ਕੈਲਸਿਯਮ)", async () => {
+    const realFetch = global.fetch;
+    global.fetch = jest.fn().mockResolvedValue({
+      json: async () => [null, [["Calcium", ["ਕੈਲਸਿਯਮ"]]]],
+    }) as any;
+
+    const h = new hsciistr(hsciistr.phrom_dikt.e52, hsciistr.tu_dikt.xe38);
+    h.set_input("Calcium");
+    await h.duztr();
+    expect(["kyelsiym", "kyelSiym", "kAelsiym", "kAelSiym"]).toContain(h.output.xe38);
 
     global.fetch = realFetch;
   });
