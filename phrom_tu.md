@@ -83,11 +83,11 @@ phrom -> tu list:
 6. unicode -> xi38
 
 ```
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38); // wrong 
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38); // correct
 
 
 
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38); // krekt
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38); // also correct.
 ```
 
 phrom: English e52 -> tu : xe38 test cases :
