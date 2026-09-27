@@ -210,10 +210,26 @@ describe("duztr() dispatch", () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.ui38).toBe("Anar");
+    expect(h.output.ui38).toBe("अनaर");
     expect(h.output.xi38).toBe("Anar");
   });
 
+  test("phrom=u10 tu=ui38 ऋ श्र", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+    h.set_input("ऋषि के आश्रम में (गंगा)");
+    await h.duztr();
+    expect(h.output.ui38).toBe("रiसi कe aशरम मe (गNगa)");
+    expect(h.output.xi38).toBe("risi ke aSrm me (gNga)");
+  });
+
+  test("phrom=u10 tu=ui38 ऋ श्र 2", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+    h.set_input("ऋषि के आश्रम में (गंगा) किनारे बैठकर शिष्यों ने वाङ्गमय और चञ्चल मन को एकाग्र करने का पाठ सीखा।");
+    await h.duztr();
+    expect(h.output.ui38).toBe("रiसi कe aशरम मe (गNगa) कiनaरe बयeठकर शiषयo नe वaNगमय और चनचल मन कo eकaगर करनe कa पaठ सiखa.");
+    expect(h.output.xi38).toBe("risi ke aSrm me (gNga) kinare byethkr Sisyo ne waNgmy our cncl mn ko ekagr krne ka path siKa.");
+  });
+  
   test("phrom=u10 with a uh38 target: letters stay native, the ा matra converts to 'a', rest unchanged (phrom_tu.md's u* family)", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.uh38);
     h.set_input("अनार");
