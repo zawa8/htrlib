@@ -10,7 +10,20 @@ describe("unicode_india_to_u38 testcases", () => {
     expect(
       unicode_india_to_u38(
         "ऋषि के आश्रम में (गंगा) किनारे बैठकर शिष्यों ने वाङ्गमय और चञ्चल मन को एकाग्र करने का पाठ सीखा।"
-      ))
+      )
       .toBe("रiसi कe अaशरम मe (गनगa) कiनaरe बयeठकर शiसयo नe वaनगमय और चनचल मन कo eकaगर करनe कa पaठ सiखa");
+      )
+  });
+    
+  test("unicode_india_to_u38 testcase2", () => {
+    expect(
+        unicode_india_to_u38("अनaर").toBe("अनaर");
+    );
+  });
+  
+  test("unicode_india_to_u38 testcase3", () => {
+    expect(
+        unicode_india_to_u38("नमस्ते").toBe("नमसतe");
+    );
   });
 });
