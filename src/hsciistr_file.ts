@@ -3,7 +3,7 @@ import {
   untransliterate_dom_node as untransliterate_dom_node_impl,
 } from './hsciistr/dom/transliterate_dom';
 import { e52_tu_e23 as e52_tu_e23_impl } from './hsciistr/e52_tu_e23';
-import { unicode_india_to_xnglo_india_xi52 as u10_to_xi52_impl, unicode_india_to_u38 as u10_to_u38_impl } from './hsciistr/u10_to_xi52';
+import { uten2xi38 as u10_to_xi38_impl, uten2u38 as u10_to_u38_impl } from './hsciistr/u10_to_xi38';
 import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
 import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 
@@ -78,7 +78,7 @@ export class hsciistr {
 	// u*38 family (uh38/ub38/../umr38, but NOT ui38 which stays a plain
 	// xi38 alias per phrom_tu.md item 5): semi-transliteration -- letters
 	// stay native-script, only marks (matras/anusvara/etc) convert, virama
-	// drops. See unicode_india_to_u38() in u10_to_xi52.ts.
+	// drops. See uten2u38() in u10_to_xi38.ts.
 	static u38_family: Set<string> = new Set([
 		'uh38', 'ub38', 'up38', 'ug38', 'uo38', 'uj38', 'ut38', 'um38', 'uk38', 'us38', 'umr38',
 	]);
@@ -203,11 +203,11 @@ export class hsciistr {
 
 	uL2xi52(): void {
 	  if (!this.input) return;
-	  this.input = u10_to_xi52_impl(this.input);
+	  this.input = u10_to_xi38_impl(this.input);
 	  this.output.xi38 = this.input;
 	}
 
-	// Semi-transliteration for the u*38 family -- see unicode_india_to_u38().
+	// Semi-transliteration for the u*38 family -- see uten2u38().
 	// Reads from this.input like uL2xi52() does, but does NOT overwrite
 	// this.input (u*38's mixed native+latin string isn't meant to be
 	// piped further the way full-xi38 output is).
