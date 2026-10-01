@@ -127,12 +127,12 @@ export class hsciistr {
         // just the generic uten_to_xi38() result, under whichever slot name the
         // caller asked for (ui38 and xi38 are interchangeable aliases here,
         // same as xh38 etc. below). The u*38 family (uh38/ub38/..) instead
-        // gets the semi-transliterated uL2u38() result (letters stay
-        // native, only marks convert, virama drops). uL2u38() must run
+        // gets the semi-transliterated uten_to_u38() result (letters stay
+        // native, only marks convert, virama drops). uten_to_u38() must run
         // BEFORE uten_to_xi38(), which overwrites this.input with the fully
         // romanized string.
         {
-          const u38Result = hsciistr.u38_family.has(this.tu) ? this.uL2u38() : '';
+          const u38Result = hsciistr.u38_family.has(this.tu) ? this.uten_to_u38() : '';
           this.uten_to_xi38();
           this.output[this.tu] = hsciistr.u38_family.has(this.tu) ? u38Result : this.output.xi38;
         }
@@ -160,13 +160,13 @@ export class hsciistr {
             // native script, then run the native-script text through the
             // u10->xi38 converter, and copy the shared 'xi38' result into
             // this specific output slot. uh38/ub38/../umr38 (item 4) get
-            // the semi-transliterated uL2u38() result instead of xi38
+            // the semi-transliterated uten_to_u38() result instead of xi38
             // (letters stay native, only marks convert, virama drops).
             if (this.tu in hsciistr.e52_x38_translatecode_dict) {
               await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
               this.uten_to_xi38();
               if (hsciistr.u38_family.has(this.tu)) {
-                this.output[this.tu] = this.uL2u38();
+                this.output[this.tu] = this.uten_to_u38();
               } else {
                 this.output[this.tu] = this.output.xi38;
               }
@@ -212,7 +212,7 @@ export class hsciistr {
 	// Reads from this.input like uten_to_xi38() does, but does NOT overwrite
 	// this.input (u*38's mixed native+latin string isn't meant to be
 	// piped further the way full-xi38 output is).
-	uL2u38(): string {
+	uten_to_u38(): string {
 	  if (!this.input) return '';
 	  return uten_to_u38_impl(this.input);
 	}
