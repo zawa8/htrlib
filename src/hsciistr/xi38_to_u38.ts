@@ -1,4 +1,4 @@
-// xi38 -> ui38: the reverse direction from uten_to_xi38.ts's to_xi38/to_u38
+// xi38 -> u38: the reverse direction from uten_to_xi38.ts's to_xi38/to_u38
 // (which both start from NATIVE-script input). Here the input is already
 // xi38 (fully romanized, e.g. "snskriTi"), and the output replaces each
 // recognized CONSONANT letter with the corresponding native character
@@ -79,7 +79,7 @@ export function xi38_to_ui38(input: string, script: string): string {
     // native, marks convert" rule (see to_u38() in uten_to_xi38.ts), so
     // this leaves "ri"/"li" untouched rather than reading them as
     // consonant r/l followed by the vowel i. Confirmed by the repo
-    // owner's example: संस्कृति's xi38 "snskriTi" -> ui38 "सनसकriतi",
+    // owner's example: संस्कृति's xi38 "snskriTi" -> u38 "सनसकriतi",
     // "ri" unconverted. This is a genuine ambiguity in xi38's own output
     // (a real consonant र/ल directly followed by an इ letter -- rather
     // than the ऋ/ऌ matra -- would look identical here); this picks the

@@ -15,7 +15,7 @@ export const PHROM_DIKT = { e52: 'e52', u10: 'u10' } as const;
 
 export const TU_DIKT = {
   e23: 'e23', xe38: 'xe38',
-  xi38: 'xi38', ui38: 'ui38', xh38: 'xh38', xb38: 'xb38',
+  xi38: 'xi38', u38: 'u38', xh38: 'xh38', xb38: 'xb38',
   xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
   xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38',
   uh38: 'uh38', ub38: 'ub38', up38: 'up38', ug38: 'ug38', uo38: 'uo38',

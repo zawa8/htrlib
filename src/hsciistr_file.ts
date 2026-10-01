@@ -63,7 +63,7 @@ export class hsciistr {
 	static phrom_dikt: { [key: string]: string }  =  { e52: 'e52', u10: 'u10' };
 	static tu_dikt: { [key: string]: string }  =  {
 		e23: 'e23', xe38: 'xe38',
-		xi38: 'xi38', ui38: 'ui38', xb38: 'xb38',
+		xi38: 'xi38', u38: 'u38', xb38: 'xb38',
 		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38', xh38: 'xh38',
 		// uh38..umr38: same as xi38 for u10-sourced (native-script) input --
@@ -76,17 +76,17 @@ export class hsciistr {
 		uj38: 'uj38', ut38: 'ut38', um38: 'um38', uk38: 'uk38', us38: 'us38', umr38: 'umr38'
 	};
 
-	// u*38 family (uh38/ub38/../umr38, but NOT ui38 which stays a plain
+	// u*38 family (uh38/ub38/../umr38, but NOT u38 which stays a plain
 	// xi38 alias per phrom_tu.md item 5): semi-transliteration -- letters
 	// stay native-script, only marks (matras/anusvara/etc) convert, virama
 	// drops. See uten_to_u38() in uten_to_xi38.ts.
 	static u38_family: Set<string> = new Set([
-		'uh38', 'ub38', 'up38', 'ug38', 'uo38', 'uj38', 'ut38', 'um38', 'uk38', 'us38', 'umr38',
+		'u38','uh38', 'ub38', 'up38', 'ug38', 'uo38', 'uj38', 'ut38', 'um38', 'uk38', 'us38', 'umr38',
 	]);
 
   input: string;   phrom: string;   tu: string;
   output: { [key: string]: string } = {
-		e23: '', xe38: '', xi38: '', ui38: '',
+		e23: '', xe38: '', xi38: '', u38: '',
 		xh38: '', xmr38:'', xb38: '', xp38: '', xo38: '', xg38:'',
 		xj38: '', xt38: '', xm38: '', xk38: '',
 		xs38: '',
@@ -123,19 +123,23 @@ export class hsciistr {
   async duztr(): Promise<hsciistr> {
     switch (this.phrom) {
       case hsciistr.phrom_dikt.u10:
-        // phrom_tu.md items 5 & 6: unicode -> ui38, unicode -> xi38 -- both
+        // phrom_tu.md items 5 & 6: unicode -> u38, unicode -> xi38 -- both
         // just the generic uten_to_xi38() result, under whichever slot name the
-        // caller asked for (ui38 and xi38 are interchangeable aliases here,
+        // caller asked for (u38 and xi38 are interchangeable aliases here,
         // same as xh38 etc. below). The u*38 family (uh38/ub38/..) instead
         // gets the semi-transliterated uten_to_u38() result (letters stay
         // native, only marks convert, virama drops). uten_to_u38() must run
         // BEFORE uten_to_xi38(), which overwrites this.input with the fully
         // romanized string.
         {
-          const u38Result = hsciistr.u38_family.has(this.tu) ? this.uten_to_u38() : '';
-          this.uten_to_xi38();
-          this.output[this.tu] = hsciistr.u38_family.has(this.tu) ? u38Result : this.output.xi38;
-        }
+          if(hsciistr.u38_family.has(this.tu)){
+			  this.uten_to_u38();
+			  this.output[this.tu] = this.output.u38 ;
+		  } else{
+			  this.uten_to_xi38();
+			  this.output[this.tu] = this.output.xi38 ;
+		  }
+	  }
         break;
       case hsciistr.phrom_dikt.e52:
         switch (this.tu) {
@@ -166,7 +170,8 @@ export class hsciistr {
               await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
               this.uten_to_xi38();
               if (hsciistr.u38_family.has(this.tu)) {
-                this.output[this.tu] = this.uten_to_u38();
+                // this.output[this.tu] = this.uten_to_u38();
+                this.output[this.tu] = this.output.u38;
               } else {
                 this.output[this.tu] = this.output.xi38;
               }
@@ -212,9 +217,12 @@ export class hsciistr {
 	// Reads from this.input like uten_to_xi38() does, but does NOT overwrite
 	// this.input (u*38's mixed native+latin string isn't meant to be
 	// piped further the way full-xi38 output is).
-	uten_to_u38(): string {
-	  if (!this.input) return '';
-	  return uten_to_u38_impl(this.input);
+	uten_to_u38(): void {
+	  // if (!this.input) return '';
+	  if (!this.input) return;
+	  this.input = uten_to_u38_impl(this.input);
+	  this.output.u38 = this.input;
+
 	}
 
 }

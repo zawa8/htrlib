@@ -17,7 +17,7 @@
 // that for now.
 
 import "../test-parts/uten-to-xi38";
-import "../test-parts/xi38-to-ui38";
+import "../test-parts/xi38-to-u38";
 import "../test-parts/e23-english";
 import "../test-parts/duztr-dispatch";
 import "../test-parts/constructor-fallback";

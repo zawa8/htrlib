@@ -16,27 +16,33 @@ describe("duztr() dispatch", () => {
     expect(h.output.xi38).toBe("Anar");
   });
 
-  test("phrom=u10 with the ui38 target is interchangeable with xi38 (phrom_tu.md items 5 & 6)", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+  test("tu_dikt:u38 test अनार", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.u38);
     h.set_input("अनार");
     await h.duztr();
-    // expect(h.output.ui38).toBe("अनaर");
+    expect(h.output.u38).toBe("अनaर");
+  });
+
+  test("tu_dikt:xi38 test अनार", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xi38);
+    h.set_input("अनार");
+    await h.duztr();
     expect(h.output.xi38).toBe("Anar");
   });
 /*
-  test("phrom=u10 tu=ui38 ऋ श्र", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+  test("phrom=u10 tu=u38 ऋ श्र", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.u38);
     h.set_input("ऋषि के आश्रम में (गंगा)");
     await h.duztr();
-    expect(h.output.ui38).toBe("रiसi कe aशरम मe (गNगa)");
+    expect(h.output.u38).toBe("रiसi कe aशरम मe (गNगa)");
     expect(h.output.xi38).toBe("risi ke aSrm me (gNga)");
   });
 
-  test("phrom=u10 tu=ui38 ऋ श्र 2", async () => {
-    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.ui38);
+  test("phrom=u10 tu=u38 ऋ श्र 2", async () => {
+    const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.u38);
     h.set_input("ऋषि के आश्रम में (गंगा) किनारे बैठकर शिष्यों ने वाङ्गमय और चञ्चल मन को एकाग्र करने का पाठ सीखा।");
     await h.duztr();
-    expect(h.output.ui38).toBe("रiसi कe aशरम मe (गNगa) कiनaरe बयeठकर शiषयo नe वaNगमय और चनचल मन कo eकaगर करनe कa पaठ सiखa.");
+    expect(h.output.u38).toBe("रiसi कe aशरम मe (गNगa) कiनaरe बयeठकर शiषयo नe वaNगमय और चनचल मन कo eकaगर करनe कa पaठ सiखa.");
     expect(h.output.xi38).toBe("risi ke aSrm me (gNga) kinare byethkr Sisyo ne waNgmy our cncl mn ko ekagr krne ka path siKa.");
   });
   

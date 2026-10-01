@@ -1,6 +1,6 @@
 import { xi38_to_ui38 } from "../src/hsciistr/xi38_to_u38";
 
-describe("xi38_to_ui38 (Latin xi38 -> semi-native ui38, reverse direction)", () => {
+describe("xi38_to_ui38 (Latin xi38 -> semi-native u38, reverse direction)", () => {
   test("hindi: संस्कृति's xi38 (snskriTi) -> सनसकriतi -- ri (vocalic-R matra) stays Latin", () => {
     expect(xi38_to_ui38("snskriTi", "hindi")).toBe("सनसकriतi");
   });
