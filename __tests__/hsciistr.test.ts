@@ -24,4 +24,4 @@ import "../test-parts/constructor-fallback";
 import "../test-parts/static-dicts";
 import "../test-parts/translate-e52-x";
 import "../test-parts/transliterate-e52-x";
-import "../test-parts/unicode-india-to-u38";
+import "../test-parts/uten-to-u38";

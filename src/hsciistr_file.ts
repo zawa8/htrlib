@@ -3,7 +3,8 @@ import {
   untransliterate_dom_node as untransliterate_dom_node_impl,
 } from './hsciistr/dom/transliterate_dom';
 import { e52_tu_e23 as e52_tu_e23_impl } from './hsciistr/e52_tu_e23';
-import { uten2xi38 as u10_to_xi38_impl, uten2u38 as u10_to_u38_impl } from './hsciistr/u10_to_xi38';
+import { uten2xi38 as u10_to_xi38_impl } from './hsciistr/u10_to_xi38';
+import { uten2u38 as u10_to_u38_impl } from './hsciistr/uten_to_u38';
 import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
 import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 

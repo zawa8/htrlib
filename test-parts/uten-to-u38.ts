@@ -3,7 +3,7 @@
    but in uh38 below are there :
   vowels अ a i u e o h | Consonants: क ख ग घ  | च छ ज झ | ट ठ ड ढ | त थ द ध न | प फ ब भ म | य र ल व | श स ह ड़
     */
-import { uten2u38 } from "../src/hsciistr/u10_to_xi38";
+import { uten2u38 } from "../src/hsciistr/uten_to_u38";
 
 describe("uten2u38 testcases", () => {
   test("uten2u38 testcase1", () => {
