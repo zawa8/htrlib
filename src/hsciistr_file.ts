@@ -3,8 +3,8 @@ import {
   untransliterate_dom_node as untransliterate_dom_node_impl,
 } from './hsciistr/dom/transliterate_dom';
 import { e52_tu_e23 as e52_tu_e23_impl } from './hsciistr/e52_tu_e23';
-import { uten2xi38 as u10_to_xi38_impl } from './hsciistr/u10_to_xi38';
-import { uten2u38 as u10_to_u38_impl } from './hsciistr/uten_to_u38';
+import { uten_to_xi38 as uten_to_xi38_impl } from './hsciistr/uten_to_xi38';
+import { uten_to_u38 as uten_to_u38_impl } from './hsciistr/uten_to_u38';
 import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
 import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 
@@ -54,7 +54,7 @@ export class hsciistr {
 		xj38: 'te', xm38: 'ml', xk38: 'kn', xs38: 'si' , xmr38:'mr',
 		// same language codes, just also reachable via the uh38/ub38/..
 		// output-slot names (phrom_tu.md items 3 & 4: same
-		// translate()->native-script->uL2xi52 pipeline, caller picks
+		// translate()->native-script->uten_to_xi38 pipeline, caller picks
 		// which family of slot name -- x* or u* -- they want the result
 		// copied into).
 		uh38: 'hi', ub38: 'bn', up38: 'pa', ug38:'gu', uo38: 'or', ut38: 'ta',
@@ -67,7 +67,7 @@ export class hsciistr {
 		xp38: 'xp38', xg38: 'xg38', xo38: 'xo38', xj38: 'xj38', xt38: 'xt38', xm38: 'xm38',
 		xk38: 'xk38', xs38: 'xs38', xmr38: 'xmr38', xh38: 'xh38',
 		// uh38..umr38: same as xi38 for u10-sourced (native-script) input --
-		// the underlying uL2xi52() conversion already dispatches by script
+		// the underlying uten_to_xi38() conversion already dispatches by script
 		// via u1_map.ts..u10_map.ts, so the romanization value doesn't
 		// change; these just let the caller name which script/language the
 		// native-script input was in, mirroring the xh38/xb38/.. labels
@@ -79,7 +79,7 @@ export class hsciistr {
 	// u*38 family (uh38/ub38/../umr38, but NOT ui38 which stays a plain
 	// xi38 alias per phrom_tu.md item 5): semi-transliteration -- letters
 	// stay native-script, only marks (matras/anusvara/etc) convert, virama
-	// drops. See uten2u38() in u10_to_xi38.ts.
+	// drops. See uten_to_u38() in uten_to_xi38.ts.
 	static u38_family: Set<string> = new Set([
 		'uh38', 'ub38', 'up38', 'ug38', 'uo38', 'uj38', 'ut38', 'um38', 'uk38', 'us38', 'umr38',
 	]);
@@ -124,16 +124,16 @@ export class hsciistr {
     switch (this.phrom) {
       case hsciistr.phrom_dikt.u10:
         // phrom_tu.md items 5 & 6: unicode -> ui38, unicode -> xi38 -- both
-        // just the generic uL2xi52() result, under whichever slot name the
+        // just the generic uten_to_xi38() result, under whichever slot name the
         // caller asked for (ui38 and xi38 are interchangeable aliases here,
         // same as xh38 etc. below). The u*38 family (uh38/ub38/..) instead
         // gets the semi-transliterated uL2u38() result (letters stay
         // native, only marks convert, virama drops). uL2u38() must run
-        // BEFORE uL2xi52(), which overwrites this.input with the fully
+        // BEFORE uten_to_xi38(), which overwrites this.input with the fully
         // romanized string.
         {
           const u38Result = hsciistr.u38_family.has(this.tu) ? this.uL2u38() : '';
-          this.uL2xi52();
+          this.uten_to_xi38();
           this.output[this.tu] = hsciistr.u38_family.has(this.tu) ? u38Result : this.output.xi38;
         }
         break;
@@ -151,7 +151,7 @@ export class hsciistr {
             break;
           case hsciistr.tu_dikt.xe38:
 			await this.transliterate_e52_x('pa') ;
-			this.uL2xi52();
+			this.uten_to_xi38();
 			this.output.xe38 = this.output.xi38;
 		  break;
           default:
@@ -164,7 +164,7 @@ export class hsciistr {
             // (letters stay native, only marks convert, virama drops).
             if (this.tu in hsciistr.e52_x38_translatecode_dict) {
               await this.translate_e52_x(hsciistr.e52_x38_translatecode_dict[this.tu]);
-              this.uL2xi52();
+              this.uten_to_xi38();
               if (hsciistr.u38_family.has(this.tu)) {
                 this.output[this.tu] = this.uL2u38();
               } else {
@@ -202,19 +202,19 @@ export class hsciistr {
 		untransliterate_dom_node_impl();
 	}
 
-	uL2xi52(): void {
+	uten_to_xi38(): void {
 	  if (!this.input) return;
-	  this.input = u10_to_xi38_impl(this.input);
+	  this.input = uten_to_xi38_impl(this.input);
 	  this.output.xi38 = this.input;
 	}
 
-	// Semi-transliteration for the u*38 family -- see uten2u38().
-	// Reads from this.input like uL2xi52() does, but does NOT overwrite
+	// Semi-transliteration for the u*38 family -- see uten_to_u38().
+	// Reads from this.input like uten_to_xi38() does, but does NOT overwrite
 	// this.input (u*38's mixed native+latin string isn't meant to be
 	// piped further the way full-xi38 output is).
 	uL2u38(): string {
 	  if (!this.input) return '';
-	  return u10_to_u38_impl(this.input);
+	  return uten_to_u38_impl(this.input);
 	}
 
 }

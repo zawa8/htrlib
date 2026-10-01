@@ -1,4 +1,4 @@
-// xi38 -> ui38: the reverse direction from u10_to_xi38.ts's to_xi38/to_u38
+// xi38 -> ui38: the reverse direction from uten_to_xi38.ts's to_xi38/to_u38
 // (which both start from NATIVE-script input). Here the input is already
 // xi38 (fully romanized, e.g. "snskriTi"), and the output replaces each
 // recognized CONSONANT letter with the corresponding native character
@@ -76,7 +76,7 @@ export function xi38_to_ui38(input: string, script: string): string {
     const two = input.slice(i, i + 2);
     // "ri"/"li" are also xi38's tokens for the vocalic-R/L MATRAS (u1_map
     // offsets 0x43/0x44ish) -- matras stay Latin under u38's "letters
-    // native, marks convert" rule (see to_u38() in u10_to_xi38.ts), so
+    // native, marks convert" rule (see to_u38() in uten_to_xi38.ts), so
     // this leaves "ri"/"li" untouched rather than reading them as
     // consonant r/l followed by the vowel i. Confirmed by the repo
     // owner's example: संस्कृति's xi38 "snskriTi" -> ui38 "सनसकriतi",

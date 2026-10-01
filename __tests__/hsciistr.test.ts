@@ -16,7 +16,7 @@
 // need a real DOM (jsdom) environment, per the user's request to skip
 // that for now.
 
-import "../test-parts/xi38-hindi";
+import "../test-parts/uten-to-xi38";
 import "../test-parts/xi38-to-ui38";
 import "../test-parts/e23-english";
 import "../test-parts/duztr-dispatch";

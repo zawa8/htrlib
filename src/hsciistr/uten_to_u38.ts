@@ -123,7 +123,7 @@ const WHOLE_WORD_HARDCODES: Record<string, string> = {
   'और': 'और',
 };
 
-export function uten2u38(input: string): string {
+export function uten_to_u38(input: string): string {
   if (!input) return '';
   // Whole-word hardcodes (see WHOLE_WORD_HARDCODES) are protected with a
   // PUA placeholder before any other processing, then restored verbatim

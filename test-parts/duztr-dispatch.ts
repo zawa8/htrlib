@@ -1,7 +1,7 @@
 import { hsciistr } from "../src/hsciistr_file";
 
 describe("duztr() dispatch", () => {
-  test("phrom=u10 runs uL2xi52 only", async () => {
+  test("phrom=u10 runs uten_to_xi38 only", async () => {
     const h = new hsciistr(hsciistr.phrom_dikt.u10, hsciistr.tu_dikt.xi38);
     h.set_input("अनार");
     await h.duztr();
@@ -68,7 +68,7 @@ describe("duztr() dispatch", () => {
     expect(h.input).toBe("wyt");
   });
 
-  test("phrom=e52, tu=xe38: routes through transliterate_e52_x('pa') (Punjabi) -> uL2xi52 -> output.xe38, NOT translate_e52_x. We cannot change what the real Google API returns, so this mocks the API boundary and verifies OUR pipeline wiring (right endpoint, right language code, right native-script text fed into uL2xi52, right output slot) -- not the linguistic quality of Google's transliteration itself.", async () => {
+  test("phrom=e52, tu=xe38: routes through transliterate_e52_x('pa') (Punjabi) -> uten_to_xi38 -> output.xe38, NOT translate_e52_x. We cannot change what the real Google API returns, so this mocks the API boundary and verifies OUR pipeline wiring (right endpoint, right language code, right native-script text fed into uten_to_xi38, right output slot) -- not the linguistic quality of Google's transliteration itself.", async () => {
     const realFetch = global.fetch;
     global.fetch = jest.fn().mockResolvedValue({
       json: async () => [null, [["namaste", ["ਨਮਸਤੇ"]]]],
@@ -83,7 +83,7 @@ describe("duztr() dispatch", () => {
     expect(calledUrl).toContain("inputtools.google.com/request");
     expect(calledUrl).toContain("itc=pa-t-i0-und");
 
-    // confirms the native-script result got fed through uL2xi52 into output.xe38
+    // confirms the native-script result got fed through uten_to_xi38 into output.xe38
     expect(h.output.xe38).toBe(h.output.xi38);
     expect(h.output.xe38.length).toBeGreaterThan(0);
 
