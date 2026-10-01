@@ -16,7 +16,6 @@
 // need a real DOM (jsdom) environment, per the user's request to skip
 // that for now.
 
-import "../test-parts/uten-to-xi38";
 import "../test-parts/xi38-to-u38";
 import "../test-parts/e23-english";
 import "../test-parts/duztr-dispatch";
@@ -24,4 +23,5 @@ import "../test-parts/constructor-fallback";
 import "../test-parts/static-dicts";
 import "../test-parts/translate-e52-x";
 import "../test-parts/transliterate-e52-x";
+import "../test-parts/uten-to-xi38";
 import "../test-parts/uten-to-u38";
