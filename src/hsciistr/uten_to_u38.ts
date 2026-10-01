@@ -119,9 +119,9 @@ function deva_letter_text(offset: number, map: { unicode_hindi_array: string[] }
 // exception instead -- same kind of hardcode as चाहिए elsewhere in this
 // codebase's history. Matched on word boundaries so it doesn't fire
 // inside a longer word that happens to contain और as a substring.
-const WHOLE_WORD_HARDCODES: Record<string, string> = {
-  'और': 'और',
-};
+// const WHOLE_WORD_HARDCODES: Record<string, string> = {
+  // 'और': 'और',
+// };
 
 export function uten_to_u38(input: string): string {
   if (!input) return '';
@@ -130,25 +130,25 @@ export function uten_to_u38(input: string): string {
   // at the end, so nothing below (nukta composition, the main loop's
   // rules) can touch them.
   const hardcodeStash: string[] = [];
-  input = input.replace(
-    new RegExp(Object.keys(WHOLE_WORD_HARDCODES).map((w) =>
-      `(?<![\\u0900-\\u097F])${w}(?![\\u0900-\\u097F])`).join('|'), 'g'),
-    (m) => {
-      hardcodeStash.push(WHOLE_WORD_HARDCODES[m]);
-      return `\uE010${hardcodeStash.length - 1}\uE011`;
-    }
-  );
-  input = input.replace(/[\u0904-\u0914][\u093e-\u094c]/g, (m) => m[1]);
+  // input = input.replace(
+    // new RegExp(Object.keys(WHOLE_WORD_HARDCODES).map((w) =>
+      // `(?<![\\u0900-\\u097F])${w}(?![\\u0900-\\u097F])`).join('|'), 'g'),
+    // (m) => {
+      // hardcodeStash.push(WHOLE_WORD_HARDCODES[m]);
+      // return `\uE010${hardcodeStash.length - 1}\uE011`;
+    // }
+  // );
+  // input = input.replace(/[\u0904-\u0914][\u093e-\u094c]/g, (m) => m[1]);
+  // let s = input
+    // .replace(/\u0915\u093c/g, '\u0958') // क़
+    // .replace(/\u0916\u093c/g, '\u0959') // ख़
+    // .replace(/\u0917\u093c/g, '\u095a') // ग़
+    // .replace(/\u091c\u093c/g, '\u095b') // ज़
+    // .replace(/\u0921\u093c/g, '\u095c') // ड़
+    // .replace(/\u0922\u093c/g, '\u095d') // ढ़
+    // .replace(/\u092b\u093c/g, '\u095e') // फ़
+    // .replace(/\u092f\u093c/g, '\u095f'); // य़
   let s = input
-    .replace(/\u0915\u093c/g, '\u0958') // क़
-    .replace(/\u0916\u093c/g, '\u0959') // ख़
-    .replace(/\u0917\u093c/g, '\u095a') // ग़
-    .replace(/\u091c\u093c/g, '\u095b') // ज़
-    .replace(/\u0921\u093c/g, '\u095c') // ड़
-    .replace(/\u0922\u093c/g, '\u095d') // ढ़
-    .replace(/\u092b\u093c/g, '\u095e') // फ़
-    .replace(/\u092f\u093c/g, '\u095f'); // य़
-  s = s
     .replace(/([\b\s])क्ष/g, '$1s').replace(/^क्ष/g, 's')
     .replace(/ज्ञ/g, 'gy');
 
@@ -204,8 +204,8 @@ export function uten_to_u38(input: string): string {
       out += isVocalicMatra ? raw : promote_leading_consonant(raw);
     }
   }
-  if (hardcodeStash.length) {
-    out = out.replace(/\uE010(\d+)\uE011/g, (_m, idx) => hardcodeStash[Number(idx)]);
-  }
+  // if (hardcodeStash.length) {
+    // out = out.replace(/\uE010(\d+)\uE011/g, (_m, idx) => hardcodeStash[Number(idx)]);
+  // }
   return out;
 }

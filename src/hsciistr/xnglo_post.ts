@@ -11,7 +11,7 @@ export function xnglo_india_post(s: string): string {
     // them) makes the consonant's own implicit "a" explicit instead of
     // gluing on a glide consonant: क+उ -> "kAu", not "kxu".
     .replace(/([^\Waiueo_])_u/g, "$1Au")
-    .replace(/([^\Waiueo_])_o/g, "$1Ao")
+    // .replace(/([^\Waiueo_])_o/g, "$1Ao")
     // an independent i/u/o vowel letter directly after an "a" (from a
     // matra attached to a real consonant, or from the explicit "A"
     // just inserted above) reads as the standard ai/au diphthong, no
