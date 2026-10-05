@@ -1,20 +1,19 @@
 हiनदi 'ऋ' or (ृ) -> ri alwAys . no Ambiguity. no post/pre handling needed. only mapping to ri is needed.
-• ऋषि rishi
+• ऋषि risi
 • ऋतु riTu 
 • ऋण rin 
 • ऋजु rizu
 • ऋषभ risAB
-• ऋचा richa
+• ऋचा rica
 • ऋग्वेद rigweD
 • ऋद्धि riDDhi
 2. 'ऋ' की मात्रा (ृ) वाले शब्द (व्यंजन के साथ)
-• गृह -> griH
+• गृह -> grih
 • वृक्ष -> wrikS
 • मृग -> mrig
 • कृष्णा  -> krisna
 • पृथ्वी -> priThwi
 
-ञ/ण->n->न
 • दृष्टि -> Dristi
 • नृप -> nrip
 • अमृत -> AmriT
@@ -46,3 +45,5 @@ if क्ष in between word then *क्ष->*ks as in eksamples below :
 • दीक्षा Diksa
 • अपेक्षा Apeksa
 • दक्षिणा Dksina
+
+ञ/ण->n->न
