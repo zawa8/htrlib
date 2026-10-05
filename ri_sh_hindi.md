@@ -13,6 +13,8 @@
 • मृग -> mrig
 • कृष्णा  -> krisna
 • पृथ्वी -> priThwi
+
+ञ/ण->n->न
 • दृष्टि -> Dristi
 • नृप -> nrip
 • अमृत -> AmriT
