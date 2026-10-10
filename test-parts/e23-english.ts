@@ -4,7 +4,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   const run = (s: string) => {
     const h = new hsciistr();
     h.set_input(s);
-    h.e52_tu_e23();
+    h.E52_to_e23();
     return h.input;
   };
 
@@ -66,7 +66,7 @@ describe("e52_tu_e23 (English -> reduced 23-letter e23)", () => {
   test("no-op on empty input", () => {
     const h = new hsciistr();
     h.set_input("");
-    h.e52_tu_e23();
+    h.E52_to_e23();
     expect(h.input).toBe("");
   });
 

@@ -20,7 +20,7 @@ const LI_TO_MAP: Record<number, typeof U1_MAP> = {
   0x17: U6_MAP, 0x18: U7_MAP, 0x19: U8_MAP, 0x1a: U9_MAP,
 };
 
-export function uten_to_xi38(input: string): string {
+export function uL_to_xi38(input: string): string {
   if (!input) return '';
   // Some input methods produce nukta consonants (ड़ ढ़ क़ ख़ ग़ ज़ फ़ य़) as a
   // decomposed base-letter + combining nukta sign (U+093C) instead of the

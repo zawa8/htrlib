@@ -23,5 +23,5 @@ import "../test-parts/constructor-fallback";
 import "../test-parts/static-dicts";
 import "../test-parts/translate-e52-x";
 import "../test-parts/transliterate-e52-x";
-import "../test-parts/uten-to-xi38";
+import "../test-parts/uL-to-xi38";
 import "../test-parts/uten-to-u38";

@@ -1,6 +1,6 @@
 const CH_MARK = '\u0001';
 
-export function e52_tu_e23(input: string): string {
+export function E52_to_e23(input: string): string {
   if (!input) return '';
   let s = input.toLowerCase();
 

@@ -4,7 +4,7 @@ describe("uten_to_xi38 (Devanagari u9/u10 -> xi38) hv", () => {
   const run = (s: string) => {
     const h = new hsciistr();
     h.set_input(s);
-    h.uten_to_xi38();
+    h.uL_to_xi38();
     return h.output.xi38;
   };
   test("जह झ test", () => {
@@ -25,7 +25,7 @@ describe("uten_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
   const run = (s: string) => {
     const h = new hsciistr();
     h.set_input(s);
-    h.uten_to_xi38();
+    h.uL_to_xi38();
     return h.output.xi38;
   };
 
@@ -70,7 +70,7 @@ describe("uten_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
   test("no-op on empty input", () => {
     const h = new hsciistr();
     h.set_input("");
-    h.uten_to_xi38();
+    h.uL_to_xi38();
     expect(h.output.xi38).toBe("");
   });
 });
