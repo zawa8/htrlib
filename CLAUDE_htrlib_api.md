@@ -97,8 +97,9 @@ guess.
   yet -- only the class identifier inside it; `hsciistr` kept as a
   backward-compat export alias of `h5str`).
 - `e52_tu_e23()` (standalone function + class method) -> `E52_to_e23()`.
-- `uten_to_xi38()` (src/hsciistr/uten_to_xi38.ts, standalone function +
-  class method `uL2xi52()`) -> `uL_to_xi38()` (function and method both).
+- `uten_to_xi38()` (standalone function + class method `uL2xi52()`) ->
+  `uL_to_xi38()` (function and method both). File is now
+  `src/hsciistr/uL_to_xi38.ts` (renamed from `uten_to_xi38.ts`).
 - `xi38_to_ui38()` (src/hsciistr/xi38_to_u38.ts) -> file renamed to
   `xi38_to_xLS38.ts`, function renamed to `xi38_to_xLS38(input, argLS)`
   (same signature shape, `argLS` is the language name, e.g. `"hindi"`).

@@ -21,7 +21,7 @@ export const U5_MAP = {
     ':', // ଃ or03 oriya sign visarga  [devanagari: ः 903 2307 visarga]
     '', // or04 (unassigned in oriya)
     'A', // ଅ or05 oriya a  [devanagari: अ 905 2309]
-    'a', // ଆ or06 oriya aa  [devanagari: आ 906 2310]
+    'aa', // ଆ or06 oriya aa  [devanagari: आ 906 2310]
     '_i', // ଇ or07 oriya i  [devanagari: इ 907 2311]
     '_i', // ଈ or08 oriya ii  [devanagari: ई 908 2312]
     '_u', // ଉ or09 oriya u  [devanagari: उ 909 2313]
@@ -35,7 +35,7 @@ export const U5_MAP = {
     '', // or11 (unassigned in oriya)
     '', // or12 (unassigned in oriya)
     'o', // ଓ or13 oriya o  [devanagari: ओ 913 2323]
-    'ou', // ଔ or14 oriya au  [devanagari: औ 914 2324]
+    'Au', // ଔ or14 oriya au  [devanagari: औ 914 2324]
     'k', // କ or15 oriya ka  [devanagari: क 915 2325]
     'K', // ଖ or16 oriya kha  [devanagari: ख 916 2326]
     'g', // ଗ or17 oriya ga  [devanagari: ग 917 2327]

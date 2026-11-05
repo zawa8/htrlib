@@ -20,7 +20,7 @@ export const U4_MAP = {
     ':', // ઃ gj03 gujarati sign visarga  [devanagari: ः 903 2307 visarga]
     '', // gj04 (unassigned in gujarati)
     'A', // અ gj05 gujarati a  [devanagari: अ 905 2309]
-    'a', // આ gj06 gujarati aa  [devanagari: आ 906 2310]
+    'aa', // આ gj06 gujarati aa  [devanagari: आ 906 2310]
     '_i', // ઇ gj07 gujarati i  [devanagari: इ 907 2311]
     '_i', // ઈ gj08 gujarati ii  [devanagari: ई 908 2312]
     '_u', // ઉ gj09 gujarati u  [devanagari: उ 909 2313]
@@ -34,7 +34,7 @@ export const U4_MAP = {
     'ao', // ઑ gj11 gujarati vowel candra o  [devanagari: ऑ 911 2321 candra o]
     '', // gj12 (unassigned in gujarati)
     'o', // ઓ gj13 gujarati o  [devanagari: ओ 913 2323]
-    'ou', // ઔ gj14 gujarati au  [devanagari: औ 914 2324]
+    'Au', // ઔ gj14 gujarati au  [devanagari: औ 914 2324]
     'k', // ક gj15 gujarati ka  [devanagari: क 915 2325]
     'K', // ખ gj16 gujarati kha  [devanagari: ख 916 2326]
     'g', // ગ gj17 gujarati ga  [devanagari: ग 917 2327]

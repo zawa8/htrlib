@@ -16,6 +16,7 @@
 // ह → H (font draws H with an extra dot).
 // व → w.
 // See xi38_xi52_table.md at repo root for the full mapping and rationale.
+//this file is htrlib/src/hsciistr/dicts/u1_map.ts
 export const U1_MAP = {
   unicode_hindi_array: [
     '',   // ऀ 900 2304 inverted candrabindu
@@ -24,7 +25,7 @@ export const U1_MAP = {
     ':',  // ः 903 2307 visarga
     'Ae', // ऄ 904 2308 short a
     'A',  // अ 905 2309
-    'a',  // आ 906 2310
+    'aa', // आ 906 2310
     '_i', // इ 907 2311
     '_i', // ई 908 2312
     '_u', // उ 909 2313
@@ -38,7 +39,7 @@ export const U1_MAP = {
     'ao', // ऑ 911 2321 candra o
     '_o', // ऒ 912 2322 short o
     'o',  // ओ 913 2323
-    'ou', // औ 914 2324
+    'Au', // औ 914 2324
     'k',  // क 915 2325
     'K',  // ख 916 2326
     'g',  // ग 917 2327
@@ -110,8 +111,8 @@ export const U1_MAP = {
     'K',  // ख़ 959 2393
     'g',  // ग़ 95A 2394
     'z',  // ज़ 95B 2395
-    'R',  // ड़ 95C 2396   (xi52: ड़ = ढ़ = R)
-    'R',  // ढ़ 95D 2397   (xi52: ढ़ = ड़ = R)
+    'R',  // ड़ 95C 2396   (xi52: ड़ = R)
+    'dh',  // ढ़ 95D 2397   (xi52: ढ़ = dh)
     'f',  // फ़ 95E 2398
     'y',  // य़ 95F 2399
     'ri', // ॠ 960 2400

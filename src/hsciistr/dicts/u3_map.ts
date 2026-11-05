@@ -19,7 +19,7 @@ export const U3_MAP = {
     ':', // ਃ g03 gurmukhi sign visarga  [devanagari: ः 903 2307 visarga]
     '', // g04 (unassigned in gurmukhi)
     'A', // ਅ g05 gurmukhi a  [devanagari: अ 905 2309]
-    'a', // ਆ g06 gurmukhi aa  [devanagari: आ 906 2310]
+    'aa', // ਆ g06 gurmukhi aa  [devanagari: आ 906 2310]
     '_i', // ਇ g07 gurmukhi i  [devanagari: इ 907 2311]
     '_i', // ਈ g08 gurmukhi ii  [devanagari: ई 908 2312]
     '_u', // ਉ g09 gurmukhi u  [devanagari: उ 909 2313]
@@ -33,7 +33,7 @@ export const U3_MAP = {
     '', // g11 (unassigned in gurmukhi)
     '', // g12 (unassigned in gurmukhi)
     'o', // ਓ g13 gurmukhi oo  [devanagari: ओ 913 2323]
-    'ou', // ਔ g14 gurmukhi au  [devanagari: औ 914 2324]
+    'Au', // ਔ g14 gurmukhi au  [devanagari: औ 914 2324]
     'k', // ਕ g15 gurmukhi ka  [devanagari: क 915 2325]
     'K', // ਖ g16 gurmukhi kha  [devanagari: ख 916 2326]
     'g', // ਗ g17 gurmukhi ga  [devanagari: ग 917 2327]

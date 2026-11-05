@@ -1,41 +1,50 @@
+// htrlib/test-parts/uL-to-xi38.ts
 import { hsciistr } from "../src/hsciistr_file";
 
-describe("uten_to_xi38 (Devanagari u9/u10 -> xi38) hv", () => {
-  const run = (s: string) => {
-    const h = new hsciistr();
-    h.set_input(s);
-    h.uL_to_xi38();
-    return h.output.xi38;
-  };
+const run = (s: string) => {
+  const h = new hsciistr();
+  h.set_input(s);
+  h.uL_to_xi38();
+  return h.output.xi38;
+};
+
+describe("uL_to_xi38 (Devanagari u9/u10 -> xi38) hv", () => {
   test("जह झ test", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zHaz smuDr me za rHa Hye our Zag bn rHa Hye.");
+    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zHaz smuDr me za rHa Hye Aur Zag bn rHa Hye.");
   });
   test("ह", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
     expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHiye");
   });
-  test("इ/ई/उ/ऊ test", () => { expect(run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("zau Dua kyi(kyi) pRai kAua"); });
-  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aye Huye liye"); });
+  test("इ/ई/उ/ऊ test", () => { expect(run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("zau Duaa kyi(kyi) pdhai kAuaa"); });
+  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aaye Huye liye"); });
   test("ष स्व test", () => { expect(run("ष स्व")).toBe("s sw");   });
-  
+
+  test("क्ष at start -> 's'", () => {
+    expect(run("क्ष")).toBe("s");
+  });
+  test("क्ष after whitespace -> 's'", () => {
+    expect(run(" क्ष")).toBe(" s");
+  });
+  test("क्ष after a consonant -> 'ks' (unchanged, not start/whitespace)", () => {
+    expect(run("कक्ष")).toBe("kks"); // 'क'->k, then 'क्ष'->ks (no match)
+  });
 });
 
-describe("uten_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
-  const run = (s: string) => {
-    const h = new hsciistr();
-    h.set_input(s);
-    h.uL_to_xi38();
-    return h.output.xi38;
-  };
-
+describe("uL_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
   test("अनार (pomegranate) -> xnar", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
+	
+	// Phase 1a: u1_map currently emits 'A'/'H'. Phase 1b will flip
+    // these to 'x'/'h' -- at which point this expectation becomes
+    // "xnar ka pouDha lgana xTynT SuB mana gya hye". See
+    // docs/aspirate-digraphs.md "A / x alias for अ".
     expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("Anar ka pouDha lgana ATynT SuB mana gya Hye");
   });
 
   test("नमस्ते -> nmsje", () => {
-    expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsTe? TelNgan (luDhiana)");
+    expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsTe? TelNgan (luDhiaana)");
   });
 
   test("ligatures: त्र -> jr, ज्ञ -> gy", () => {
@@ -50,7 +59,7 @@ describe("uten_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
     expect(run("कंबल रंग ")).toBe("kmbl rNg ");
-    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'A' (Anuswar swr) Aksr se ANgur our ANgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'A' (Anuswar swr) Aksr se ANgur Aur ANgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {
@@ -72,5 +81,16 @@ describe("uten_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
     h.set_input("");
     h.uL_to_xi38();
     expect(h.output.xi38).toBe("");
+  });
+});
+
+describe("uL_to_xi38 nukta pair -- decomposed and precomposed agree", () => {
+  test.each([
+    ["\u0921\u093c", "R"],  // ड़ decomposed
+    ["\u095c",       "R"],  // ड़ precomposed
+    ["\u0922\u093c", "dh"], // ढ़ decomposed  (was 'R' -- bug)
+    ["\u095d",       "dh"], // ढ़ precomposed (from U1_MAP[0x5d]='dh')
+  ])("run(%j) -> %j", (input, expected) => {
+    expect(run(input)).toBe(expected);
   });
 });

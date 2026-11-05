@@ -20,7 +20,7 @@ export const U8_MAP = {
     ':', // ಃ kn03 kannada sign visarga  [devanagari: ः 903 2307 visarga]
     '', // ಄ kn04 kannada sign siddham (auspicious opening mark, not phonetic -- left blank)
     'A', // ಅ kn05 kannada a  [devanagari: अ 905 2309]
-    'a', // ಆ kn06 kannada aa  [devanagari: आ 906 2310]
+    'aa', // ಆ kn06 kannada aa  [devanagari: आ 906 2310]
     '_i', // ಇ kn07 kannada i  [devanagari: इ 907 2311]
     '_i', // ಈ kn08 kannada ii  [devanagari: ई 908 2312]
     '_u', // ಉ kn09 kannada u  [devanagari: उ 909 2313]
@@ -34,7 +34,7 @@ export const U8_MAP = {
     '', // kn11 (unassigned in kannada)
     '_o', // ಒ kn12 kannada o  [devanagari: ऒ 912 2322 short o]
     'o', // ಓ kn13 kannada oo  [devanagari: ओ 913 2323]
-    'ou', // ಔ kn14 kannada au  [devanagari: औ 914 2324]
+    'Au', // ಔ kn14 kannada au  [devanagari: औ 914 2324]
     'k', // ಕ kn15 kannada ka  [devanagari: क 915 2325]
     'K', // ಖ kn16 kannada kha  [devanagari: ख 916 2326]
     'g', // ಗ kn17 kannada ga  [devanagari: ग 917 2327]

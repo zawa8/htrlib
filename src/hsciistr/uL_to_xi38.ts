@@ -47,17 +47,16 @@ export function uL_to_xi38(input: string): string {
   // नुक्ता (offset 0x3c) is already '' -- so this is a safety net, not
   // a behavior change.
   let s = input
-    .replace(/\u0915\u093c/g, 'k') // क़
-    .replace(/\u0916\u093c/g, 'K') // ख़
-    .replace(/\u0917\u093c/g, 'g') // ग़
-    .replace(/\u091c\u093c/g, 'z') // ज़
-    .replace(/\u0921\u093c/g, 'R') // ड़
-    .replace(/\u0922\u093c/g, 'R') // ढ़
-    .replace(/\u092b\u093c/g, 'f') // फ़
-    .replace(/\u092f\u093c/g, 'y') // य़
-    .replace(/\u093c/g, '');
-  s = s
-    .replace(/([\b\s])क्ष/g, '$1s').replace(/^क्ष/g, 's')
+    .replace(/\u0915\u093c/g, 'k')  // क़
+    .replace(/\u0916\u093c/g, 'K')  // ख़
+    .replace(/\u0917\u093c/g, 'g')  // ग़
+    .replace(/\u091c\u093c/g, 'z')  // ज़
+    .replace(/\u0921\u093c/g, 'R')  // ड़ (unaspirated retroflex flap)
+    .replace(/\u0922\u093c/g, 'dh') // ढ़ (aspirated retroflex, per xi52)
+    .replace(/\u092b\u093c/g, 'f')  // फ़
+    .replace(/\u092f\u093c/g, 'y')  // य़
+    .replace(/\u093c/g, '')
+    .replace(/(^|\s)क्ष/g, '$1s')
     .replace(/ज्ञ/g, 'gy');
 
   let out = '';

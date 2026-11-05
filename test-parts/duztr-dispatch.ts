@@ -3,9 +3,9 @@ import { h5str } from "../src/hsciistr_file";
 describe("duztr() dispatch", () => {
   test("phrom=uL runs uL_to_xi38 only", async () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xi38);
-    h.set_input("अनार");
+    h.set_input("अनार आम");
     await h.duztr();
-    expect(h.output.xi38).toBe("Anar");
+    expect(h.output.xi38).toBe("Anar aam");
   });
 
   test("phrom=uL with a specific xiL38 target (xih38) also copies the xi38 result into that slot", async () => {
@@ -34,8 +34,8 @@ describe("duztr() dispatch", () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xhs38);
     h.set_input("ऋषि के आश्रम में (गंगा)");
     await h.duztr();
-    expect(h.output.xhs38).toBe("रiसi कe aशरम मe (गनगa)");
-    expect(h.output.xi38).toBe("risi ke aSrm me (gNga)");
+    expect(h.output.xhs38).toBe("रiसi कe aaशरम मe (गनगa)");
+    expect(h.output.xi38).toBe("risi ke aaSrm me (gNga)");
   });
 
   test("phrom=uL tu=xhs38 ऋ श्र 2 (longer sentence)", async () => {
@@ -45,10 +45,10 @@ describe("duztr() dispatch", () => {
     );
     await h.duztr();
     expect(h.output.xhs38).toBe(
-      "रiसi कe aशरम मe (गनगa) कiनaरe बयeठकर शiसयo नe वaनगमय ouर चनचल मन कo eकaगर करनe कa पaठ सiखa."
+      "रiसi कe aaशरम मe (गनगa) कiनaरe बयeठकर शiसयo नe वaनगमय अuर चनचल मन कo eकaगर करनe कa पaठ सiखa."
     );
     expect(h.output.xi38).toBe(
-      "risi ke aSrm me (gNga) kinare byethkr Sisyo ne waNgmy our cncl mn ko ekagr krne ka path siKa."
+      "risi ke aaSrm me (gNga) kinare byethkr Sisyo ne waNgmy Aur cncl mn ko ekagr krne ka path siKa."
     );
   });
 

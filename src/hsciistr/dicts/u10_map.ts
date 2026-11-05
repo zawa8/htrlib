@@ -1,3 +1,4 @@
+// this file is htrlib/src/sciistr/dicts/u10_map.ts
 export const U10_MAP = {
   // devanagari char in comments is matched by OFFICIAL UNICODE CHARACTER NAME
   // (e.g. sinhala "ALPAPRAANA KAYANNA" == devanagari "KA"), not by raw block
@@ -17,7 +18,7 @@ export const U10_MAP = {
     ':', // ः d83 visarga
     'e', //   d84
     'A', // अ d85 letter a
-    'Aa', // आ d86 letter aa
+    'aa', // आ d86 letter aa
     'AE', // ऍ d87 letter ae
     'ae', // ऍ d88 letter aae
     '_i', // इ d89 letter i

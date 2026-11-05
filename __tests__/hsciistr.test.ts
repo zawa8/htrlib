@@ -1,3 +1,4 @@
+// this file is htrlib\__tests__\hsciistr.test.ts
 // Main test entry point: runs every htrlib test, split out into
 // ../test-parts/*.ts by topic (one describe-group per file, same tests
 // as before the split -- see git history for the original monolithic
@@ -16,7 +17,7 @@
 // need a real DOM (jsdom) environment, per the user's request to skip
 // that for now.
 
-import "../test-parts/xi38-to-xLS38";
+import "../test-parts/xi38-to-ux38";
 import "../test-parts/e23-english";
 import "../test-parts/duztr-dispatch";
 import "../test-parts/constructor-fallback";
@@ -24,4 +25,4 @@ import "../test-parts/static-dicts";
 import "../test-parts/translate-e52-x";
 import "../test-parts/transliterate-e52-x";
 import "../test-parts/uL-to-xi38";
-import "../test-parts/uten-to-u38";
+import "../test-parts/uL-to-xLS38";
