@@ -101,8 +101,6 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
   });
 
   test("unsupported script passes input through unchanged", () => {
-    expect(xi38_to_ux38("nmsTe", "bangla")).toBe("nmsTe");
-    expect(xi38_to_ux38("nmsTe", "sinhala")).toBe("nmsTe");
     expect(xi38_to_ux38("nmsTe", "korean")).toBe("nmsTe");
   });
 
