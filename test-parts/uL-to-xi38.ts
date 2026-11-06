@@ -40,9 +40,8 @@ describe("uL_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
     // these to 'x'/'h' -- at which point this expectation becomes
     // "xnar ka pouDha lgana xTynT SuB mana gya hye". See
     // docs/aspirate-digraphs.md "A / x alias for अ".
-    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("Anar ka pouDha lgana ATynT SuB mana gya Hye");
+    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouDha lgana xTynT SuB mana gya Hye");
   });
-
   test("नमस्ते -> nmsje", () => {
     expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsTe? TelNgan (luDhiaana)");
   });
@@ -59,7 +58,7 @@ describe("uL_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
     expect(run("कंबल रंग ")).toBe("kmbl rNg ");
-    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'A' (Anuswar swr) Aksr se ANgur Aur ANgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur Aur xNgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {

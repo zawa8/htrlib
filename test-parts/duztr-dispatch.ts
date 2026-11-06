@@ -5,15 +5,15 @@ describe("duztr() dispatch", () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xi38);
     h.set_input("अनार आम");
     await h.duztr();
-    expect(h.output.xi38).toBe("Anar aam");
+    expect(h.output.xi38).toBe("xnar aam");
   });
 
   test("phrom=uL with a specific xiL38 target (xih38) also copies the xi38 result into that slot", async () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xih38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xih38).toBe("Anar");
-    expect(h.output.xi38).toBe("Anar");
+    expect(h.output.xih38).toBe("xnar");
+    expect(h.output.xi38).toBe("xnar");
   });
 
   test("tu_dikt:xhs38 (semi-native) test अनार", async () => {
@@ -27,7 +27,7 @@ describe("duztr() dispatch", () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xi38);
     h.set_input("अनार");
     await h.duztr();
-    expect(h.output.xi38).toBe("Anar");
+    expect(h.output.xi38).toBe("xnar");
   });
 
   test("phrom=uL tu=xhs38 ऋ श्र (ri/li context fix: ऋ promotes to native र)", async () => {
