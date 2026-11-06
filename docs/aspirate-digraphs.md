@@ -1,212 +1,179 @@
-# xi38 aspirate digraphs + the dual role of `h`
+# xi38 aspirate digraphs + the dual role of `h` / `v`
 
-This documents how htrlib's xi38 handles the 11 aspirated stops of
-Devanagari (and their ISCII-aligned counterparts), and the specific
-ambiguity of `h` (aspiration vs. letter ह).
+This documents how htrlib's xi38 handles the 10 aspirated stops of
+Devanagari (and their ISCII-aligned counterparts), the special role of
+`v` for ह, and the `x` for अ. Updated through Phase 1c.
 
 See also:
 - `CLAUDE_htrlib_api.md` — overall naming + pipeline spec
 - `src/hsciistr/ux38.ts` — `xi38_to_ux38` implementation
 - `src/hsciistr/xnglo_post.ts` — `xnglo_india_post` post-processor
 - `src/hsciistr/dicts/u1_map.ts` — Devanagari codepoint → xi38 token
+- `src/hsciistr/uL_to_xi38.ts` — uL → xi38 pipeline
 
 ---
 
-## The 11 aspirate digraphs
+## xnglo principle: power of x and h
 
-There are 11 aspirated stops in Devanagari. Each is rendered in xi38 as a
-**two-character digraph** (base consonant + `h`), and each maps to a
-**single precomposed** native codepoint in `ux38` output (NOT base +
-Latin-`h`):
+Two letters carry the whole phonology:
 
-| xi38 digraph | Devanagari | Offset | Notes |
-|--------------|-----------|--------|-------|
-| `kh` | ख | `0x16` | aspirated ka |
-| `gh` | घ | `0x18` | aspirated ga |
-| `ch` | छ | `0x1b` | aspirated ca |
-| `zh` | झ | `0x1d` | aspirated ja — **NOT `jh`** (see below) |
-| `ph` | फ | `0x2b` | aspirated pa (alias for `f`) |
-| `bh` | भ | `0x2d` | aspirated ba |
-| `sh` | श | `0x36` | sha — not strictly aspirated, but `sh` = श phonetically |
-| `th` | ठ | `0x20` | aspirated retroflex ṭa |
-| `dh` | ढ | `0x22` | aspirated retroflex ḍa |
-| `Th` | थ | `0x25` | aspirated dental ta |
-| `Dh` | ध | `0x27` | aspirated dental da |
+- **`x`** = schwa marker / independent vowel अ
+- **`h`** = aspiration mark (part of a digraph) — but NOT standalone ह (see below)
+- **`v`** = the letter ह (v = ∀ in xh52.ttf, font-consistent)
+
+Everything else is either a native consonant or a Latin vowel/mark.
+
+---
+
+## The 10 aspirate digraphs
+
+There are 10 aspirated stops in Devanagari. Each is rendered in xi38 as
+a **two-character digraph** (base consonant + `h`), and each renders in
+`ux38` as **BASE CONSONANT (native) + LATIN `h`** — NOT a precomposed
+single codepoint:
+
+| xi38 digraph | base xi38 | ux38 output | Notes |
+|--------------|-----------|-------------|-------|
+| `kh` | `k` (क) | `कh` | aspirated ka |
+| `gh` | `g` (ग) | `गh` | aspirated ga |
+| `ch` | `c` (च) | `चh` | aspirated ca |
+| `zh` | `z` (ज) | `जh` | aspirated ja — NOT `jh` (j isn't a xi38 token) |
+| `th` | `t` (ट) | `टh` | aspirated retroflex ṭa |
+| `dh` | `d` (ड) | `डh` | aspirated retroflex ḍa |
+| `Th` | `T` (त) | `तh` | aspirated dental ta |
+| `Dh` | `D` (द) | `दh` | aspirated dental da |
+| `bh` | `b` (ब) | `बh` | aspirated ba |
+| `sh` | `s` (स) | `सh` | sha — `s` (स), NOT `S` (श) |
 
 ### Conventions
 
 - **`t`/`T` distinction:** lowercase `t` = retroflex ट, uppercase `T` =
-  dental त. So `th` = ठ (retroflex aspirate) and `Th` = थ (dental
-  aspirate). This is htrlib's own convention — it differs from common
-  Sanskrit transliteration (which uses `ṭh` for retroflex and `th` for
-  dental). See `u1_map.ts` for the source of truth.
+  dental त. So `th` = ठ (aspirate of ट), `Th` = थ (aspirate of त).
+  This is htrlib's own convention — differs from common Sanskrit
+  transliteration.
 - **`zh`, not `jh`:** ज is `z` (not `j`) in xi38, so its aspirate झ is
-  `zh` (not `jh`). `j` isn't a real xi38 consonant token — it's only
-  used internally in the font/CSV representation of थ. Same for `q`
-  (internal for ध). **`J Q j q` never appear in user-facing xi38.**
-- **`ph` is an alias for `f`:** both map to फ. `f` is the canonical
-  single-char form (from `u1_map.ts`); `ph` is accepted as an
-  alternate spelling for consistency with the other 10 digraphs.
-- **`sh` is phonetically motivated:** श is not an *aspirated* consonant
-  in the linguistic sense. But `sh` is the standard English digraph for
-  the ś sound, and `s` (स) has no aspirated counterpart, so `sh` = श
-  is treated as a digraph for symmetry. **Note:** `Sh` (capital-S + h)
-  is not a distinct digraph — श is `S` (single capital) or `sh`
-  (lowercase digraph).
+  `zh`. `j` isn't a real xi38 consonant token; it's only used internally
+  in the font/CSV representation. Same for `q` (internal for ध).
+  **`J Q j q` never appear in user-facing xi38.**
+- **`sh` is phonetically motivated:** श (śa) is not linguistically
+  aspirated, but `sh` is the standard English digraph for the ś sound.
+  So `sh → सh` — the base is `स` (sa), NOT `श` (śa). This is because
+  the xnglo principle treats aspiration `h` as a Latin mark on top of
+  the plain consonant, not as a distinct letter.
 
-### Lookup order
+### Precomposed forms NOT used
 
-Digraphs are matched **before** single characters in `xi38_to_ux38`'s
-main loop:
+The precomposed aspirate codepoints (ख, घ, छ, झ, ठ, ढ, थ, ध, भ, श) are
+**never emitted** by Phase 1c onwards. They're always rendered as
+base + Latin `h`.
 
-```
-if (two in digraf_key_ofset) { emit; i += 2; continue; }
-const one = input[i];
-if (one in singl_char_key_ofset) { emit; i += 1; continue; }
-```
+### Capital single-char aspirates REMOVED
 
-So `kh` → ख (digraph), never `k`+`h` = क+ह. The only way to write
-क+ह (two separate letters) is `kv` (see next section).
+`K G C Z B S` (capital single-char aspirates) are **NOT accepted** as
+xi38 input. Users must use the digraphs (`kh`, `gh`, etc.). If a legacy
+xi38 string contains `K`, it passes through unchanged (unrecognized).
+
+This was a **user-rejected** design: "user will never accept K = ख".
 
 ---
 
-## The dual role of `h` in xi38
+## फ is special: `f → फ`
 
-`h` has **two distinct meanings** depending on context:
+**फ is the exception.** Unlike other aspirates, फ is rendered as a
+**precomposed single codepoint** (U+092B), not `प` + `h`:
 
-### Meaning 1 — aspiration (part of a digraph)
+| xi38 | ux38 | Why |
+|------|------|-----|
+| `f` | `फ` (precomposed U+092B) | English `f` (as in "fan", "phone") is a labiodental fricative /f/, not an aspirated stop /pʰ/. So the closest Devanagari letter is फ preserved as a single codepoint. |
 
-When `h` **immediately follows one of the 11 aspiratable consonants**
-(`k g c z t d T D p b s`), it's the aspiration half of a digraph:
+**`ph`** (digraph) is **also accepted** as an alternate spelling of फ,
+rendering as `पh` (base प + Latin h). Both are valid:
 
-```
-k+h → kh → ख        g+h → gh → घ        c+h → ch → छ
-z+h → zh → झ        t+h → th → ठ        d+h → dh → ढ
-T+h → Th → थ        D+h → Dh → ध        p+h → ph → फ
-b+h → bh → भ        s+h → sh → श
-```
+| input | ux38 output | Note |
+|-------|-------------|------|
+| `f` | `फ` | canonical (precomposed) |
+| `ph` | `पh` | alternate (base + Latin h) |
 
-**`h` after any of these 11 characters is NEVER the letter ह.**
-
-### Meaning 2 — letter ह (standalone)
-
-When `h` appears in any other context — after a vowel, after a
-consonant that has no aspirate form, or at the start of a string — it
-IS the letter ह (offset `0x39`):
-
-```
-y+h → yh → य + ह = यह
-r+h → rh → र + ह = रह
-l+h → lh → ल + ह = लह
-w+h → wh → व + ह = वह
-a+h → ah → a + ह = aह (vowel a stays Latin, ह goes native)
-h (start) → ह
-n+h → nh → न + ह = नह
-m+h → mh → म + ह = मह
-```
-
-**`h` after any other character (or at start) is ALWAYS the letter ह.**
-
-### The 11 aspiratable consonants
-
-```
-k g c z t d T D p b s
-```
-
-That's 11 characters. All 11 have an aspirated counterpart in
-Devanagari/ISCII.
-
-Consonants that do NOT have an aspirate form — `h` following them is
-the letter ह, not aspiration:
-
-```
-n N y r l w H R m f B S  (and A x for vowels)
-```
-
-For these, `h` following them → letter ह. E.g. `mh` = मह, `nh` = नह,
-`fh` = फह (f is already फ, no further aspiration).
-
-⚠️ **`f` is excluded** — `f` is already फ (aspirated p), so `fh` would
-be फ+ह = फह, not a double aspirate. `f` is not in the aspiratable set
-for this reason.
-
-⚠️ **`B` is excluded** — `B` is भ (aspirated b), so `Bh` = भ+ह = भह,
-not double aspirate. `B` is not in the aspiratable set.
-
-⚠️ **`S` is excluded** — `S` is श (sha), no aspirate form. `Sh` =
-श+ह = शह.
+`uL_to_xi38("फ")` emits `f` (not `ph`) — the canonical form.
 
 ---
 
 ## The `v` alias for ह
 
-Because `h` is ambiguous (see above), `uL_to_xi38` emits **`v`** (not
-`h`) for ह when the ह follows one of the 11 aspiratable consonants:
+ह (ha) is rendered in xi38 as **`v`** (canonical, Phase 1c onwards):
 
 ```
-क + ह (uL) → k + v → "kv" (xi38)
-क + ह (uL) → ख?  NO — that would be "kh" which means ख
+uL:   ह
+xi38: v
+ux38: ह   (via singl_char_key_ofset.v = 0x39, native U+0939)
 ```
 
-The disambiguation rule lives in `xnglo_post.ts`:
+**Why `v`?** In the xnglo font (`zawa8/pff/**/x*52*.ttf`), the ASCII `v`
+glyph is replaced by **∀** (universal quantifier), which visually reads
+as ह. So `v` in xi38 is visually ∀ = ह when rendered in the font.
 
-```
-.replace(/([kgcztdTDpbs])[Hh]/g, "$1v")
-```
+**Backward compatibility:** `H` (capital) and `h` (lowercase) are still
+**accepted as input** to `xi38_to_ux38` for legacy xi38 strings — both
+map to ह. But `uL_to_xi38` now emits `v` canonically, never `H`/`h`.
 
-After this rule, `kv`/`gv`/`cv`/`zv`/`tv`/`dv`/`Tv`/`Dv`/`pv`/`bv`/`sv`
-all mean "consonant + letter ह" (two separate letters), never a digraph.
+### Why `h` is NOT used for ह standalone
 
-The reverse rule (in the same file) ensures `v` survives after those
-consonants:
+`h` is already used as the **aspiration mark** in digraphs (kh, gh, etc.).
+If `h` also meant ह standalone, `कह` (k + h as two separate letters)
+would be ambiguous with `ख` (k + h as aspiration). Using `v` for
+standalone ह eliminates this ambiguity.
 
-```
-.replace(/([^kgcztdjqTDpbsR])v/g, "$1h")
-```
+**Examples:**
 
-So `kv` stays `kv` (k is in the excluded set → `v` not rewritten to
-`h`). But `av` → `ah` (a not in excluded set → `v` becomes `h`) — that's
-fine, because `ah` after a vowel has no digraph ambiguity (a is not an
-aspiratable consonant).
-
-### The ∀ font connection
-
-In the xnglo font (`zawa8/pff/**/x*52*.ttf`), the ASCII `v` glyph is
-replaced by **∀** (universal quantifier), which visually resembles both
-व and ह. The xnglo convention assigns ∀ to **ह** (not व). व is `w`.
-
-So users reading xi38 in a font-aware viewer see:
-
-```
-"kv" → rendered as "k∀" → visually "कह"
-"kh" → rendered as composite glyph → visually "ख"
-```
-
-The glyph for ∀ (ह) is distinct from the glyph for the composite ख.
+| uL input | xi38 | ux38 |
+|----------|------|------|
+| `ह` | `v` | `ह` |
+| `है` | `vye` | `हye` |
+| `यह` | `yv` | `यह` |
+| `जह` | `zv` | `जह` |
+| `कह` | `kv` | `कह` |
+| `अह` | `xv` | `अह` |
+| `हल्दी` | `vlDi` | `हलदi` |
 
 ---
 
 ## The `A` / `x` alias for अ
 
-Parallel to `h`/`v` for ह, the independent vowel अ has two spellings:
+The independent vowel अ has two spellings in xi38:
 
 | xi38 | ux38 | Status |
 |------|------|--------|
-| `A` | अ | **legacy** — what `uL_to_xi38` emits today |
-| `x` | अ | **canonical** — what `uL_to_xi38` will emit after Phase 1b |
+| `A` | `अ` | **legacy** (Phase 1a behavior) |
+| `x` | `अ` | **canonical** (Phase 1b-a onwards) |
 
-Both are accepted as input to `xi38_to_ux38`. Examples:
+Both accepted as input. `uL_to_xi38` emits `x` (canonical).
+
+**Examples:**
+
+| uL input | xi38 | ux38 |
+|----------|------|------|
+| `अनार` | `xnar` | `अनaर` |
+| `अह` | `xv` | `अह` |
+
+### ॲ (candra-a) also folds to x
+
+ॲ (U+0972, candra-a) also emits `x` (Phase 1b-a). Nukta/candra is lost,
+base `अ` preserved — deliberate lossy, consistent with nukta dropping
+policy.
+
+---
+
+## Lookup order in `xi38_to_ux38`
 
 ```
-"Anar" → अनaर  (A → अ)
-"xnar" → अनaर  (x → अ)
-"Ah"   → अह    (A → अ, h → ह)
-"xh"   → अह    (x → अ, h → ह)
+1. ri / li disambiguation  (context-sensitive)
+2. digraf_base_ofset        (kh/gh/ch/zh/ph/th/dh/Th/Dh/bh/sh → base + Latin h)
+3. singl_char_key_ofset     (single chars: k g c z ... + v/h/H + f etc)
+4. passthrough              (anything unrecognized)
 ```
 
-**Why change `A` → `x`?** Because the xnglo font's ∀-based design favors
-lowercase throughout for the vowel/mark family (`a i u e o h`). `x` is
-the natural lowercase companion to `h`.
+Digraphs are matched **before** single chars, so `kh → कh` never becomes
+`k` + `h` = क + ह.
 
 ---
 
@@ -214,108 +181,108 @@ the natural lowercase companion to `h`.
 
 All examples are `xi38_to_ux38(input, "hindi")`:
 
-### Aspirate digraphs
+### Aspirate digraphs (base + Latin h)
 
 ```
-"kh"    → "ख"
-"gh"    → "घ"
-"ch"    → "छ"
-"zh"    → "झ"
-"ph"    → "फ"
-"bh"    → "भ"
-"sh"    → "श"
-"th"    → "ठ"
-"dh"    → "ढ"
-"Th"    → "थ"
-"Dh"    → "ध"
-"K"     → "ख"       (single-char alias for kh)
-"f"     → "फ"       (single-char alias for ph)
+"kh"    → "कh"
+"gh"    → "गh"
+"ch"    → "चh"
+"zh"    → "जh"
+"ph"    → "पh"
+"th"    → "टh"
+"dh"    → "डh"
+"Th"    → "तh"
+"Dh"    → "दh"
+"bh"    → "बh"
+"sh"    → "सh"
 ```
 
-### `h` as letter ह
+### फ special (precomposed)
 
 ```
-"yh"    → "यह"      (y → य, h → ह)
-"yv"    → "यह"      (y → य, v → ह)
-"yH"    → "यह"      (y → य, H → ह, legacy)
-"rh"    → "रह"
-"lh"    → "लह"
-"wh"    → "वह"
-"ah"    → "aह"      (a stays Latin, h → ह)
-"h"     → "ह"       (standalone at start)
-"nh"    → "नह"
-"mh"    → "मह"
+"f"     → "फ"       (single codepoint U+092B)
 ```
 
-### `h`/`v` after aspiratable consonant (disambiguated)
+### Capital singles removed
 
 ```
-"kv"    → "कह"      (k → क, v → ह; NOT ख)
-"gv"    → "गह"      (NOT घ)
-"cv"    → "चह"      (NOT छ)
-"zv"    → "जह"      (z → ज via 0x1c; NOT झ)
-"tv"    → "टह"      (NOT ठ)
-"dv"    → "डह"      (NOT ढ)
-"Tv"    → "तह"      (NOT थ)
-"Dv"    → "दह"      (NOT ध)
-"pv"    → "पह"      (NOT फ)
-"bv"    → "बह"      (NOT भ)
-"sv"    → "सह"      (NOT श)
+"K"     → "K"       (passthrough, not recognized)
+"G"     → "G"
+"C"     → "C"
+"Z"     → "Z"
+"B"     → "B"
+"S"     → "S"
 ```
 
-⚠ **`zv` note:** `z` = ज (`0x1c`), not ज़ (`0x5b`). ज़ is the nukta
-form, which is dropped by design in ux38 (see "KNOWN LOSSY" in
-`ux38.ts`). So `zv` → जह, not ज़ह. **If you want ज़ह specifically, the
-nukta needs to be preserved** — a separate design question, not in
-scope for Phase 1a.
-
-### The `A`/`x` vowel
+### ह (ha) via v / h / H
 
 ```
-"Anar"  → "अनaर"    (legacy A)
-"xnar"  → "अनaर"    (canonical x)
-"Ah"    → "अह"
-"xh"    → "अह"
+"v"     → "ह"       (canonical)
+"h"     → "ह"       (legacy, backward compat)
+"H"     → "ह"       (legacy, backward compat)
+"yv"    → "यह"
+"zv"    → "जह"
+"kv"    → "कह"
 ```
 
-### The `ri`/`li` disambiguation
+### अ via x / A
 
 ```
-"zari"    → "जaरi"   (z→ज, a passthrough, r→र, i passthrough)
-"snskriTi"→ "सनसकriतi"  (r stays Latin because preceded by k, a consonant key)
+"x"     → "अ"
+"A"     → "अ"
+"xnar"  → "अनaर"
+"Anar"  → "अनaर"
+```
+
+### ri / li disambiguation
+
+```
+"zari"    → "जaरi"   (r promotes; preceded by vowel)
+"snskriTi"→ "सनसकriतi"  (r stays Latin; preceded by consonant key k)
 ```
 
 ---
 
 ## What this means for testing
 
-Tests in `test-parts/xi38-to-ux38.ts` should cover:
+Tests in `test-parts/xi38-to-ux38.ts` cover:
 
-1. **All 11 digraphs** (aspirate → precomposed native)
-2. **`h` as letter ह** (after vowels, after non-aspiratable consonants, at start)
-3. **`v` disambiguated** after each of the 11 aspiratable consonants
-4. **`A`/`x` both → अ**
-5. **`ri`/`li` disambiguation** (both readings)
+1. **All 10 digraphs** (aspirate → base + Latin h)
+2. **फ special** (`f` → `फ` precomposed, `ph` → `पh`)
+3. **`v` canonical for ह**, `h`/`H` legacy accepted
+4. **`x` canonical for अ**, `A` legacy accepted
+5. **`ri`/`li` disambiguation**
 6. **Unsupported scripts pass through** (bangla, tamil, sinhala, korean)
+7. **Capital singles passthrough** (`K`, `G`, etc.)
 
 ---
 
 ## Backward compatibility summary
 
-| Old form | New form | Status |
-|----------|----------|--------|
-| `xi38_to_xLS38` function | `xi38_to_ux38` | Old name kept as alias export |
-| `xi38_to_xLS38.ts` file | `ux38.ts` | Old file deleted |
-| `xhs38` slot name | `xhs38` slot name | **Unchanged** in Phase 1a (slot rename is separate) |
-| `A` → अ | `x` → अ | Both work; `x` is canonical going forward |
-| `H` → ह | `h` → ह | Both work; `h` is canonical going forward |
+| Old form (pre-1c) | New form (1c+) | Status |
+|-------------------|----------------|--------|
+| `K` → ख | removed | **K passthrough** |
+| `kh` → ख (precomposed) | `kh` → कh | **base + Latin h** |
+| `H` → ह | `v` → ह | **H legacy, v canonical** |
+| `h` → ह | `v` → ह | **h legacy, v canonical** |
+| `A` → अ | `x` → अ | **A legacy, x canonical** |
+| `f` → फ | `f` → फ | **unchanged (special)** |
 
 ---
 
 ## Related files
 
 - **Implementation:** `src/hsciistr/ux38.ts`
-- **Disambiguation rules:** `src/hsciistr/xnglo_post.ts`
+- **Post-processor:** `src/hsciistr/xnglo_post.ts`
+- **Native → xi38:** `src/hsciistr/uL_to_xi38.ts`
 - **Devanagari source data:** `src/hsciistr/dicts/u1_map.ts`
-- **Test file:** `test-parts/xi38-to-ux38.ts` (Phase 1a will create this)
+- **Test file:** `test-parts/xi38-to-ux38.ts`
 - **Spec:** `CLAUDE_htrlib_api.md`
+
+---
+
+## Phase history
+
+- **Phase 1a** (`199148a`): `xi38_to_xLS38` → `xi38_to_ux38` rename, 11 digraphs, h/v/x aliases, R fix
+- **Phase 1b-a** (`9088bcc`): `u1_map.A → 'x'` (अ and ॲ both fold to x)
+- **Phase 1c** (`bea27fb`): aspirates = base + Latin h, ह → v, ph → पh, K/G/C/Z/B/S removed, v→h rule removed
