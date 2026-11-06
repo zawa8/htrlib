@@ -1,10 +1,10 @@
 // SCAFFOLD NOTICE: this file currently holds the SAME table as the
-// original shared u9_map.ts (Devanagari-derived), seeded here as a
+// original shared u9_map.ts (Dewnagri-derived), seeded here as a
 // placeholder while u1..u9 were split out one-per-script (previously
-// all 9 ISCII-aligned scripts -- Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam --
+// all 9 ISCII-aligned scripts -- Dewnagri, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam --
 // shared one table, per CLAUDE.md's original "u9: 9 indian writing
 // scripts" design). This split is structural only so far: NO behavior
-// change yet (still Devanagari values for every script). u7_map.ts is
+// change yet (still Dewnagri values for every script). u7_map.ts is
 // for Telugu (telugu, block U+0C00-U+0C7F) and its
 // entries need verifying/rewriting against Telugu's own Unicode chart
 // (letters, matras, digits) the same way u10_map.ts (sinhala) was done --
@@ -75,7 +75,7 @@ export const U7_MAP = {
     'S',  // श 936 2358
     's',  // ष 937 2359
     's',  // स 938 2360
-    'H',  // ह 939 2361   (xi52; font draws H with a dot on top)
+    'v',  // v = ∀ = ह 939 2361 
     'oe', // ऺ 93A 2362
     'ui', // ऻ 93B 2363
     '',   // ़ 93C 2364 nukta

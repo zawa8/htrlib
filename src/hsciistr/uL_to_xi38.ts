@@ -48,7 +48,7 @@ export function uL_to_xi38(input: string): string {
   // a behavior change.
   let s = input
     .replace(/\u0915\u093c/g, 'k')  // क़
-    .replace(/\u0916\u093c/g, 'K')  // ख़
+    .replace(/\u0916\u093c/g, 'kh')  // ख़
     .replace(/\u0917\u093c/g, 'g')  // ग़
     .replace(/\u091c\u093c/g, 'z')  // ज़
     .replace(/\u0921\u093c/g, 'R')  // ड़ (unaspirated retroflex flap)

@@ -23,12 +23,12 @@ describe("uL_to_xLS38('hindi') testcases", () => {
         "आज के कंप्यूटर युग में कंप्यूटर, सॉफ्टवेयर और डॉट्स (dots) जैसी आधुनिक तकनीकों के माध्यम से इन दुर्लभ प्रतीकों को अक्षुण्ण रखने का प्रयास जारी है।"
       )
     ).toBe(
-      "aaज कe कमपयuटर यuग मe कमपयuटर, सoफटवeयर अuर डoटस (डoटस) जयeसi aaधuनiक तकनiकo कe मaधयम सe iन दuरलभ परतiकo कo अकसuनन रखनe कa परयaस जaरi हयe."
+      "aaज कe कमपयuटर यuग मe कमपयuटर, सoफटवeयर अuर डoटस (डoटस) जयeसi aaदhuनiक तकनiकo कe मaदhयम सe iन दuरलबh परतiकo कo अकसuनन रकhनe कa परयaस जaरi हयe."
     );
   });
 
   test("uL_to_xLS38 testcase4a (nukta letters + danda)", async () => {
-    expect(await run("क़ ख़ ग़ ज़ फ़।")).toBe("क ख ग ज फ.");
+    expect(await run("क़ ख़ ग़ ज़ फ़।")).toBe("क कh ग ज फ.");
   });
   
   // testcase4a established the policy: nukta is LOST in the
@@ -36,12 +36,13 @@ describe("uL_to_xLS38('hindi') testcases", () => {
   // nukta has no Latin equivalent, so it drops). This test pins that same
   // policy for the ढ़/ड़ pair after the ढ़ -> 'dh' fix in uL_to_xi38.ts.
   // See docs/aspirate-digraphs.md "KNOWN LOSSY" section.
-  test("ढ़ -> xi38 'dh' -> xLS38 'ढ' (nukta LOST, consistent with testcase4a)", async () => {
-    expect(await run("ढ़")).toBe("\u0922"); // ढ, not ढ़
+  test("ढ़ -> xi38 'dh' -> ux38 'डh' (base ड + Latin h, Phase 1c)", async () => {
+    expect(await run("ढ़")).toBe("डh"); // ड + Latin h
   });
   
   test("uL_to_xLS38 testcase4b (sinhala input also works via the xi38 intermediate -- script-agnostic once romanized)", async () => {
-    expect(await run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("\u091cau \u0926uaa \u0915\u092fi(\u0915\u092fi) \u092a\u0922ai \u0915\u0905uaa"
+    expect(await run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe(
+      "जau दuaa कयi(कयi) पडhai कअuaa"
     );
   });
 
@@ -51,7 +52,7 @@ describe("uL_to_xLS38('hindi') testcases", () => {
         "ऋषि के आश्रम में (गंगा) किनारे बैठकर शिष्यों ने वाङ्गमय और चञ्चल मन को एकाग्र करने का पाठ सीखा।"
       )
     ).toBe(
-      "रiसi कe aaशरम मe (गनगa) कiनaरe बयeठकर शiसयo नe वaनगमय अuर चनचल मन कo eकaगर करनe कa पaठ सiखa."
+      "रiसi कe aaसhरम मe (गनगa) कiनaरe बयeटhकर सhiसयo नe वaनगमय अuर चनचल मन कo eकaगर करनe कa पaटh सiकha."
     );
   });
 

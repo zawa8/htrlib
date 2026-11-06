@@ -11,14 +11,14 @@ const run = (s: string) => {
 describe("uL_to_xi38 (Devanagari u9/u10 -> xi38) hv", () => {
   test("जह झ test", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zHaz smuDr me za rHa Hye Aur Zag bn rHa Hye.");
+    expect(run("जहाज़ समुद्र में जा रहा है और झाग बन रहा है।")).toBe("zvaz smuDr me za rva vye Aur zhag bn rva vye.");
   });
   test("ह", () => {
     // cross-checked against lib/mappings.ts's HINDI_CHAR_MAP: अ=x, न=n, ा=a, र=r
-    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("HlDi ke pani me nHana caHiye");
+    expect(run("हल्दी के पानी में नहाना चाहिए")).toBe("vlDi ke pani me nvana caviye");
   });
   test("इ/ई/उ/ऊ test", () => { expect(run("जाऊँ दुआ कई(කඊ) पढ़ाई कउआ")).toBe("zau Duaa kyi(kyi) pdhai kAuaa"); });
-  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aaye Huye liye"); });
+  test("ए/ऐ test", () => { expect(run("गएैसा गए आए हुए लिए")).toBe("gyesa gye aaye vuye liye"); });
   test("ष स्व test", () => { expect(run("ष स्व")).toBe("s sw");   });
 
   test("क्ष at start -> 's'", () => {
@@ -40,15 +40,15 @@ describe("uL_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
     // these to 'x'/'h' -- at which point this expectation becomes
     // "xnar ka pouDha lgana xTynT SuB mana gya hye". See
     // docs/aspirate-digraphs.md "A / x alias for अ".
-    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouDha lgana xTynT SuB mana gya Hye");
+    expect(run("अनार का पौधा लगाना अत्यंत शुभ माना गया है")).toBe("xnar ka pouDha lgana xTynT shubh mana gya vye");
   });
   test("नमस्ते -> nmsje", () => {
     expect(run("नमस्ते? తెలంగాణ (ਲੁਧਿਆਣਾ)")).toBe("nmsTe? TelNgan (luDhiaana)");
   });
 
   test("ligatures: त्र -> jr, ज्ञ -> gy", () => {
-    expect(run("त्र ज्ञ हिंदी में श्रुति लेख")).toBe( "Tr gy HinDi me SruTi leK");
-    expect(run("हिंदी में क्षत्रिय कक्षा कैसे लिखते हैं")).toBe("HinDi me sTriy kksa kyese liKTe Hye");
+    expect(run("त्र ज्ञ हिंदी में श्रुति लेख")).toBe( "Tr gy vinDi me shruTi lekh");
+    expect(run("हिंदी में क्षत्रिय कक्षा कैसे लिखते हैं")).toBe("vinDi me sTriy kksa kyese likhTe vye");
     expect(run("ज्ञ")).toBe("gy");
   });
 
@@ -58,7 +58,7 @@ describe("uL_to_xi38 (Devanagari u9/u10 -> xi38)", () => {
 
   test("N post-processing: Nb -> mb (कंबल)", () => {
     expect(run("कंबल रंग ")).toBe("kmbl rNg ");
-    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur Aur xNgithi Dono SbD Suru HoTe Hye. in Dono SbDo ka wiwrn nice Diya gya Hye:");
+    expect(run("'अं' (अनुस्वार स्वर) अक्षर से अंगूर और अंगीठी दोनों शब्द शुरू होते हैं। इन दोनों शब्दों का विवरण नीचे दिया गया है:")).toBe("'x' (xnuswar swr) xksr se xNgur Aur xNgithi Dono shbD shuru voTe vye. in Dono shbDo ka wiwrn nice Diya gya vye:");
   });
 
   test("N post-processing: N kept before k/K/g/G (रंग)", () => {

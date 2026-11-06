@@ -1,12 +1,12 @@
 // SCAFFOLD NOTICE: this file currently holds the SAME table as the
-// original shared u9_map.ts (Devanagari-derived), seeded here as a
+// original shared u9_map.ts (Dewnagri-derived), seeded here as a
 // placeholder while u1..u9 were split out one-per-script (previously
-// all 9 ISCII-aligned scripts -- Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam --
+// all 9 ISCII-aligned scripts -- Dewnagri, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam --
 // shared one table, per CLAUDE.md's original "u9: 9 indian writing
 // scripts" design). This split is structural only so far: NO behavior
-// change yet (still Devanagari values for every script). u1_map.ts is
-// for Devanagari (hindi/marathi, block U+0900-U+097F) and its
-// entries need verifying/rewriting against Devanagari's own Unicode chart
+// change yet (still Dewnagri values for every script). u1_map.ts is
+// for Dewnagri (hindi/marathi, block U+0900-U+097F) and its
+// entries need verifying/rewriting against Dewnagri's own Unicode chart
 // (letters, matras, digits) the same way u10_map.ts (sinhala) was done --
 // see u10_map.ts's own top-of-file note and the commit history around it
 // for the method (unicodedata name-matching, not raw offset-copying).
@@ -41,14 +41,14 @@ export const U1_MAP = {
     'o',  // ओ 913 2323
     'Au', // औ 914 2324
     'k',  // क 915 2325
-    'K',  // ख 916 2326
+    'kh',  // ख 916 2326
     'g',  // ग 917 2327
-    'G',  // घ 918 2328
+    'gh',  // घ 918 2328
     'N',  // ङ 919 2329
     'c',  // च 91A 2330
-    'C',  // छ 91B 2331
+    'ch',  // छ 91B 2331
     'z',  // ज 91C 2332
-    'Z',  // झ 91D 2333
+    'zh',  // झ 91D 2333
     'n',  // ञ 91E 2334
     't',  // ट 91F 2335
     'th',  // ठ 920 2336   (xi52 aspirated retroflex)
@@ -64,7 +64,7 @@ export const U1_MAP = {
     'p',  // प 92A 2346
     'f',  // फ 92B 2347
     'b',  // ब 92C 2348
-    'B',  // भ 92D 2349
+    'bh',  // भ 92D 2349
     'm',  // म 92E 2350
     'y',  // य 92F 2351
     'r',  // र 930 2352
@@ -73,10 +73,10 @@ export const U1_MAP = {
     'l',  // ळ 933 2355
     'l',  // ऴ 934 2356
     'w',  // व 935 2357
-    'S',  // श 936 2358
+    'sh',  // श 936 2358
     's',  // ष 937 2359
     's',  // स 938 2360
-    'H',  // ह 939 2361   (xi52; font draws H with a dot on top)
+    'v',  // v = ∀ = ह 939 2361
     'oe', // ऺ 93A 2362
     'ui', // ऻ 93B 2363
     '',   // ़ 93C 2364 nukta
@@ -108,7 +108,7 @@ export const U1_MAP = {
     'ui', // ॖ 956 2390
     'uui',// ॗ 957 2391
     'k',  // क़ 958 2392
-    'K',  // ख़ 959 2393
+    'kh',  // ख़ 959 2393
     'g',  // ग़ 95A 2394
     'z',  // ज़ 95B 2395
     'R',  // ड़ 95C 2396   (xi52: ड़ = R)
@@ -140,7 +140,7 @@ export const U1_MAP = {
     'ui', // ॶ 976 2422
     'ui', // ॷ 977 2423
     'D',  // ॸ 978 2424
-    'Z',  // ॹ 979 2425
+    'z',  // ॹ 979 2425
     'y',  // ॺ 97A 2426
     'n',  // ॻ 97B 2427
     'z',  // ॼ 97C 2428

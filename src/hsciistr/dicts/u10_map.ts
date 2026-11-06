@@ -1,14 +1,14 @@
 // this file is htrlib/src/sciistr/dicts/u10_map.ts
 export const U10_MAP = {
-  // devanagari char in comments is matched by OFFICIAL UNICODE CHARACTER NAME
-  // (e.g. sinhala "ALPAPRAANA KAYANNA" == devanagari "KA"), not by raw block
-  // offset — sinhala has 7 extra independent-vowel codepoints devanagari
+  // Dewnagri char in comments is matched by OFFICIAL UNICODE CHARACTER NAME
+  // (e.g. sinhala "ALPAPRAANA KAYANNA" == Dewnagri "KA"), not by raw block
+  // offset — sinhala has 7 extra independent-vowel codepoints Dewnagri
   // doesn't, so offset-based alignment breaks starting at the consonants
-  // (sinhala d9a=ka aligns to devanagari 0915=क, NOT to whatever sits at the
-  // same relative offset in u9_map.ts). blank devanagari comment = sinhala
-  // letter has no single-character devanagari equivalent (mostly the
+  // (sinhala d9a=ka aligns to Dewnagri 0915=क, NOT to whatever sits at the
+  // same relative offset in u9_map.ts). blank Dewnagri comment = sinhala
+  // letter has no single-character Dewnagri equivalent (mostly the
   // "sanyaka" prenasalized consonants: ṅga, ñja, ṇḍa, nda, mba — these are
-  // conjuncts in devanagari, not single letters) or devanagari doesn't
+  // conjuncts in Dewnagri, not single letters) or Dewnagri doesn't
   // distinguish a short/long vowel pair sinhala does.
   ///////kKzZtTdDjJqQnpfbBmyrlwSsɦ
   unicode_hindi_array: [
@@ -80,7 +80,7 @@ export const U10_MAP = {
     'S', // श dc1 = sinhala letter sha
     's', // ष dc2 = sinhala letter ssa
     's', // स dc3 = sinhala letter sa (dental)
-    'H', // ह dc4 = sinhala letter ha
+    'v', // v=∀=ह dc4 = sinhala letter ha
     'l', // ळ dc5 = sinhala letter lla
     'f', // फ़ dc6 = sinhala letter fa
     '', //   dc7 =null
@@ -142,10 +142,10 @@ export const U10_MAP = {
     '' //   dff
   ],
   // NOTE: these two lists were carried over positionally from u9_map.ts
-  // (devanagari). Devanagari's implicit-schwa / modulo-based
+  // (Dewnagri). Dewnagri's implicit-schwa / modulo-based
   // hard-consonant & vowel detection formula does not carry over to
   // sinhala as-is (sinhala has no inherent schwa and its letter
-  // ordering doesn't line up semantically with devanagari at the same
+  // ordering doesn't line up semantically with Dewnagri at the same
   // offsets). Currently unused by any consumer in src/ (only referenced
   // here in dicts/) — needs a sinhala-specific derivation before any
   // schwa/modulo logic is written against U10_MAP. Do not reuse the

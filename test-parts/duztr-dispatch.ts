@@ -34,8 +34,8 @@ describe("duztr() dispatch", () => {
     const h = new h5str(h5str.phrom_dikt.uL, h5str.tu_dikt.xhs38);
     h.set_input("ऋषि के आश्रम में (गंगा)");
     await h.duztr();
-    expect(h.output.xhs38).toBe("रiसi कe aaशरम मe (गनगa)");
-    expect(h.output.xi38).toBe("risi ke aaSrm me (gNga)");
+    expect(h.output.xhs38).toBe("रiसi कe aaसhरम मe (गनगa)");
+    expect(h.output.xi38).toBe("risi ke aashrm me (gNga)");
   });
 
   test("phrom=uL tu=xhs38 ऋ श्र 2 (longer sentence)", async () => {
@@ -45,10 +45,10 @@ describe("duztr() dispatch", () => {
     );
     await h.duztr();
     expect(h.output.xhs38).toBe(
-      "रiसi कe aaशरम मe (गनगa) कiनaरe बयeठकर शiसयo नe वaनगमय अuर चनचल मन कo eकaगर करनe कa पaठ सiखa."
+      "रiसi कe aaसhरम मe (गनगa) कiनaरe बयeटhकर सhiसयo नe वaनगमय अuर चनचल मन कo eकaगर करनe कa पaटh सiकha."
     );
     expect(h.output.xi38).toBe(
-      "risi ke aaSrm me (gNga) kinare byethkr Sisyo ne waNgmy Aur cncl mn ko ekagr krne ka path siKa."
+      "risi ke aashrm me (gNga) kinare byethkr shisyo ne waNgmy Aur cncl mn ko ekagr krne ka path sikha."
     );
   });
 

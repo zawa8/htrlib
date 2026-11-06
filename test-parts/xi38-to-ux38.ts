@@ -8,8 +8,8 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
     expect(xi38_to_ux38("snskriTi", "hindi")).toBe("सनसकriतi");
   });
 
-  test("hindi: श्र's xi38 (Sr) -> शर -- capital S (श) + r (consonant, not followed by i) both convert", () => {
-    expect(xi38_to_ux38("Sr", "hindi")).toBe("शर");
+  test("hindi: श्र's xi38 (shr) -> सhर", () => {
+    expect(xi38_to_ux38("shr", "hindi")).toBe("सhर");
   });
 
   test("hindi: नमस्ते's xi38 (nmsTe) -> नमसतe -- matches uL_to_xi38(नमस्ते) round-trip", () => {
@@ -31,27 +31,30 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
 
   test("hindi: aspirated digraphs convert as one unit, not letter-by-letter", () => {
     // 11 aspirate digraphs (see docs/aspirate-digraphs.md)
-    expect(xi38_to_ux38("kh", "hindi")).toBe("ख");
-    expect(xi38_to_ux38("gh", "hindi")).toBe("घ");
-    expect(xi38_to_ux38("ch", "hindi")).toBe("छ");
-    expect(xi38_to_ux38("zh", "hindi")).toBe("झ");
-    expect(xi38_to_ux38("ph", "hindi")).toBe("फ");
-    expect(xi38_to_ux38("bh", "hindi")).toBe("भ");
-    expect(xi38_to_ux38("sh", "hindi")).toBe("श");
-    expect(xi38_to_ux38("th", "hindi")).toBe("ठ");
-    expect(xi38_to_ux38("dh", "hindi")).toBe("ढ");
-    expect(xi38_to_ux38("Th", "hindi")).toBe("थ");
-    expect(xi38_to_ux38("Dh", "hindi")).toBe("ध");
+    // Phase 1c: aspirates = base consonant + Latin 'h' (NOT precomposed)
+	expect(xi38_to_ux38("kh", "hindi")).toBe("कh");
+	expect(xi38_to_ux38("gh", "hindi")).toBe("गh");
+	expect(xi38_to_ux38("ch", "hindi")).toBe("चh");
+	expect(xi38_to_ux38("zh", "hindi")).toBe("जh");
+	expect(xi38_to_ux38("ph", "hindi")).toBe("पh");
+	expect(xi38_to_ux38("bh", "hindi")).toBe("बh");
+	expect(xi38_to_ux38("sh", "hindi")).toBe("सh");
+	expect(xi38_to_ux38("th", "hindi")).toBe("टh");
+	expect(xi38_to_ux38("dh", "hindi")).toBe("डh");
+	expect(xi38_to_ux38("Th", "hindi")).toBe("तh");
+	expect(xi38_to_ux38("Dh", "hindi")).toBe("दh");
   });
 
   test("hindi: single-char aliases for aspirates (K=kh, f=ph, etc.)", () => {
-    expect(xi38_to_ux38("K", "hindi")).toBe("ख");
-    expect(xi38_to_ux38("G", "hindi")).toBe("घ");
-    expect(xi38_to_ux38("C", "hindi")).toBe("छ");
-    expect(xi38_to_ux38("Z", "hindi")).toBe("झ");
-    expect(xi38_to_ux38("f", "hindi")).toBe("फ");
-    expect(xi38_to_ux38("B", "hindi")).toBe("भ");
-    expect(xi38_to_ux38("S", "hindi")).toBe("श");
+	// Phase 1c: capital singles removed (K/G/C/Z/B/S passthrough)
+	expect(xi38_to_ux38("K", "hindi")).toBe("K");
+	expect(xi38_to_ux38("G", "hindi")).toBe("G");
+	expect(xi38_to_ux38("C", "hindi")).toBe("C");
+	expect(xi38_to_ux38("Z", "hindi")).toBe("Z");
+	expect(xi38_to_ux38("B", "hindi")).toBe("B");
+	expect(xi38_to_ux38("S", "hindi")).toBe("S");
+	// f is special: still maps to फ (precomposed)
+	expect(xi38_to_ux38("f", "hindi")).toBe("फ");
   });
 
   test("hindi: h as letter ह (after non-aspiratable consonant, after vowel, at start)", () => {
@@ -89,8 +92,8 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
     expect(xi38_to_ux38("sT sri Akal pnzab", "gurmukhi")).toBe("ਸਤ ਸri ਅਕaਲ ਪਨਜaਬ");
   });
 
-  test("gujarati: કેમ છો ગુજરાત's xi38 (kem Co guzraT) converts consonants to gujarati", () => {
-    expect(xi38_to_ux38("kem Co guzraT", "gujarati")).toBe("કeમ છo ગuજરaત");
+  test("gujarati: કેમ છો ગુજરાત's xi38 (kem cho guzraT) converts consonants to gujarati", () => {
+    expect(xi38_to_ux38("kem cho guzraT", "gujarati")).toBe("કeમ ચho ગuજરaત");
   });
 
   test("kannada: ನಮಸ್ಕಾರ ಕನ್ನಡ's xi38 (nmskar knnd) converts consonants to kannada", () => {
