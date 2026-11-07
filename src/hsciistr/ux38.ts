@@ -22,16 +22,16 @@
 // korean and unknown scripts
 
 const skript_base: Record<string, number> = {
-hindi: 0x0900,
-bangla: 0x0980,
-gurmukhi: 0x0a00,
-gujarati: 0x0a80,
-oriya: 0x0b00,
-tamil: 0x0b80, // Tamil: uses tamil_offset table below
-telugu: 0x0c00,
-kannada: 0x0c80,
-// malayalam: 0x0d00, // Phase 1d-c (retroflex/dental reordered)
-sinhala: 0x0d80, // Sinhala: uses sinhala_offset table below
+	hindi: 0x0900,
+	bangla: 0x0980,
+	gurmukhi: 0x0a00,
+	gujarati: 0x0a80,
+	oriya: 0x0b00,
+	tamil: 0x0b80, // Tamil: uses tamil_offset table below
+	telugu: 0x0c00,
+	kannada: 0x0c80,
+	malayalam: 0x0d00, // Phase 1d-c (retroflex/dental reordered)
+	sinhala: 0x0d80, // Sinhala: uses sinhala_offset table below
 };
 
 // Non-aspirate, non-special single-char consonants (offsets from the

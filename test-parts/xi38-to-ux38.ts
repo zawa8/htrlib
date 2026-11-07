@@ -121,4 +121,13 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
     expect(xi38_to_ux38("v", "tamil")).toBe("ஹ"); // ha grantha
     expect(xi38_to_ux38("x", "tamil")).toBe("அ");
   });
+  
+  test("malayalam: ISCII-aligned, base + Latin h aspirates", () => {
+    // Malayalam shares Unicode offset layout with Devanagari for most
+    // consonants (both ISCII-derived): ക=k at 0x15, ട=t at 0x1F, ത=T at 0x24.
+    expect(xi38_to_ux38("nmsTe", "malayalam")).toBe("നമസതe");
+    expect(xi38_to_ux38("k", "malayalam")).toBe("ക");
+    expect(xi38_to_ux38("kh", "malayalam")).toBe("കh");
+    expect(xi38_to_ux38("v", "malayalam")).toBe("ഹ");
+  });
 });
