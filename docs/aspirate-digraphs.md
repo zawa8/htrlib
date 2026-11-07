@@ -252,7 +252,7 @@ Tests in `test-parts/xi38-to-ux38.ts` cover:
 3. **`v` canonical for ह**, `h`/`H` legacy accepted
 4. **`x` canonical for अ**, `A` legacy accepted
 5. **`ri`/`li` disambiguation**
-6. **Unsupported scripts pass through** (bangla, tamil, sinhala, korean)
+6. **Unsupported scripts pass through** (only korean + truly unknown script names; all 10 Indic scripts are now supported as of Phase 1d)
 7. **Capital singles passthrough** (`K`, `G`, etc.)
 
 ---
