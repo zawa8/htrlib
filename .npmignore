@@ -1,9 +1,7 @@
-.git/
-node_modules/
-__tests__/
-jest.config.js
-claudezip/
-del/
-tsconfig.json
-AGENTS.md
-CLAUDE.md
+# .npmignore applies INSIDE dist/ because package.json's "files"
+# whitelist already excludes everything outside dist/.
+# Keep this minimal.
+
+*.test.js
+*.spec.js
+*.map

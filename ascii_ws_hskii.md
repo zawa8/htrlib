@@ -1,6 +1,6 @@
 ### Architectural Comparison: ASCII (E52) vs. HSKII
 
-This document outlines the design trade-offs and structural advantages of selecting the **HSKII (xe38 / xi38)** character domain over standard **ASCII (E52)** for the htrlib transliteration engine and cplong compilation targets. 
+This document outlines the design trade-offs and structural advantages of selecting the **HSKII (xe38 / xi38)** character domain over standard **ASCII (E52)** for the xnglotr transliteration engine and cplong compilation targets. 
 
 ### 📊 Core Paradigm Shift
 
@@ -19,7 +19,7 @@ Standard E52 requires tracking duplicate lookup matrices for lowercase and upper
 
 ### 2. Streamlined Matra and Vowel Replacement
 
-The core logic of htrlib relies on transforming Indian scripts (u9_to_xi38.csv) by replacing vowel markings (*matras*) predictably. 
+The core logic of xnglotr relies on transforming Indian scripts (u9_to_xi38.csv) by replacing vowel markings (*matras*) predictably. 
 
 * **The ASCII Problem:** Handling multi-character phonetic approximations creates parsing ambiguity.
 * **The HSKII Solution:** Allocates distinct, singular slots for the 38 vital phonetic components (a-z, K, G, C, Z, T, D, J, Q, B, S, N). This allows transformations to happen inside a uniform, single-pass loop.

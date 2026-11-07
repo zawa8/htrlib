@@ -1,4 +1,4 @@
-// this file is htrlib/src/sciistr/dicts/u10_map.ts
+// this file is xnglotr/src/sciistr/dicts/u10_map.ts
 export const U10_MAP = {
   // Dewnagri char in comments is matched by OFFICIAL UNICODE CHARACTER NAME
   // (e.g. sinhala "ALPAPRAANA KAYANNA" == Dewnagri "KA"), not by raw block

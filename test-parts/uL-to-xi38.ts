@@ -1,4 +1,4 @@
-// htrlib/test-parts/uL-to-xi38.ts
+// xnglotr/test-parts/uL-to-xi38.ts
 import { hsciistr } from "../src/hsciistr_file";
 
 const run = (s: string) => {

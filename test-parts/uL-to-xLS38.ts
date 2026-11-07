@@ -1,4 +1,4 @@
-// htrlib/test-parts/uL-to-u38.ts
+// xnglotr/test-parts/uL-to-u38.ts
 /* in uL below are there :
     Vowels: अ आ इ ई उ ऊ ऋ ए ऐ ओ औ | Consonants: क ख ग घ ङ | च छ ज झ ञ | ट ठ ड ढ ण | त थ द ध न | प फ ब भ म | य र ल व | श ष स ह | Special/Modified: क्ष त्र ज्ञ श्र | ड़ ढ़ | क़ ख़ ग़ ज़ फ़ |
    but in xhs38 below are there :
@@ -7,7 +7,7 @@
 import { h5str } from "../src/hsciistr_file";
 
 // uL -> xi38 -> xhs38 (hindi), via the composed uL_to_xLS38 pipeline --
-// see CLAUDE_htrlib_api.md. Supersedes the old direct
+// see CLAUDE_xnglotr_api.md. Supersedes the old direct
 // uten_to_u38()/output.u38 (deleted; see git history).
 describe("uL_to_xLS38('hindi') testcases", () => {
   const run = async (s: string) => {
@@ -73,7 +73,7 @@ describe("uL_to_xLS38('hindi') testcases", () => {
   });
 });
 
-// KNOWN GAPS not fixed by this pipeline yet -- see CLAUDE_htrlib_api.md
+// KNOWN GAPS not fixed by this pipeline yet -- see CLAUDE_xnglotr_api.md
 // SCOPE section and the inline notes in xi38_to_xLS38.ts:
 // - आ's word-initial "अ"-prefix (e.g. आश्रम -> अaaशरम under the OLD
 //   native-direct implementation) is LOST going through the xi38

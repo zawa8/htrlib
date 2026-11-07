@@ -8,7 +8,7 @@ import { xi38_to_xLS38 as xi38_to_xLS38_impl } from './hsciistr/ux38';
 import { translate_e52_x as translate_e52_x_impl } from './hsciistr/net/translate_e52_x';
 import { transliterate_e52_x as transliterate_e52_x_impl } from './hsciistr/net/transliterate_e52_x';
 
-// See CLAUDE_htrlib_api.md at repo root for the full naming scheme and
+// See CLAUDE_xnglotr_api.md at repo root for the full naming scheme and
 // pipeline description (h5/h5str/uL/E52/xi38/xiL38/xLS38 etc).
 export class h5str {
 	// e52 is English (26+26)
@@ -25,7 +25,7 @@ export class h5str {
 	// semi-native per-SCRIPT output (letters native, marks Latin) --
 	// "LS" (LanguageScript) because the SCRIPT is known but which
 	// language it's carrying isn't (e.g. devanagari = hindi AND
-	// marathi). See CLAUDE_htrlib_api.md for the full writeup.
+	// marathi). See CLAUDE_xnglotr_api.md for the full writeup.
 
 	// language name (as used by xi38_to_xLS38's argLS) <-> google
 	// translate/itc code <-> the xiL38/xLS38 dict keys for that language.
@@ -255,6 +255,6 @@ export class h5str {
 }
 
 // Backward-compatible alias -- the class was renamed hsciistr -> h5str
-// (see CLAUDE_htrlib_api.md); kept so any external code still importing
+// (see CLAUDE_xnglotr_api.md); kept so any external code still importing
 // the old name doesn't break outright. Prefer h5str in new code.
 export { h5str as hsciistr };

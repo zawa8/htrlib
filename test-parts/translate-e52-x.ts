@@ -1,4 +1,4 @@
-// htrlib/test-parts/translate-e52-x.ts
+// xnglotr/test-parts/translate-e52-x.ts
 import { hsciistr } from "../src/hsciistr_file";
 
 describe("translate_e52_x (mocked network -- no real calls in this suite)", () => {

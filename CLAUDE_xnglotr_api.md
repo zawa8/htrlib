@@ -1,4 +1,4 @@
-# htrlib API naming (h5str)
+# xnglotr API naming (h5str)
 
 This documents the naming scheme and pipeline the repo owner specified,
 and what this repo's code was renamed to match. If code and this doc
@@ -15,7 +15,7 @@ possibly needing a follow-up fix.
   glyphs are NOT placed immediately after 0-9 (contrast with the
   not-yet-built **h4** variant, "hskii4", which WOULD run 0123456789LYVWPF
   continuously starting at 0x30 -- h4 is future scope, not in this
-  version of htrlib).
+  version of xnglotr).
 - **h5str** = the main class (renamed from `hsciistr`). "L" throughout
   this library's naming = 10, i.e. the ten scripts it covers.
 - **uL** = "unicode [L=ten] languages": native-script input across the
@@ -137,6 +137,6 @@ logic (`xnglonpp-ext`'s C++ core, `xnglopxd`'s Kotlin core, and
 `plugintemplate`'s copy of the former) still use the OLD names
 internally (`to_xi38`/`to_u38`, etc) -- they're independent hand-ports,
 not npm consumers of this package, so this rename doesn't break them,
-but their own naming is now out of sync with htrlib's, and none of them
+but their own naming is now out of sync with xnglotr's, and none of them
 have the "ri"/"li" context-sensitivity fix or the xiL38/xLS38 split yet.
 Syncing them to match is a separate follow-up if wanted.

@@ -1,4 +1,4 @@
-// htrlib/src/hsciistr/dicts/uten128.ts
+// xnglotr/src/hsciistr/dicts/uten128.ts
 //
 // Unified uL -> xi38 maps for all 10 scripts (Phase 1e-2b).
 //

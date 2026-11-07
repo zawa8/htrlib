@@ -1,4 +1,4 @@
-// this file is htrlib/src/hsciistr/net/translate_e52_x.ts
+// this file is xnglotr/src/hsciistr/net/translate_e52_x.ts
 export async function translate_e52_x(input: string, target: string): Promise<string> {
   if (!input) return "";
   const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${target}&dt=t&q=${encodeURIComponent(input)}`;

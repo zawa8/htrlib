@@ -44,7 +44,7 @@ for e52 to xv38/xb38/xp38/xo38/xj38/xt38/xm38/xk38/xs38/xmr38
 
 1. du changes and test
     1. write tests to test chages in sometest.test.ts file and sAve in __tests__ tree.
-    2. npm install (after running qhis "htrlib\node_modules" dir gets created so gitignore node_modules
+    2. npm install (after running qhis "xnglotr\node_modules" dir gets created so gitignore node_modules
 	3. npm run test (now __tests__  dir not present so skip qhis)
 2. if tests passed then :
     1. npm login
@@ -92,7 +92,7 @@ https://addons.mozilla.org/en-US/firefox/addon/linguist84/
 ##### hsciistr => open hsciistr.md 
 1. [about hsciistr](https://github.com/zawa8/hsciistr/blob/typescript/hsciistr.md)
 
-2. hscii npmjs packages url : https://www.npmjs.com/settings/hscii/packages htrlib libhsciifp
+2. hscii npmjs packages url : https://www.npmjs.com/settings/hscii/packages xnglotr libhsciifp
 
 [martinpersson article][article1]
 

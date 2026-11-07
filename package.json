@@ -1,23 +1,23 @@
 {
-  "name": "@hscii/htrlib",
-  "version": "1.1.1",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "./dist/hsciistr_file.js",
-  "types": "./dist/hsciistr_file.d.ts",
-  "scripts": {
-    "test": "jest",
-    "build": "tsc"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "jest": "^30.4.2",
-    "ts-jest": "^29.4.12",
-    "typescript": "^5.8.3"
-  }
+	"name": "@hscii/xnglotr",
+	"version": "2.0.0",
+	"publishConfig": { "access": "public" },
+	"main": "./dist/hsciistr_file.js",
+	"types": "./dist/hsciistr_file.d.ts",
+	"scripts": { "test": "jest", "build": "tsc" },
+	"keywords": ["transliteration", "romanization", "indic", "xnglo", "hindi", "bengali", "gurmukhi", "gujarati", "oriya", "tamil", "telugu", "kannada", "malayalam", "sinhala"],
+	"author": "hscii",
+	"license": "ISC",
+	"description": "Transliteration/romanization of 10 Indian languages (hindi through sinhala). xnglo script, ux38 semi-native output, xi38 full-Latin romanization.",
+	"devDependencies": {
+		"@types/jest": "^30.0.0",
+		"jest": "^30.4.2",
+		"ts-jest": "^29.4.12",
+		"typescript": "^5.8.3"
+	},
+	"files": ["dist"],
+	"prepublishOnly": "npm test && npm run build",
+	"repository": { "type": "git", "url": "git+https://github.com/zawa8/xnglotr.git" 	},
+	"homepage": "https://github.com/zawa8/xnglotr#readme",
+	"bugs": { "url": "https://github.com/zawa8/xnglotr/issues" }
 }

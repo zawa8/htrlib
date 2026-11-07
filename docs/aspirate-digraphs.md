@@ -1,11 +1,11 @@
 # xi38 aspirate digraphs + the dual role of `h` / `v`
 
-This documents how htrlib's xi38 handles the 10 aspirated stops of
+This documents how xnglotr's xi38 handles the 10 aspirated stops of
 Devanagari (and their ISCII-aligned counterparts), the special role of
 `v` for ह, and the `x` for अ. Updated through Phase 1c.
 
 See also:
-- `CLAUDE_htrlib_api.md` — overall naming + pipeline spec
+- `CLAUDE_xnglotr_api.md` — overall naming + pipeline spec
 - `src/hsciistr/ux38.ts` — `xi38_to_ux38` implementation
 - `src/hsciistr/xnglo_post.ts` — `xnglo_india_post` post-processor
 - `src/hsciistr/dicts/u1_map.ts` — Devanagari codepoint → xi38 token
@@ -49,7 +49,7 @@ single codepoint:
 
 - **`t`/`T` distinction:** lowercase `t` = retroflex ट, uppercase `T` =
   dental त. So `th` = ठ (aspirate of ट), `Th` = थ (aspirate of त).
-  This is htrlib's own convention — differs from common Sanskrit
+  This is xnglotr's own convention — differs from common Sanskrit
   transliteration.
 - **`zh`, not `jh`:** ज is `z` (not `j`) in xi38, so its aspirate झ is
   `zh`. `j` isn't a real xi38 consonant token; it's only used internally
@@ -277,7 +277,7 @@ Tests in `test-parts/xi38-to-ux38.ts` cover:
 - **Native → xi38:** `src/hsciistr/uL_to_xi38.ts`
 - **Devanagari source data:** `src/hsciistr/dicts/u1_map.ts`
 - **Test file:** `test-parts/xi38-to-ux38.ts`
-- **Spec:** `CLAUDE_htrlib_api.md`
+- **Spec:** `CLAUDE_xnglotr_api.md`
 
 ---
 

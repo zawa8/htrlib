@@ -16,7 +16,7 @@
 // ह → H (font draws H with an extra dot).
 // व → w.
 // See xi38_xi52_table.md at repo root for the full mapping and rationale.
-//this file is htrlib/src/hsciistr/dicts/u1_map.ts
+//this file is xnglotr/src/hsciistr/dicts/u1_map.ts
 export const U1_MAP = {
   unicode_hindi_array: [
     '',   // ऀ 900 2304 inverted candrabindu

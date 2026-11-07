@@ -1,6 +1,6 @@
-// htrlib/test-parts/xi38-to-ux38.ts
+// xnglotr/test-parts/xi38-to-ux38.ts
 // Tests for xi38 -> ux38 (renamed from xi38_to_xLS38; see
-// docs/aspirate-digraphs.md and CLAUDE_htrlib_api.md).
+// docs/aspirate-digraphs.md and CLAUDE_xnglotr_api.md).
 import { xi38_to_ux38 } from "../src/hsciistr/ux38";
 
 describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () => {
@@ -129,5 +129,23 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
     expect(xi38_to_ux38("k", "malayalam")).toBe("ക");
     expect(xi38_to_ux38("kh", "malayalam")).toBe("കh");
     expect(xi38_to_ux38("v", "malayalam")).toBe("ഹ");
+  });
+
+  test("bangla: ISCII-aligned, base + Latin h", () => {
+    expect(xi38_to_ux38("nmsTe", "bangla")).toBe("নমসতe");
+    expect(xi38_to_ux38("kh", "bangla")).toBe("কh");
+    expect(xi38_to_ux38("v", "bangla")).toBe("হ");
+  });
+
+  test("oriya: ISCII-aligned, base + Latin h", () => {
+    expect(xi38_to_ux38("nmsTe", "oriya")).toBe("ନମସତe");
+    expect(xi38_to_ux38("kh", "oriya")).toBe("କh");
+    expect(xi38_to_ux38("v", "oriya")).toBe("ହ");
+  });
+
+  test("telugu: ISCII-aligned, base + Latin h", () => {
+    expect(xi38_to_ux38("nmsTe", "telugu")).toBe("నమసతe");
+    expect(xi38_to_ux38("kh", "telugu")).toBe("కh");
+    expect(xi38_to_ux38("v", "telugu")).toBe("హ");
   });
 });

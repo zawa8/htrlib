@@ -1,4 +1,4 @@
-// htrlib/src/hsciistr/ux38.ts
+// xnglotr/src/hsciistr/ux38.ts
 // xi38 -> ux38 (semi-native, per SCRIPT -- "ux38" = unicode + xnglo + 38:
 // the output keeps xi38's Latin vowels/marks (a i u e o h N) but renders
 // every consonant in the target script's own native unicode. Renamed from

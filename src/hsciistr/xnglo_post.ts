@@ -1,4 +1,4 @@
-// htrlib/src/hsciistr/xnglo_post.ts
+// xnglotr/src/hsciistr/xnglo_post.ts
 export function xnglo_india_post(s: string): string {
   return s
     .replace(/^#S/, "S")

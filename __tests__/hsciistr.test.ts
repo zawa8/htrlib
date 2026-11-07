@@ -1,5 +1,5 @@
-// this file is htrlib\__tests__\hsciistr.test.ts
-// Main test entry point: runs every htrlib test, split out into
+// this file is xnglotr\__tests__\hsciistr.test.ts
+// Main test entry point: runs every xnglotr test, split out into
 // ../test-parts/*.ts by topic (one describe-group per file, same tests
 // as before the split -- see git history for the original monolithic
 // version of this file if you need to diff against it).
