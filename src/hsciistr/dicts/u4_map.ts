@@ -36,14 +36,14 @@ export const U4_MAP = {
     'o', // ઓ gj13 gujarati o  [Dewnagri: ओ 913 2323]
     'Au', // ઔ gj14 gujarati au  [Dewnagri: औ 914 2324]
     'k', // ક gj15 gujarati ka  [Dewnagri: क 915 2325]
-    'K', // ખ gj16 gujarati kha  [Dewnagri: ख 916 2326]
+    'kh', // ખ gj16 gujarati kha  [Dewnagri: ख 916 2326]
     'g', // ગ gj17 gujarati ga  [Dewnagri: ग 917 2327]
-    'G', // ઘ gj18 gujarati gha  [Dewnagri: घ 918 2328]
+    'gh', // ઘ gj18 gujarati gha  [Dewnagri: घ 918 2328]
     'N', // ઙ gj19 gujarati nga  [Dewnagri: ङ 919 2329]
     'c', // ચ gj1a gujarati ca  [Dewnagri: च 91A 2330]
-    'C', // છ gj1b gujarati cha  [Dewnagri: छ 91B 2331]
+    'ch', // છ gj1b gujarati cha  [Dewnagri: छ 91B 2331]
     'z', // જ gj1c gujarati ja  [Dewnagri: ज 91C 2332]
-    'Z', // ઝ gj1d gujarati jha  [Dewnagri: झ 91D 2333]
+    'zh', // ઝ gj1d gujarati jha  [Dewnagri: झ 91D 2333]
     'n', // ઞ gj1e gujarati nya  [Dewnagri: ञ 91E 2334]
     't', // ટ gj1f gujarati tta  [Dewnagri: ट 91F 2335]
     'th', // ઠ gj20 gujarati ttha  [Dewnagri: ठ 920 2336   (xi52 aspirated retroflex)]
@@ -59,7 +59,7 @@ export const U4_MAP = {
     'p', // પ gj2a gujarati pa  [Dewnagri: प 92A 2346]
     'f', // ફ gj2b gujarati pha  [Dewnagri: फ 92B 2347]
     'b', // બ gj2c gujarati ba  [Dewnagri: ब 92C 2348]
-    'B', // ભ gj2d gujarati bha  [Dewnagri: भ 92D 2349]
+    'bh', // ભ gj2d gujarati bha  [Dewnagri: भ 92D 2349]
     'm', // મ gj2e gujarati ma  [Dewnagri: म 92E 2350]
     'y', // ય gj2f gujarati ya  [Dewnagri: य 92F 2351]
     'r', // ર gj30 gujarati ra  [Dewnagri: र 930 2352]
@@ -68,7 +68,7 @@ export const U4_MAP = {
     'l', // ળ gj33 gujarati lla  [Dewnagri: ळ 933 2355]
     '', // gj34 (unassigned in gujarati)
     'w', // વ gj35 gujarati va  [Dewnagri: व 935 2357]
-    'S', // શ gj36 gujarati sha  [Dewnagri: श 936 2358]
+    'sh', // શ gj36 gujarati sha  [Dewnagri: श 936 2358]
     's', // ષ gj37 gujarati ssa  [Dewnagri: ष 937 2359]
     's', // સ gj38 gujarati sa  [Dewnagri: स 938 2360]
     'v',  // v = ∀ = ह 939 2361
@@ -135,7 +135,7 @@ export const U4_MAP = {
     '', // gj76 (unassigned in gujarati)
     '', // gj77 (unassigned in gujarati)
     '', // gj78 (unassigned in gujarati)
-    'Z', // ૹ gj79 gujarati zha  [Dewnagri: ॹ 979 2425]
+    'zh', // ૹ gj79 gujarati zha  [Dewnagri: ॹ 979 2425]
     '', // ૺ gj7a gujarati sign sukun (arabic-loan diacritic, not a gujarati phoneme -- left blank)
     '', // ૻ gj7b gujarati sign shadda (arabic-loan diacritic, not a gujarati phoneme -- left blank)
     '', // ૼ gj7c gujarati sign maddah (arabic-loan diacritic, not a gujarati phoneme -- left blank)

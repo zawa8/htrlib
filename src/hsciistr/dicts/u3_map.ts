@@ -35,14 +35,14 @@ export const U3_MAP = {
     'o', // ਓ g13 gurmukhi oo  [Dewnagri: ओ 913 2323]
     'Au', // ਔ g14 gurmukhi au  [Dewnagri: औ 914 2324]
     'k', // ਕ g15 gurmukhi ka  [Dewnagri: क 915 2325]
-    'K', // ਖ g16 gurmukhi kha  [Dewnagri: ख 916 2326]
+    'kh', // ਖ g16 gurmukhi kha  [Dewnagri: ख 916 2326]
     'g', // ਗ g17 gurmukhi ga  [Dewnagri: ग 917 2327]
-    'G', // ਘ g18 gurmukhi gha  [Dewnagri: घ 918 2328]
+    'gh', // ਘ g18 gurmukhi gha  [Dewnagri: घ 918 2328]
     'N', // ਙ g19 gurmukhi nga  [Dewnagri: ङ 919 2329]
     'c', // ਚ g1a gurmukhi ca  [Dewnagri: च 91A 2330]
-    'C', // ਛ g1b gurmukhi cha  [Dewnagri: छ 91B 2331]
+    'ch', // ਛ g1b gurmukhi cha  [Dewnagri: छ 91B 2331]
     'z', // ਜ g1c gurmukhi ja  [Dewnagri: ज 91C 2332]
-    'Z', // ਝ g1d gurmukhi jha  [Dewnagri: झ 91D 2333]
+    'zh', // ਝ g1d gurmukhi jha  [Dewnagri: झ 91D 2333]
     'n', // ਞ g1e gurmukhi nya  [Dewnagri: ञ 91E 2334]
     't', // ਟ g1f gurmukhi tta  [Dewnagri: ट 91F 2335]
     'th', // ਠ g20 gurmukhi ttha  [Dewnagri: ठ 920 2336   (xi52 aspirated retroflex)]
@@ -58,7 +58,7 @@ export const U3_MAP = {
     'p', // ਪ g2a gurmukhi pa  [Dewnagri: प 92A 2346]
     'f', // ਫ g2b gurmukhi pha  [Dewnagri: फ 92B 2347]
     'b', // ਬ g2c gurmukhi ba  [Dewnagri: ब 92C 2348]
-    'B', // ਭ g2d gurmukhi bha  [Dewnagri: भ 92D 2349]
+    'bh', // ਭ g2d gurmukhi bha  [Dewnagri: भ 92D 2349]
     'm', // ਮ g2e gurmukhi ma  [Dewnagri: म 92E 2350]
     'y', // ਯ g2f gurmukhi ya  [Dewnagri: य 92F 2351]
     'r', // ਰ g30 gurmukhi ra  [Dewnagri: र 930 2352]
@@ -67,7 +67,7 @@ export const U3_MAP = {
     'l', // ਲ਼ g33 gurmukhi lla  [Dewnagri: ळ 933 2355]
     '', // g34 (unassigned in gurmukhi)
     'w', // ਵ g35 gurmukhi va  [Dewnagri: व 935 2357]
-    'S', // ਸ਼ g36 gurmukhi sha  [Dewnagri: श 936 2358]
+    'sh', // ਸ਼ g36 gurmukhi sha  [Dewnagri: श 936 2358]
     '', // g37 (unassigned in gurmukhi)
     's', // ਸ g38 gurmukhi sa  [Dewnagri: स 938 2360]
     'v',  // v = ∀ = ह 939 2361
@@ -102,7 +102,7 @@ export const U3_MAP = {
     '', // g56 (unassigned in gurmukhi)
     '', // g57 (unassigned in gurmukhi)
     '', // g58 (unassigned in gurmukhi)
-    'K', // ਖ਼ g59 gurmukhi khha  [Dewnagri: ख़ 959 2393]
+    'kh', // ਖ਼ g59 gurmukhi khha  [Dewnagri: ख़ 959 2393]
     'g', // ਗ਼ g5a gurmukhi ghha  [Dewnagri: ग़ 95A 2394]
     'z', // ਜ਼ g5b gurmukhi za  [Dewnagri: ज़ 95B 2395]
     'R', // ੜ g5c gurmukhi rra  [Dewnagri: ड़ 95C 2396   (xi52: ड़ = ढ़ = R)]
