@@ -112,4 +112,13 @@ describe("xi38_to_ux38 (Latin xi38 -> semi-native ux38, reverse direction)", () 
     const { xi38_to_xLS38 } = require("../src/hsciistr/ux38");
     expect(xi38_to_xLS38("nmsTe", "hindi")).toBe("नमसतe");
   });
+
+  test("tamil: smaller inventory, no aspirates but base + Latin h", () => {
+    expect(xi38_to_ux38("nmsTe", "tamil")).toBe("நமஸதe"); // n->ந, m->ம, s->ஸ, T->த
+    expect(xi38_to_ux38("k", "tamil")).toBe("க");
+    expect(xi38_to_ux38("kh", "tamil")).toBe("கh"); // base + Latin h
+    expect(xi38_to_ux38("g", "tamil")).toBe("க"); // voiced merges
+    expect(xi38_to_ux38("v", "tamil")).toBe("ஹ"); // ha grantha
+    expect(xi38_to_ux38("x", "tamil")).toBe("அ");
+  });
 });
